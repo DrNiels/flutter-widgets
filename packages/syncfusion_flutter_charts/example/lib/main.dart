@@ -38,44 +38,36 @@ class _MyHomePageState extends State<_MyHomePage> {
         appBar: AppBar(
           title: const Text('Syncfusion Flutter chart'),
         ),
-        body: Column(children: [
+        body: Wrap(children: [
           //Initialize the chart widget
-          SfCartesianChart(
-              primaryXAxis: CategoryAxis(),
-              // Chart title
-              title: ChartTitle(text: 'Half yearly sales analysis'),
-              // Enable legend
-              legend: Legend(isVisible: true),
-              // Enable tooltip
-              tooltipBehavior: TooltipBehavior(enable: true),
-              series: <CartesianSeries<_SalesData, String>>[
-                LineSeries<_SalesData, String>(
-                    dataSource: data,
-                    xValueMapper: (_SalesData sales, _) => sales.year,
-                    yValueMapper: (_SalesData sales, _) => sales.sales,
-                    name: 'Sales',
-                    // Enable data label
-                    dataLabelSettings: DataLabelSettings(isVisible: true))
-              ]),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              //Initialize the spark charts widget
-              child: SfSparkLineChart.custom(
-                //Enable the trackball
-                trackball: SparkChartTrackball(
-                    activationMode: SparkChartActivationMode.tap),
-                //Enable marker
-                marker: SparkChartMarker(
-                    displayMode: SparkChartMarkerDisplayMode.all),
-                //Enable data label
-                labelDisplayMode: SparkChartLabelDisplayMode.all,
-                xValueMapper: (int index) => data[index].year,
-                yValueMapper: (int index) => data[index].sales,
-                dataCount: 5,
+          SizedBox(
+            width: 400,
+            child: SfCartesianChart(
+              title: ChartTitle(text: 'Regular Hide'),
+              primaryYAxis: NumericAxis(),
+              primaryXAxis: DateTimeAxis(
+                intervalType: DateTimeIntervalType.hours,
+                interval: 1,
+                labelIntersectAction: AxisLabelIntersectAction.hide,
+                minimum: DateTime(2025, 2, 17),
+                maximum: DateTime(2025, 2, 18),
               ),
             ),
-          )
+          ),
+          SizedBox(
+            width: 400,
+            child: SfCartesianChart(
+              title: ChartTitle(text: 'Uniform Hide'),
+              primaryYAxis: NumericAxis(),
+              primaryXAxis: DateTimeAxis(
+                intervalType: DateTimeIntervalType.hours,
+                interval: 1,
+                labelIntersectAction: AxisLabelIntersectAction.hideUniform,
+                minimum: DateTime(2025, 2, 17),
+                maximum: DateTime(2025, 2, 18),
+              ),
+            ),
+          ),
         ]));
   }
 }
