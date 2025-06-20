@@ -2694,6 +2694,52 @@ abstract class RenderChartAxis extends RenderBox with ChartAreaUpdateMixin {
           current, source, edgeLabelsExtent, endLabelAlign,
           i: endIndex);
     }
+
+    if (effectiveLabelIntersectAction == AxisLabelIntersectAction.hideUniform) {
+      final List<int> intervalByIndex = [];
+      int startIndex = 0;
+      while ((startIndex < visibleLabels.length) && !visibleLabels[startIndex].isVisible) {
+        startIndex++;
+      }
+      
+      for (int i = startIndex; i < visibleLabels.length; i++) {
+        if (!visibleLabels[i].isVisible) {
+          intervalByIndex.add(1);
+          continue;
+        }
+        int currentInterval = 1;
+        while (((i + currentInterval) < visibleLabels.length) && (_isIntersect(visibleLabels[i + currentInterval], visibleLabels[i]))) {
+          currentInterval++;
+        }
+        intervalByIndex.add(currentInterval);
+      }
+
+      if (intervalByIndex.isEmpty) {
+        return;
+      }
+
+      int interval = intervalByIndex.first;
+      while (!_checkInterval(interval, intervalByIndex)) {
+        interval++;
+      }
+
+      if (interval > 1) {
+        for (int i = startIndex; i < visibleLabels.length; i++) {
+          if (((i - startIndex) % interval) != 0) {
+            visibleLabels[i].isVisible = false;
+          }
+        }
+      }
+    }
+  }
+
+  bool _checkInterval(int interval, List<int> intervalByIndex) {
+    for (int i = 0; i < intervalByIndex.length; i += interval) {
+      if (intervalByIndex[i] > interval) {
+        return false;
+      }
+    }
+    return true;
   }
 
   AxisLabel Function(
@@ -2701,6 +2747,7 @@ abstract class RenderChartAxis extends RenderBox with ChartAreaUpdateMixin {
       {int i}) _applyLabelIntersectAction() {
     switch (effectiveLabelIntersectAction) {
       case AxisLabelIntersectAction.none:
+      case AxisLabelIntersectAction.hideUniform:
         return _applyNoneIntersectAction;
 
       case AxisLabelIntersectAction.hide:
