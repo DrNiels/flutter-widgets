@@ -210,6 +210,9 @@ enum AxisLabelIntersectAction {
   /// - AxisLabelIntersectAction.hide, hides the intersecting labels.
   hide,
 
+  /// - AxisLabelIntersectAction.hideUniform, hides the intersecting labels and ensures that the interval between visible labels stays uniform
+  hideUniform,
+
   /// - AxisLabelIntersectAction.wrap, wraps and places the intersecting labels
   /// in the next line.
   wrap,
