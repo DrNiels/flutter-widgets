@@ -1856,10 +1856,9 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
     double strokeWidth;
     final Color effColor = effectiveColor(segment.currentSegmentIndex);
     if (segment.isEmpty) {
-      color =
-          (isLineType && emptyPointSettings.mode == EmptyPointMode.zero)
-              ? fillColor ?? effColor
-              : emptyPointSettings.color;
+      color = (isLineType && emptyPointSettings.mode == EmptyPointMode.zero)
+          ? fillColor ?? effColor
+          : emptyPointSettings.color;
       // The purpose of isLineType is to set a default border color for
       // both line-type series and financial-type series.
       strokeColor = isLineType ? color : emptyPointSettings.borderColor;
@@ -1960,8 +1959,7 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
       );
     }
 
-    final bool hasTouchCallback =
-        onPointLongPress != null ||
+    final bool hasTouchCallback = onPointLongPress != null ||
         onPointTap != null ||
         onPointDoubleTap != null;
     bool isSeriesHit = false;
@@ -2018,8 +2016,7 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
     final Offset localPosition = globalToLocal(details.position);
     if (parent != null && _interactiveSegment != null) {
       const bool hasSelection = false;
-      final bool hasTooltip =
-          _tooltipEnabled &&
+      final bool hasTooltip = _tooltipEnabled &&
           parent!.tooltipBehavior!.activationMode == ActivationMode.singleTap;
       _handleCurrentInteraction(
         hasSelection,
@@ -2054,11 +2051,9 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
     }
 
     if (parent != null && _interactiveSegment != null) {
-      final bool hasSelection =
-          _selectionEnabled &&
+      final bool hasSelection = _selectionEnabled &&
           parent!.selectionGesture == ActivationMode.longPress;
-      final bool hasTooltip =
-          _tooltipEnabled &&
+      final bool hasTooltip = _tooltipEnabled &&
           parent!.tooltipBehavior!.activationMode == ActivationMode.longPress;
       _handleCurrentInteraction(hasSelection, hasTooltip, localPosition);
     }
@@ -2068,11 +2063,9 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
   void handleTapUp(TapUpDetails details) {
     final Offset localPosition = globalToLocal(details.globalPosition);
     if (parent != null && _interactiveSegment != null) {
-      final bool hasSelection =
-          _selectionEnabled &&
+      final bool hasSelection = _selectionEnabled &&
           parent!.selectionGesture == ActivationMode.singleTap;
-      final bool hasTooltip =
-          _tooltipEnabled &&
+      final bool hasTooltip = _tooltipEnabled &&
           parent!.tooltipBehavior!.activationMode == ActivationMode.singleTap;
       _handleCurrentInteraction(hasSelection, hasTooltip, localPosition);
     }
@@ -2102,11 +2095,9 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
     }
 
     if (parent != null && _interactiveSegment != null) {
-      final bool hasSelection =
-          _selectionEnabled &&
+      final bool hasSelection = _selectionEnabled &&
           parent!.selectionGesture == ActivationMode.doubleTap;
-      final bool hasTooltip =
-          _tooltipEnabled &&
+      final bool hasTooltip = _tooltipEnabled &&
           parent!.tooltipBehavior!.activationMode == ActivationMode.doubleTap;
       _handleCurrentInteraction(hasSelection, hasTooltip, localPosition);
     }
@@ -2256,19 +2247,18 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
 
   void _invokeSelectionChangedCallback(int seriesIndex, int segmentPointIndex) {
     if (parent != null && parent!.onSelectionChanged != null) {
-      final SelectionArgs selectionArgs =
-          SelectionArgs(
-              seriesRenderer: this,
-              seriesIndex: seriesIndex,
-              pointIndex: segmentPointIndex,
-              viewportPointIndex: viewportIndex(segmentPointIndex),
-            )
-            ..selectedColor = selectionBehavior!.selectedColor
-            ..unselectedColor = selectionBehavior!.unselectedColor
-            ..selectedBorderColor = selectionBehavior!.selectedBorderColor
-            ..unselectedBorderColor = selectionBehavior!.unselectedBorderColor
-            ..selectedBorderWidth = selectionBehavior!.selectedBorderWidth
-            ..unselectedBorderWidth = selectionBehavior!.unselectedBorderWidth;
+      final SelectionArgs selectionArgs = SelectionArgs(
+        seriesRenderer: this,
+        seriesIndex: seriesIndex,
+        pointIndex: segmentPointIndex,
+        viewportPointIndex: viewportIndex(segmentPointIndex),
+      )
+        ..selectedColor = selectionBehavior!.selectedColor
+        ..unselectedColor = selectionBehavior!.unselectedColor
+        ..selectedBorderColor = selectionBehavior!.selectedBorderColor
+        ..unselectedBorderColor = selectionBehavior!.unselectedBorderColor
+        ..selectedBorderWidth = selectionBehavior!.selectedBorderWidth
+        ..unselectedBorderWidth = selectionBehavior!.unselectedBorderWidth;
       parent!.onSelectionChanged!(selectionArgs);
       _effectiveSelectionBehavior = selectionBehavior!.copyWith(
         selectedColor: selectionArgs.selectedColor,
@@ -2367,12 +2357,11 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
           final List<int>? base =
               parent?.selectionController.selectedDataPoints[index];
           if (base != null) {
-            final List<int> result =
-                base
-                    .where(
-                      (element) => !effectiveSelectedIndexes.contains(element),
-                    )
-                    .toList();
+            final List<int> result = base
+                .where(
+                  (element) => !effectiveSelectedIndexes.contains(element),
+                )
+                .toList();
             final int length = result.length;
             for (int i = 0; i < length; i++) {
               _updateSelectionToController(
@@ -2624,11 +2613,10 @@ abstract class ChartSegment {
   final Paint fillPaint = Paint()..isAntiAlias = true;
 
   /// Stroke paint of the segment.
-  final Paint strokePaint =
-      Paint()
-        ..isAntiAlias = true
-        ..style = PaintingStyle.stroke
-        ..strokeCap = StrokeCap.round;
+  final Paint strokePaint = Paint()
+    ..isAntiAlias = true
+    ..style = PaintingStyle.stroke
+    ..strokeCap = StrokeCap.round;
 
   /// Animation factor value.
   double animationFactor = 0.0;
@@ -3323,23 +3311,23 @@ abstract class CartesianSeries<T, D> extends ChartSeries<T, D> {
       case SeriesSlot.dataLabel:
         return dataLabelSettings.isVisible
             ? CartesianDataLabelContainer<T, D>(
-              series: this,
-              dataSource: dataSource!,
-              mapper: dataLabelMapper,
-              builder: dataLabelSettings.builder,
-              settings: dataLabelSettings,
-              positions: positions,
-            )
+                series: this,
+                dataSource: dataSource!,
+                mapper: dataLabelMapper,
+                builder: dataLabelSettings.builder,
+                settings: dataLabelSettings,
+                positions: positions,
+              )
             : null;
 
       case SeriesSlot.marker:
         return markerSettings.isVisible
             // TODO(VijayakumarM): Check bang operator.
             ? MarkerContainer<T, D>(
-              series: this,
-              dataSource: dataSource!,
-              settings: markerSettings,
-            )
+                series: this,
+                dataSource: dataSource!,
+                settings: markerSettings,
+              )
             : null;
 
       case SeriesSlot.trendline:
@@ -3539,14 +3527,12 @@ abstract class CartesianSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
         pointIndex: 0,
         isToggled: _isToggled(),
         shader: legendIconShader(),
-        overlayMarkerType:
-            markerSettings.isVisible
-                ? toShapeMarkerType(markerSettings.shape)
-                : null,
-        imageProvider:
-            legendIconType == LegendIconType.image
-                ? parent?.legend?.image
-                : null,
+        overlayMarkerType: markerSettings.isVisible
+            ? toShapeMarkerType(markerSettings.shape)
+            : null,
+        imageProvider: legendIconType == LegendIconType.image
+            ? parent?.legend?.image
+            : null,
         onTap: handleLegendItemTapped,
         onRender: _handleLegendItemCreated,
       );
@@ -4078,33 +4064,29 @@ abstract class CartesianSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
       case ChartDataLabelAlignment.outer:
       case ChartDataLabelAlignment.top:
         if (isTransposed) {
-          translationX =
-              y.isNegative
-                  ? -(markerWidthWithPadding + size.width + margin.horizontal)
-                  : markerWidthWithPadding;
+          translationX = y.isNegative
+              ? -(markerWidthWithPadding + size.width + margin.horizontal)
+              : markerWidthWithPadding;
           translationY = -margin.top;
         } else {
           translationX = -margin.left;
-          translationY =
-              y.isNegative
-                  ? markerHeightWithPadding
-                  : -(markerHeightWithPadding + size.height + margin.vertical);
+          translationY = y.isNegative
+              ? markerHeightWithPadding
+              : -(markerHeightWithPadding + size.height + margin.vertical);
         }
         return translateTransform(current.x!, y, translationX, translationY);
 
       case ChartDataLabelAlignment.bottom:
         if (isTransposed) {
-          translationX =
-              y.isNegative
-                  ? markerWidthWithPadding
-                  : -(markerWidthWithPadding + size.width + margin.horizontal);
+          translationX = y.isNegative
+              ? markerWidthWithPadding
+              : -(markerWidthWithPadding + size.width + margin.horizontal);
           translationY = -margin.top;
         } else {
           translationX = -margin.left;
-          translationY =
-              y.isNegative
-                  ? -(markerHeightWithPadding + size.height + margin.vertical)
-                  : markerHeightWithPadding;
+          translationY = y.isNegative
+              ? -(markerHeightWithPadding + size.height + margin.vertical)
+              : markerHeightWithPadding;
         }
         return translateTransform(current.x!, y, translationX, translationY);
 
@@ -5498,10 +5480,42 @@ mixin SbsSeriesMixin<T, D> on CartesianSeriesRenderer<T, D> {
       DateTime? minDate;
       num? minimumInSeconds;
       if (xAxis is RenderDateTimeAxis) {
-        minDate = DateTime.fromMillisecondsSinceEpoch(
-          _sortedXValues[0]! as int,
-        );
-        minDate = minDate.subtract(const Duration(days: 1));
+        final RenderDateTimeAxis xAxisDate = xAxis! as RenderDateTimeAxis;
+        final DateTimeIntervalType usedIntervalType =
+            xAxisDate.intervalType != DateTimeIntervalType.auto
+                ? xAxisDate.intervalType
+                : xAxisDate.visibleIntervalType;
+        minDate =
+            DateTime.fromMillisecondsSinceEpoch(_sortedXValues[0]! as int);
+        switch (usedIntervalType) {
+          case DateTimeIntervalType.years:
+            minDate = minDate.copyWith(year: minDate.year - 1);
+            break;
+          case DateTimeIntervalType.months:
+            minDate = minDate.copyWith(month: minDate.month - 1);
+            break;
+          case DateTimeIntervalType.days:
+            minDate = minDate.copyWith(day: minDate.day - 1);
+            break;
+          case DateTimeIntervalType.hours:
+            minDate = minDate.subtract(const Duration(hours: 1));
+            break;
+          case DateTimeIntervalType.minutes:
+            minDate = minDate.subtract(const Duration(minutes: 1));
+            break;
+          case DateTimeIntervalType.seconds:
+            minDate = minDate.subtract(const Duration(seconds: 1));
+            break;
+          case DateTimeIntervalType.milliseconds:
+            minDate = minDate.subtract(const Duration(milliseconds: 1));
+            break;
+          // DateTimeIntervalType.auto describes the previous behavior
+          // I would guess that cannot happen as usedIntervalType should
+          // not be auto according to my understanding
+          case DateTimeIntervalType.auto:
+            minDate = minDate.copyWith(day: minDate.day - 1);
+            break;
+        }
         minimumInSeconds = minDate.millisecondsSinceEpoch;
       }
       final num seriesMin =
@@ -5689,33 +5703,29 @@ mixin SbsSeriesMixin<T, D> on CartesianSeriesRenderer<T, D> {
       case ChartDataLabelAlignment.outer:
       case ChartDataLabelAlignment.bottom:
         if (isTransposed) {
-          translationX =
-              isNegative
-                  ? -(dataLabelPadding + size.width + margin.horizontal)
-                  : dataLabelPadding;
+          translationX = isNegative
+              ? -(dataLabelPadding + size.width + margin.horizontal)
+              : dataLabelPadding;
           translationY = -margin.top;
         } else {
           translationX = -margin.left;
-          translationY =
-              isNegative
-                  ? dataLabelPadding
-                  : -(dataLabelPadding + size.height + margin.vertical);
+          translationY = isNegative
+              ? dataLabelPadding
+              : -(dataLabelPadding + size.height + margin.vertical);
         }
         return translateTransform(x, y, translationX, translationY);
 
       case ChartDataLabelAlignment.top:
         if (isTransposed) {
-          translationX =
-              isNegative
-                  ? dataLabelPadding
-                  : -(dataLabelPadding + size.width + margin.horizontal);
+          translationX = isNegative
+              ? dataLabelPadding
+              : -(dataLabelPadding + size.width + margin.horizontal);
           translationY = -margin.top;
         } else {
           translationX = -margin.left;
-          translationY =
-              isNegative
-                  ? -(dataLabelPadding + size.height + margin.vertical)
-                  : dataLabelPadding;
+          translationY = isNegative
+              ? -(dataLabelPadding + size.height + margin.vertical)
+              : dataLabelPadding;
         }
         return translateTransform(x, y, translationX, translationY);
 
@@ -5864,10 +5874,9 @@ mixin BarSeriesTrackerMixin on ChartSegment {
   final Paint trackerFillPaint = Paint()..isAntiAlias = true;
 
   /// Stroke paint of the tracker segment.
-  final Paint trackerStrokePaint =
-      Paint()
-        ..isAntiAlias = true
-        ..style = PaintingStyle.stroke;
+  final Paint trackerStrokePaint = Paint()
+    ..isAntiAlias = true
+    ..style = PaintingStyle.stroke;
 
   RRect? _trackerRect;
 
@@ -6063,8 +6072,8 @@ abstract class XyDataSeries<T, D> extends CartesianSeries<T, D> {
 
   @override
   List<ChartDataPointType> get positions => <ChartDataPointType>[
-    ChartDataPointType.y,
-  ];
+        ChartDataPointType.y,
+      ];
 
   @override
   XyDataSeriesRenderer<T, D> createRenderObject(BuildContext context) {
@@ -6536,8 +6545,7 @@ abstract class StackedSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
       final List<num> yValuesCopy = <num>[...yValues];
       _stackYValues = yValuesCopy;
       final String seriesType = series.runtimeType.toString().toLowerCase();
-      final bool isStackedBar =
-          seriesType.contains('stackedcolumn') ||
+      final bool isStackedBar = seriesType.contains('stackedcolumn') ||
           seriesType.contains('stackedbar');
       for (int i = 0; i < dataCount; i++) {
         if (_stackYValues[i].isNaN) {
@@ -6626,8 +6634,7 @@ abstract class StackedSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
     final String seriesType = current.runtimeType.toString().toLowerCase();
     final bool isStackedLine = seriesType.contains('stackedline');
     final EmptyPointMode emptyPointMode = current.emptyPointSettings.mode;
-    final bool isDropOrGapMode =
-        emptyPointMode == EmptyPointMode.drop ||
+    final bool isDropOrGapMode = emptyPointMode == EmptyPointMode.drop ||
         emptyPointMode == EmptyPointMode.gap;
     final List<num> actualYValues = <num>[...current._stackYValues];
     _StackingInfo? currentNegativeStackInfo;
@@ -7123,9 +7130,9 @@ abstract class RangeSeriesBase<T, D> extends CartesianSeries<T, D> {
 
   @override
   List<ChartDataPointType> get positions => <ChartDataPointType>[
-    ChartDataPointType.high,
-    ChartDataPointType.low,
-  ];
+        ChartDataPointType.high,
+        ChartDataPointType.low,
+      ];
 
   @override
   RangeSeriesRendererBase<T, D> createRenderObject(BuildContext context) {
@@ -7593,11 +7600,11 @@ abstract class FinancialSeriesBase<T, D> extends CartesianSeries<T, D> {
 
   @override
   List<ChartDataPointType> get positions => <ChartDataPointType>[
-    ChartDataPointType.high,
-    ChartDataPointType.low,
-    ChartDataPointType.open,
-    ChartDataPointType.close,
-  ];
+        ChartDataPointType.high,
+        ChartDataPointType.low,
+        ChartDataPointType.open,
+        ChartDataPointType.close,
+      ];
 
   @override
   FinancialSeriesRendererBase<T, D> createRenderObject(BuildContext context) {
@@ -8560,12 +8567,12 @@ abstract class CircularSeries<T, D> extends ChartSeries<T, D> {
       case SeriesSlot.dataLabel:
         return dataLabelSettings.isVisible
             ? CircularDataLabelContainer<T, D>(
-              series: this,
-              dataSource: dataSource!,
-              mapper: dataLabelMapper,
-              builder: dataLabelSettings.builder,
-              settings: dataLabelSettings,
-            )
+                series: this,
+                dataSource: dataSource!,
+                mapper: dataLabelMapper,
+                builder: dataLabelSettings.builder,
+                settings: dataLabelSettings,
+              )
             : null;
 
       case SeriesSlot.marker:
@@ -9279,10 +9286,9 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
     final int startDegree = _calculateAngle(startAngle);
     int endDegree = _calculateAngle(endAngle);
     endDegree = startDegree == endDegree ? startDegree + 360 : endDegree;
-    totalAngle =
-        startDegree > endDegree
-            ? (startDegree - 360).abs() + endDegree
-            : (startDegree - endDegree).abs();
+    totalAngle = startDegree > endDegree
+        ? (startDegree - 360).abs() + endDegree
+        : (startDegree - endDegree).abs();
 
     pointStartAngle = startDegree.toDouble();
     currentRadius = percentToValue(radius, (min(size.width, size.height)) / 2)!;
@@ -9322,10 +9328,9 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
         series: this,
         seriesIndex: index,
         pointIndex: i,
-        imageProvider:
-            legendIconType == LegendIconType.image
-                ? parent?.legend?.image
-                : null,
+        imageProvider: legendIconType == LegendIconType.image
+            ? parent?.legend?.image
+            : null,
         isToggled: i < segmentsCount && !segmentAt(i).isVisible,
         onTap: handleLegendItemTapped,
         onRender: _handleLegendItemCreated,
@@ -9446,10 +9451,9 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
     final int pointIndex = current.dataPointIndex;
     Offset labelLocation;
     const int labelPadding = 2;
-    TextStyle dataLabelStyle =
-        parent!.themeData!.textTheme.bodySmall!
-          ..merge(chartThemeData!.dataLabelTextStyle)
-          ..merge(dataLabelSettings.textStyle);
+    TextStyle dataLabelStyle = parent!.themeData!.textTheme.bodySmall!
+      ..merge(chartThemeData!.dataLabelTextStyle)
+      ..merge(dataLabelSettings.textStyle);
     final CircularChartPoint point = current.point!;
     if (point.isExplode) {
       point.center = calculateExplodingCenter(
@@ -9461,8 +9465,7 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
     }
     if (point.isVisible && (point.y != 0 || dataLabelSettings.showZeroValue)) {
       dataLabelStyle = dataLabelStyle.copyWith(
-        color:
-            dataLabelStyle.color ??
+        color: dataLabelStyle.color ??
             saturatedTextColor(findThemeColor(this, point, dataLabelSettings)),
       );
 
@@ -9645,8 +9648,7 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
       } else {
         point.renderPosition = ChartDataLabelPosition.outside;
         dataLabelStyle = dataLabelStyle.copyWith(
-          color:
-              dataLabelStyle.color ??
+          color: dataLabelStyle.color ??
               saturatedTextColor(
                 findThemeColor(this, point, dataLabelSettings),
               ),
@@ -9783,10 +9785,9 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
     canvas.drawPath(
       connectorPath,
       Paint()
-        ..color =
-            line.width <= 0
-                ? Colors.transparent
-                : line.color ?? segments[index].fillPaint.color
+        ..color = line.width <= 0
+            ? Colors.transparent
+            : line.color ?? segments[index].fillPaint.color
         ..strokeWidth = line.width
         ..style = PaintingStyle.stroke,
     );
@@ -9797,10 +9798,11 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
     Rect labelRect,
     double borderRadius,
     Canvas canvas,
-  ) => canvas.drawRRect(
-    RRect.fromRectAndRadius(labelRect, Radius.circular(borderRadius)),
-    paint,
-  );
+  ) =>
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(labelRect, Radius.circular(borderRadius)),
+        paint,
+      );
 
   void drawDataLabel(
     Canvas canvas,
@@ -10681,10 +10683,9 @@ abstract class HistogramSeriesRendererBase<T, D>
     }
 
     for (int i = 0; i < yLength;) {
-      final num count =
-          _yRawValues
-              .where((num y) => y >= minValue && y < (minValue + binWidth))
-              .length;
+      final num count = _yRawValues
+          .where((num y) => y >= minValue && y < (minValue + binWidth))
+          .length;
       if (count >= 0) {
         _histogramYValues.add(count);
         final num x = minValue + binWidth / 2;
@@ -10732,7 +10733,7 @@ abstract class HistogramSeriesRendererBase<T, D>
       final num xValue = minimum + i * delta;
       final num yValue =
           exp(-pow(xValue - _mean, 2) / (2 * pow(_deviation, 2))) /
-          (_deviation * sqrt(2 * pi));
+              (_deviation * sqrt(2 * pi));
       final num dx = yValue * binWidth * dataCount;
       final double x = pointToPixelX(xValue, dx);
       final double y = pointToPixelY(xValue, dx);
@@ -10773,19 +10774,18 @@ abstract class HistogramSeriesRendererBase<T, D>
         isTransposed: isTransposed,
       );
       context.canvas.clipRect(clip);
-      final Paint strokePaint =
-          Paint()
-            ..color = curveColor
-            ..strokeWidth = curveWidth
-            ..style = PaintingStyle.stroke;
+      final Paint strokePaint = Paint()
+        ..color = curveColor
+        ..strokeWidth = curveWidth
+        ..style = PaintingStyle.stroke;
       curveDashArray == null
           ? context.canvas.drawPath(_distributionPath, strokePaint)
           : drawDashes(
-            context.canvas,
-            curveDashArray,
-            strokePaint,
-            path: _distributionPath,
-          );
+              context.canvas,
+              curveDashArray,
+              strokePaint,
+              path: _distributionPath,
+            );
     }
     context.canvas.restore();
     paintMarkers(context, offset);
