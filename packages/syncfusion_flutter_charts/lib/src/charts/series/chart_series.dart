@@ -5290,9 +5290,42 @@ mixin SbsSeriesMixin<T, D> on CartesianSeriesRenderer<T, D> {
       DateTime? minDate;
       num? minimumInSeconds;
       if (xAxis is RenderDateTimeAxis) {
+        final RenderDateTimeAxis xAxisDate = xAxis! as RenderDateTimeAxis;
+        final DateTimeIntervalType usedIntervalType = xAxisDate.intervalType != 
+            DateTimeIntervalType.auto
+            ? xAxisDate.intervalType
+            : xAxisDate.visibleIntervalType;
         minDate =
             DateTime.fromMillisecondsSinceEpoch(_sortedXValues[0]! as int);
-        minDate = minDate.subtract(const Duration(days: 1));
+        switch (usedIntervalType) {
+          case DateTimeIntervalType.years:
+            minDate = minDate.copyWith(year: minDate.year - 1);
+            break;
+          case DateTimeIntervalType.months:
+            minDate = minDate.copyWith(month: minDate.month - 1);
+            break;
+          case DateTimeIntervalType.days:
+            minDate = minDate.copyWith(day: minDate.day - 1);
+            break;
+          case DateTimeIntervalType.hours:
+            minDate = minDate.subtract(const Duration(hours: 1));
+            break;
+          case DateTimeIntervalType.minutes:
+            minDate = minDate.subtract(const Duration(minutes: 1));
+            break;
+          case DateTimeIntervalType.seconds:
+            minDate = minDate.subtract(const Duration(seconds: 1));
+            break;
+          case DateTimeIntervalType.milliseconds:
+            minDate = minDate.subtract(const Duration(milliseconds: 1));
+            break;
+          // DateTimeIntervalType.auto describes the previous behavior
+          // I would guess that cannot happen as usedIntervalType should
+          // not be auto according to my understanding
+          case DateTimeIntervalType.auto:
+            minDate = minDate.copyWith(day: minDate.day - 1);
+            break;
+        }
         minimumInSeconds = minDate.millisecondsSinceEpoch;
       }
       final num seriesMin =
