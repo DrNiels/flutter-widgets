@@ -6123,13 +6123,10 @@ abstract class ChartAxisController {
       return;
     }
 
-    final DoubleRange? visibleRange = axis.visibleRange;
     final num actualMin = _actualRange!.minimum;
     final num actualMax = _actualRange!.maximum;
-    final num currentVisibleMin = visibleRange?.minimum ?? actualMin;
-    final num currentVisibleMax = visibleRange?.maximum ?? actualMax;
-    final num visibleMin = min ?? currentVisibleMin;
-    final num visibleMax = max ?? currentVisibleMax;
+    final num visibleMin = min ?? actualMin;
+    final num visibleMax = max ?? actualMax;
     zoomFactor = (visibleMax - visibleMin) / _actualRange!.delta;
     zoomPosition = (visibleMin - actualMin) / _actualRange!.delta;
 
@@ -6137,6 +6134,9 @@ abstract class ChartAxisController {
       return;
     }
 
+    final DoubleRange? visibleRange = axis.visibleRange;
+    final num currentVisibleMin = visibleRange?.minimum ?? actualMin;
+    final num currentVisibleMax = visibleRange?.maximum ?? actualMax;
     _previousZoomFactor =
         (currentVisibleMax - currentVisibleMin) / _actualRange!.delta;
     _previousZoomPosition =
