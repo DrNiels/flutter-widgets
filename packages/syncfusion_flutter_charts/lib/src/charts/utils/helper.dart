@@ -626,6 +626,25 @@ String formatNumericValue(num value, RenderChartAxis? axis, [int digits = 6]) {
     formattedText = labelFormat.replaceAll(RegExp('{value}'), formattedText);
   }
 
+  if (axis?.axisLabelFormatter != null) {
+    final TextStyle callbackTextStyle =
+        axis?.chartThemeData?.axisLabelTextStyle?.merge(
+              axis.labelStyle,
+            ) ??
+            axis?.labelStyle ??
+            const TextStyle();
+    final AxisLabelRenderDetails details = AxisLabelRenderDetails(
+      value,
+      formattedText,
+      callbackTextStyle,
+      axis!,
+      null,
+      null,
+    );
+    final ChartAxisLabel label = axis.axisLabelFormatter!(details);
+    formattedText = label.text;
+  }
+
   return formattedText;
 }
 
