@@ -51,6 +51,7 @@ class TrackballBehavior extends ChartBehavior {
     this.shouldAlwaysShow = false,
     this.builder,
     this.hideDelay = 0,
+    this.headerLabelFormatter,
   }) {
     _fetchImage();
   }
@@ -361,6 +362,33 @@ class TrackballBehavior extends ChartBehavior {
   /// }
   /// ```
   final ChartTrackballBuilder? builder;
+
+
+  /// Formatter for the header based on the displayed ChartPoints.
+  /// Only applicable for `TrackballDisplayMode.groupAllPoints`.
+  ///
+  /// Defaults to null.
+  ///
+  /// ```dart
+  /// late TrackballBehavior trackballBehavior;
+  ///
+  /// void initState() {
+  ///   trackballBehavior = TrackballBehavior(
+  ///     enable: true,
+  ///     headerLabelFormatter: (chartPointInfo) {
+  ///       return 'Sales Data for ${chartPointInfo[0].header}';
+  ///     }
+  ///   );
+  ///   super.initState();
+  /// }
+  ///
+  /// Widget build(BuildContext context) {
+  ///   return SfCartesianChart(
+  ///     trackballBehavior: trackballBehavior,
+  ///   );
+  /// }
+  /// ```
+  final String? Function(List<ChartPointInfo>)? headerLabelFormatter;
 
   /// Hold trackball target position.
   Offset? _position;
@@ -1803,7 +1831,10 @@ class TrackballBehavior extends ChartBehavior {
     // It specifies for label position calculation with label style.
     double eachTextHeight = 0;
 
-    final String? header = chartPointInfo[0].header;
+    String? header = chartPointInfo[0].header;
+    if (headerLabelFormatter != null) {
+      header = headerLabelFormatter!(chartPointInfo);
+    }
     if (header != null && header != '') {
       const double headerPadding = defaultTooltipWidth;
       final TextStyle boldStyle = _createLabelStyle(FontWeight.bold, textStyle);
@@ -1811,6 +1842,7 @@ class TrackballBehavior extends ChartBehavior {
       final double headerHeight = headerSize.height;
       totalLabelHeight += headerHeight;
       eachTextHeight += headerHeight;
+      print(header);
 
       _tooltipLabels.add(
         _TooltipLabels(
@@ -1934,7 +1966,10 @@ class TrackballBehavior extends ChartBehavior {
     }
 
     // Header text size.
-    final String? header = chartPointInfo[0].header;
+    String? header = chartPointInfo[0].header;
+    if (headerLabelFormatter != null) {
+      header = headerLabelFormatter!(chartPointInfo);
+    }
     if (header != null) {
       final Size headerSize = _labelSize(header, boldStyle);
       if (headerSize.width > width) {
@@ -2740,6 +2775,7 @@ class TrackballBehavior extends ChartBehavior {
 
       // Draw tooltip labels.
       if (_tooltipLabels.isNotEmpty) {
+        print(_tooltipLabels.map((label) => label.text));
         final int length = _tooltipLabels.length;
         for (int i = 0; i < length; i++) {
           final _TooltipLabels label = _tooltipLabels[i];
@@ -2826,6 +2862,7 @@ class TrackballBehavior extends ChartBehavior {
     TextStyle style,
     bool isRtl,
   ) {
+    print('Drawing text: $text at position: $position');
     final TextPainter textPainter = TextPainter(
       text: TextSpan(text: text, style: style),
       textAlign: isRtl ? TextAlign.right : TextAlign.left,
