@@ -35,6 +35,7 @@ class DateTimeAxis extends ChartAxis {
     super.labelPosition,
     super.tickPosition,
     super.edgeLabelPlacement,
+    this.offsetLabelPlacement = LabelPlacement.onTicks,
     super.initialZoomFactor,
     super.initialZoomPosition,
     super.enableAutoIntervalOnZooming,
@@ -86,6 +87,22 @@ class DateTimeAxis extends ChartAxis {
              autoScrollingDelta == null,
          'Both properties have the same behavior to display the visible data points, use any one of the properties',
        );
+
+  /// Positions the captions on or between the ticks while leaving the ticks at the original positions
+  /// When placing between ticks, the labels are moved to the right
+  ///
+  /// Defaults to `LabelPlacement.onTicks`.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///    return Container(
+  ///        child: SfCartesianChart(
+  ///           offsetLabelPlacement: LabelPlacement.betweenTicks,
+  ///        )
+  ///    );
+  /// }
+  /// ```
+  final LabelPlacement offsetLabelPlacement;
 
   /// Formats the date-time axis labels. The default data-time axis label can be
   /// formatted with various built-in date formats.
@@ -370,7 +387,8 @@ class DateTimeAxis extends ChartAxis {
       ..initialVisibleMaximum = initialVisibleMaximum
       ..autoScrollingDeltaType = autoScrollingDeltaType
       ..multiLevelLabels = multiLevelLabels
-      ..onRendererCreated = onRendererCreated;
+      ..onRendererCreated = onRendererCreated
+      ..offsetLabelPlacement = offsetLabelPlacement;
     return renderer;
   }
 
@@ -388,7 +406,8 @@ class DateTimeAxis extends ChartAxis {
       ..minimum = minimum
       ..maximum = maximum
       ..autoScrollingDeltaType = autoScrollingDeltaType
-      ..multiLevelLabels = multiLevelLabels;
+      ..multiLevelLabels = multiLevelLabels
+      ..offsetLabelPlacement = offsetLabelPlacement;;
   }
 }
 
@@ -1365,13 +1384,17 @@ class RenderDateTimeAxis extends RenderChartAxis {
     while (current <= visibleMaximum) {
       if (current < visibleMinimum ||
           !effectiveVisibleRange!.contains(current)) {
-        current =
-            _nextDate(
-              current,
-              visibleInterval,
-              visibleIntervalType,
-            ).millisecondsSinceEpoch;
-        continue;
+        final num nextDate = _nextDate(
+          current,
+          visibleInterval,
+          visibleIntervalType,
+        ).millisecondsSinceEpoch;
+        if ((offsetLabelPlacement == LabelPlacement.onTicks) ||
+            (nextDate <= visibleMinimum) ||
+            !effectiveVisibleRange!.contains(nextDate)) {
+          current = nextDate;
+          continue;
+        }
       }
 
       final DateFormat niceDateFormat =
