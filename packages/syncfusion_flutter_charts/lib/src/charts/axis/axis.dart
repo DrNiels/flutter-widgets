@@ -1739,6 +1739,15 @@ abstract class RenderChartAxis extends RenderBox with ChartAreaUpdateMixin {
     }
   }
 
+  LabelPlacement get offsetLabelPlacement => _offsetLabelPlacement;
+  LabelPlacement _offsetLabelPlacement = LabelPlacement.onTicks;
+  set offsetLabelPlacement(LabelPlacement value) {
+    if (_offsetLabelPlacement != value) {
+      _offsetLabelPlacement = value;
+      markNeedsRangeUpdate();
+    }
+  }
+
   RangeController? get rangeController => _rangeController;
   RangeController? _rangeController;
   set rangeController(RangeController? value) {
@@ -2571,23 +2580,31 @@ abstract class RenderChartAxis extends RenderBox with ChartAreaUpdateMixin {
 
     final int length = visibleLabels.length;
     _AlignLabel betweenLabelsAlign;
-    switch (labelAlignment) {
-      case LabelAlignment.start:
-        betweenLabelsAlign = !isInversed ? _startAlignment : _endAlignment;
+    switch (offsetLabelPlacement) {
+      case LabelPlacement.onTicks:
+        switch (labelAlignment) {
+          case LabelAlignment.start:
+            betweenLabelsAlign = !isInversed ? _startAlignment : _endAlignment;
+            break;
+
+          case LabelAlignment.end:
+            betweenLabelsAlign = !isInversed ? _endAlignment : _startAlignment;
+            break;
+
+          case LabelAlignment.center:
+            betweenLabelsAlign = _centerAlignment;
+            break;
+        }
         break;
 
-      case LabelAlignment.end:
-        betweenLabelsAlign = !isInversed ? _endAlignment : _startAlignment;
-        break;
-
-      case LabelAlignment.center:
-        betweenLabelsAlign = _centerAlignment;
+      case LabelPlacement.betweenTicks:
+        betweenLabelsAlign = _betweenAlignment;
         break;
     }
 
     _AlignLabel startLabelAlign = betweenLabelsAlign;
     _AlignLabel endLabelAlign = betweenLabelsAlign;
-    if (edgeLabelPlacement == EdgeLabelPlacement.shift) {
+    if ((offsetLabelPlacement != LabelPlacement.betweenTicks) && (edgeLabelPlacement == EdgeLabelPlacement.shift)) {
       if (isVertical) {
         if (isInversed) {
           startLabelAlign = _edgeLabelStartAlignment;
@@ -3135,6 +3152,21 @@ abstract class RenderChartAxis extends RenderBox with ChartAreaUpdateMixin {
     return isVertical
         ? position - label.labelSize.height / 2
         : position - label.labelSize.width / 2;
+  }
+
+  double _betweenAlignment(double position, AxisLabel label) {
+    final int index = visibleLabels.indexOf(label);
+    double offset = 0;
+    if ((index != -1) && ((visibleLabels.length - 1) > index)) {
+      final double nextPosition = pointToPixel(visibleLabels[index + 1].value);
+      offset = (nextPosition - position) / 2;
+    }
+    else if (index > 0) {
+      // Approximate distance to invisible next point to the distance to the previous point
+      final double previousPosition = pointToPixel(visibleLabels[index - 1].value);
+      offset = (position - previousPosition) / 2;
+    }
+    return _centerAlignment(position + offset, label);
   }
 
   @protected
