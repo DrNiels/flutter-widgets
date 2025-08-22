@@ -1842,7 +1842,6 @@ class TrackballBehavior extends ChartBehavior {
       final double headerHeight = headerSize.height;
       totalLabelHeight += headerHeight;
       eachTextHeight += headerHeight;
-      print(header);
 
       _tooltipLabels.add(
         _TooltipLabels(
@@ -2775,7 +2774,6 @@ class TrackballBehavior extends ChartBehavior {
 
       // Draw tooltip labels.
       if (_tooltipLabels.isNotEmpty) {
-        print(_tooltipLabels.map((label) => label.text));
         final int length = _tooltipLabels.length;
         for (int i = 0; i < length; i++) {
           final _TooltipLabels label = _tooltipLabels[i];
@@ -2862,7 +2860,6 @@ class TrackballBehavior extends ChartBehavior {
     TextStyle style,
     bool isRtl,
   ) {
-    print('Drawing text: $text at position: $position');
     final TextPainter textPainter = TextPainter(
       text: TextSpan(text: text, style: style),
       textAlign: isRtl ? TextAlign.right : TextAlign.left,
