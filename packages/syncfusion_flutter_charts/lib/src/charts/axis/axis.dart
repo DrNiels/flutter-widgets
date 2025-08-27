@@ -2298,6 +2298,10 @@ abstract class RenderChartAxis extends RenderBox with ChartAreaUpdateMixin {
       }
     }
 
+    if ((maximum - minimum) < 0.000001) {
+      maximum = minimum;
+    }
+
     if (minimum == maximum && minimum < 0 && maximum < 0) {
       maximum = 0.0;
     }
