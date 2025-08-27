@@ -54,6 +54,7 @@ class StepAreaSeries<T, D> extends XyDataSeries<T, D> {
     super.initialIsVisible,
     super.enableTooltip = true,
     super.enableTrackball = true,
+    super.trackballColor,
     super.dashArray,
     super.animationDuration,
     this.borderColor = Colors.transparent,

@@ -67,6 +67,7 @@ abstract class ChartSeries<T, D>
     this.name,
     this.enableTooltip = true,
     this.enableTrackball = true,
+    this.trackballColor,
     this.animationDuration = 1500,
     this.color,
     this.borderWidth = 2.0,
@@ -319,6 +320,29 @@ abstract class ChartSeries<T, D>
   /// ```
 
   final bool enableTrackball;
+
+  /// Override the color used by trackball, use color if `null`
+  ///
+  /// Defaults to `null`.
+  ///
+  /// ```dart
+  ///  Widget build(BuildContext context) {
+  ///   return SfCartesianChart(
+  ///     trackballBehavior: TrackballBehavior(
+  ///       enable: true,
+  ///     ),
+  ///     series: <CartesianSeries<_SalesData, String>>[
+  ///       LineSeries<_SalesData, String>(
+  ///         trackballColor: Colors.blue,
+  ///       ),
+  ///     ],
+  ///   );
+  /// }
+  /// ```
+
+  final Color? trackballColor;
+
+  /// Enables or disables the;
 
   /// Duration of the series animation. It takes millisecond value as input.
   ///
@@ -720,6 +744,7 @@ abstract class ChartSeries<T, D>
       ..name = name
       ..enableTooltip = enableTooltip
       ..enableTrackball = enableTrackball
+      ..trackballColor = trackballColor
       ..animationDuration = animationDuration
       ..color = color
       ..borderWidth = borderWidth
@@ -758,6 +783,7 @@ abstract class ChartSeries<T, D>
       ..name = name
       ..enableTooltip = enableTooltip
       ..enableTrackball = enableTrackball
+      ..trackballColor = trackballColor
       ..animationDuration = animationDuration
       ..color = color
       ..borderWidth = borderWidth
@@ -1027,6 +1053,14 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
   set enableTrackball(bool value) {
     if (_enableTrackball != value) {
       _enableTrackball = value;
+    }
+  }
+
+  Color? get trackballColor => _trackballColor;
+  Color? _trackballColor;
+  set trackballColor(Color? value) {
+    if (_trackballColor != value) {
+      _trackballColor = value;
     }
   }
 
@@ -3030,6 +3064,7 @@ abstract class CartesianSeries<T, D> extends ChartSeries<T, D> {
     super.initialIsVisible,
     super.enableTooltip = true,
     super.enableTrackball = true,
+    super.trackballColor,
     super.emptyPointSettings,
     super.dataLabelSettings,
     super.animationDuration,
@@ -6025,6 +6060,7 @@ abstract class XyDataSeries<T, D> extends CartesianSeries<T, D> {
     super.initialIsVisible,
     super.enableTooltip = true,
     super.enableTrackball = true,
+    super.trackballColor,
     super.emptyPointSettings,
     super.dataLabelSettings,
     super.animationDuration,
@@ -6328,6 +6364,7 @@ abstract class StackedSeriesBase<T, D> extends XyDataSeries<T, D> {
     super.trendlines,
     super.enableTooltip = true,
     super.enableTrackball = true,
+    super.trackballColor,
     super.animationDuration,
     super.borderWidth,
     super.selectionBehavior,
@@ -7032,6 +7069,7 @@ abstract class RangeSeriesBase<T, D> extends CartesianSeries<T, D> {
     super.initialIsVisible,
     super.enableTooltip = true,
     super.enableTrackball = true,
+    super.trackballColor,
     super.emptyPointSettings,
     super.dataLabelSettings,
     super.animationDuration,
@@ -7519,6 +7557,7 @@ abstract class FinancialSeriesBase<T, D> extends CartesianSeries<T, D> {
     super.gradient,
     super.enableTooltip = true,
     super.enableTrackball = true,
+    super.trackballColor,
     super.animationDuration,
     super.borderWidth = 2,
     super.selectionBehavior,
@@ -8140,6 +8179,7 @@ abstract class CircularSeries<T, D> extends ChartSeries<T, D> {
     super.sortFieldValueMapper,
     super.enableTooltip = true,
     super.enableTrackball = true,
+    super.trackballColor,
     super.emptyPointSettings,
     super.dataLabelSettings,
     super.animationDuration,

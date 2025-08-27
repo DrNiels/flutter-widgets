@@ -49,6 +49,7 @@ class StackedLineSeries<T, D> extends StackedSeriesBase<T, D> {
     super.name,
     super.enableTooltip = true,
     super.enableTrackball = true,
+    super.trackballColor,
     super.dashArray,
     super.animationDuration,
     this.groupName = '',
