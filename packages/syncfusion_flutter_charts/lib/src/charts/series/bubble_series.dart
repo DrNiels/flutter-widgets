@@ -51,7 +51,6 @@ class BubbleSeries<T, D> extends XyDataSeries<T, D> {
     super.name,
     super.enableTooltip = true,
     super.enableTrackball = true,
-    super.trackballColor,
     super.dashArray,
     super.animationDuration,
     this.borderColor = Colors.transparent,

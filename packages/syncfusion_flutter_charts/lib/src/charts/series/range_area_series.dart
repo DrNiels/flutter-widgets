@@ -51,7 +51,6 @@ class RangeAreaSeries<T, D> extends RangeSeriesBase<T, D> {
     super.initialIsVisible,
     super.enableTooltip = true,
     super.enableTrackball = true,
-    super.trackballColor,
     super.dashArray,
     super.animationDuration,
     super.borderColor = Colors.transparent,

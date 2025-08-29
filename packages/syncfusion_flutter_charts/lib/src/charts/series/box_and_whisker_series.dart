@@ -50,7 +50,6 @@ class BoxAndWhiskerSeries<T, D> extends CartesianSeries<T, D> {
     super.initialIsVisible,
     super.enableTooltip = true,
     super.enableTrackball = true,
-    super.trackballColor,
     super.animationDuration,
     this.borderColor,
     super.borderWidth = 1.0,

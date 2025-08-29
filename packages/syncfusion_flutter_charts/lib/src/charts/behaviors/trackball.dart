@@ -2374,7 +2374,7 @@ class TrackballBehavior extends ChartBehavior {
   }
 
   void _computeTooltipMarkers(ChartPointInfo pointInfo, Offset markerPosition) {
-    final Color color = pointInfo.series?.trackballColor ?? pointInfo.color!;
+    final Color color = pointInfo.color!;
     final ChartMarker marker =
         ChartMarker()
           ..x = markerPosition.dx
@@ -2432,7 +2432,7 @@ class TrackballBehavior extends ChartBehavior {
                   (series != null && series.markerSettings.isVisible)
               : markerIsVisible;
       if (isVisible) {
-        final Color color = series?.trackballColor ?? pointInfo.color!;
+        final Color color = pointInfo.color!;
         final ChartMarker marker =
             ChartMarker()
               ..x = pointInfo.markerXPos!

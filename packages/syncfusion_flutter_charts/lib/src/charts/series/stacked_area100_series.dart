@@ -52,7 +52,6 @@ class StackedArea100Series<T, D> extends StackedSeriesBase<T, D> {
     super.initialIsVisible,
     super.enableTooltip = true,
     super.enableTrackball = true,
-    super.trackballColor,
     super.dashArray,
     super.animationDuration,
     this.borderColor = Colors.transparent,

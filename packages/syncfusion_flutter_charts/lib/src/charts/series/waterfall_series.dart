@@ -56,7 +56,6 @@ class WaterfallSeries<T, D> extends XyDataSeries<T, D> {
     this.borderRadius = BorderRadius.zero,
     super.enableTooltip = true,
     super.enableTrackball = true,
-    super.trackballColor,
     super.animationDuration,
     this.borderColor = Colors.transparent,
     super.trendlines,
