@@ -2433,10 +2433,7 @@ abstract class RenderChartAxis extends RenderBox with ChartAreaUpdateMixin {
       maximum += interval;
     }
     if (maximum % interval > 0) {
-      maximum =
-          range.maximum > 0
-              ? (maximum + interval) - (maximum % interval)
-              : (maximum + interval) + (maximum % interval);
+      maximum = (maximum + interval) - (maximum % interval);
     }
     range.minimum = minimum;
     range.maximum = maximum;
