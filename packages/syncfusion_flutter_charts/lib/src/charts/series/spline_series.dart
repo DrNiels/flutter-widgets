@@ -217,6 +217,8 @@ mixin _SplineControlPointMixin<T, D> on CartesianSeriesRenderer<T, D> {
         return 365 * 24 * 60 * 60 * 1000;
       case DateTimeIntervalType.months:
         return 30 * 24 * 60 * 60 * 1000;
+      case DateTimeIntervalType.weeks:
+        return 7 * 24 * 60 * 60 * 1000;
       case DateTimeIntervalType.days:
         return 24 * 60 * 60 * 1000;
       case DateTimeIntervalType.hours:

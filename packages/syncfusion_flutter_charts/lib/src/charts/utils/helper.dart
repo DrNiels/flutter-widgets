@@ -1607,6 +1607,7 @@ extension CartesianSeriesExtension<T, D> on CartesianSeriesRenderer<T, D> {
                 : _dateTimeFormat(actualIntervalType, interval, prevInterval);
 
         break;
+      case DateTimeIntervalType.weeks:
       case DateTimeIntervalType.days:
         format =
             (minimum == interval || interval == prevInterval)
@@ -2046,6 +2047,7 @@ extension IndicatorExtension<T, D> on IndicatorRenderer<T, D> {
                 : _dateTimeFormat(actualIntervalType, interval, prevInterval);
 
         break;
+      case DateTimeIntervalType.weeks:
       case DateTimeIntervalType.days:
         format =
             (minimum == interval || interval == prevInterval)
@@ -2400,6 +2402,7 @@ DateFormat _niceDateFormat(
           ? _firstLabelFormat(intervalType)
           : _normalDateFormat(intervalType, visibleInterval, current, previous);
 
+    case DateTimeIntervalType.weeks:
     case DateTimeIntervalType.days:
       return (minimum == current || current == previous)
           ? _firstLabelFormat(intervalType)

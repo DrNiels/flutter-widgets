@@ -1789,6 +1789,11 @@ class TrendlineRenderer extends RenderBox {
           date.second,
         ).millisecondsSinceEpoch;
 
+      case DateTimeIntervalType.weeks:
+        return date
+            .add(Duration(days: 7 * effectiveInterval))
+            .millisecondsSinceEpoch;
+
       case DateTimeIntervalType.days:
         return date
             .add(Duration(days: effectiveInterval))
@@ -1834,6 +1839,9 @@ class TrendlineRenderer extends RenderBox {
         break;
       case DateTimeIntervalType.months:
         duration = Duration(days: 31 * foreCastRoundValue);
+        break;
+      case DateTimeIntervalType.weeks:
+        duration = Duration(days: 7 * foreCastRoundValue);
         break;
       case DateTimeIntervalType.days:
         duration = Duration(days: foreCastRoundValue);

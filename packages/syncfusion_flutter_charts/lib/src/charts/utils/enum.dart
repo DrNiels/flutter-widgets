@@ -247,6 +247,9 @@ enum DateTimeIntervalType {
   /// - DateTimeIntervalType.days, will consider interval as days.
   days,
 
+  /// - DateTimeIntervalType.weeks, will consider interval as weeks.
+  weeks,
+
   /// - DateTimeIntervalType.hours, will consider interval as hours.
   hours,
 

@@ -5494,6 +5494,9 @@ mixin SbsSeriesMixin<T, D> on CartesianSeriesRenderer<T, D> {
           case DateTimeIntervalType.months:
             minDate = minDate.copyWith(month: minDate.month - 1);
             break;
+          case DateTimeIntervalType.weeks:
+            minDate = minDate.copyWith(day: minDate.day - 7);
+            break;
           case DateTimeIntervalType.days:
             minDate = minDate.copyWith(day: minDate.day - 1);
             break;
