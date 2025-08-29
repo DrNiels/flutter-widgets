@@ -51,7 +51,6 @@ class TrackballBehavior extends ChartBehavior {
     this.shouldAlwaysShow = false,
     this.builder,
     this.hideDelay = 0,
-    this.headerLabelFormatter,
   }) {
     _fetchImage();
   }
@@ -362,33 +361,6 @@ class TrackballBehavior extends ChartBehavior {
   /// }
   /// ```
   final ChartTrackballBuilder? builder;
-
-
-  /// Formatter for the header based on the displayed ChartPoints.
-  /// Only applicable for `TrackballDisplayMode.groupAllPoints`.
-  ///
-  /// Defaults to null.
-  ///
-  /// ```dart
-  /// late TrackballBehavior trackballBehavior;
-  ///
-  /// void initState() {
-  ///   trackballBehavior = TrackballBehavior(
-  ///     enable: true,
-  ///     headerLabelFormatter: (chartPointInfo) {
-  ///       return 'Sales Data for ${chartPointInfo[0].header}';
-  ///     }
-  ///   );
-  ///   super.initState();
-  /// }
-  ///
-  /// Widget build(BuildContext context) {
-  ///   return SfCartesianChart(
-  ///     trackballBehavior: trackballBehavior,
-  ///   );
-  /// }
-  /// ```
-  final String? Function(List<ChartPointInfo>)? headerLabelFormatter;
 
   /// Hold trackball target position.
   Offset? _position;
@@ -1831,10 +1803,7 @@ class TrackballBehavior extends ChartBehavior {
     // It specifies for label position calculation with label style.
     double eachTextHeight = 0;
 
-    String? header = chartPointInfo[0].header;
-    if (headerLabelFormatter != null) {
-      header = headerLabelFormatter!(chartPointInfo);
-    }
+    final String? header = chartPointInfo[0].header;
     if (header != null && header != '') {
       const double headerPadding = defaultTooltipWidth;
       final TextStyle boldStyle = _createLabelStyle(FontWeight.bold, textStyle);
@@ -1965,10 +1934,7 @@ class TrackballBehavior extends ChartBehavior {
     }
 
     // Header text size.
-    String? header = chartPointInfo[0].header;
-    if (headerLabelFormatter != null) {
-      header = headerLabelFormatter!(chartPointInfo);
-    }
+    final String? header = chartPointInfo[0].header;
     if (header != null) {
       final Size headerSize = _labelSize(header, boldStyle);
       if (headerSize.width > width) {
