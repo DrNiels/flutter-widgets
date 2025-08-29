@@ -52,7 +52,6 @@ class TrackballBehavior extends ChartBehavior {
     this.builder,
     this.hideDelay = 0,
     this.headerLabelFormatter,
-    this.labelFormatter,
   }) {
     _fetchImage();
   }
@@ -390,31 +389,6 @@ class TrackballBehavior extends ChartBehavior {
   /// }
   /// ```
   final String? Function(List<ChartPointInfo>)? headerLabelFormatter;
-
-  /// Formatter for the values based on the displayed ChartPoint.
-  ///
-  /// Defaults to null.
-  ///
-  /// ```dart
-  /// late TrackballBehavior trackballBehavior;
-  ///
-  /// void initState() {
-  ///   trackballBehavior = TrackballBehavior(
-  ///     enable: true,
-  ///     labelFormatter: (info) {
-  ///       return info.value + ' °C'';
-  ///     }
-  ///   );
-  ///   super.initState();
-  /// }
-  ///
-  /// Widget build(BuildContext context) {
-  ///   return SfCartesianChart(
-  ///     trackballBehavior: trackballBehavior,
-  ///   );
-  /// }
-  /// ```
-  final String? Function(ChartPointInfo)? labelFormatter;
 
   /// Hold trackball target position.
   Offset? _position;
@@ -1240,8 +1214,7 @@ class TrackballBehavior extends ChartBehavior {
     final double arrowWidth = tooltipSettings.arrowWidth;
     double borderRadius = tooltipSettings.borderRadius;
     for (final ChartPointInfo pointInfo in chartPointInfo) {
-      final String label = ((labelFormatter != null) ? labelFormatter!(pointInfo) : null) ?? pointInfo.label!;
-      final Size labelSize = _labelSize(label, labelStyle);
+      final Size labelSize = _labelSize(pointInfo.label!, labelStyle);
       final dynamic series = pointInfo.series;
       double width = labelSize.width;
       if (width < defaultTooltipWidth) {
@@ -1331,10 +1304,9 @@ class TrackballBehavior extends ChartBehavior {
       _computeTooltipMarkers(pointInfo, markerPosition);
     }
 
-    final String? label = ((labelFormatter != null) ? labelFormatter!(pointInfo) : null) ?? pointInfo.label;
-    if (label != null) {
+    if (pointInfo.label != null) {
       _computeTooltipLabels(
-        label,
+        pointInfo.label!,
         width,
         height,
         labelStyle,
@@ -1360,8 +1332,7 @@ class TrackballBehavior extends ChartBehavior {
     for (int i = 0; i < length; i++) {
       final ChartPointInfo pointInfo = chartPointInfo[i];
       final dynamic series = pointInfo.series;
-      final String? label = ((labelFormatter != null) ? labelFormatter!(pointInfo) : null) ?? pointInfo.label;
-      final Size labelSize = _labelSize(label!, labelStyle);
+      final Size labelSize = _labelSize(pointInfo.label!, labelStyle);
       double width = labelSize.width;
       if (width < defaultTooltipWidth) {
         width = defaultTooltipWidth;
@@ -1464,10 +1435,9 @@ class TrackballBehavior extends ChartBehavior {
       _computeTooltipMarkers(pointInfo, markerPosition);
     }
 
-    final String? label = ((labelFormatter != null) ? labelFormatter!(pointInfo) : null) ?? pointInfo.label;
-    if (label != null) {
+    if (pointInfo.label != null) {
       _computeTooltipLabels(
-        label,
+        pointInfo.label!,
         width,
         height,
         labelStyle,
@@ -1490,7 +1460,7 @@ class TrackballBehavior extends ChartBehavior {
     for (int i = 0; i < length; i++) {
       final ChartPointInfo pointInfo = chartPointInfo[i];
       final dynamic series = pointInfo.series;
-      final String label = ((labelFormatter != null) ? labelFormatter!(pointInfo) : null) ?? pointInfo.label!;
+      final String label = pointInfo.label!;
       final Size labelSize = _labelSize(label, labelStyle);
       final double height = labelSize.height;
       double width = labelSize.width;
@@ -1927,7 +1897,7 @@ class TrackballBehavior extends ChartBehavior {
     final int length = chartPointInfo.length;
     for (int i = 0; i < length; i++) {
       final ChartPointInfo pointInfo = chartPointInfo[i];
-      final String text = ((labelFormatter != null) ? labelFormatter!(pointInfo) : null) ?? pointInfo.label!;
+      final String text = pointInfo.label!;
       final Size actualLabelSize = measureText(text, textStyle);
       final double actualLabelHeight = actualLabelSize.height;
       totalLabelHeight += actualLabelHeight;
@@ -2016,7 +1986,7 @@ class TrackballBehavior extends ChartBehavior {
 
     final int length = chartPointInfo.length;
     for (int i = 0; i < length; i++) {
-      final String? label = ((labelFormatter != null) ? labelFormatter!(chartPointInfo[i]) : null) ?? chartPointInfo[i].label;
+      final String? label = chartPointInfo[i].label;
       if (label != null) {
         final Size labelSize = _labelSize(label, labelStyle);
         if (labelSize.width > width) {
