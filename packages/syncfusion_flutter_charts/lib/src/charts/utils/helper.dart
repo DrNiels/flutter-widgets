@@ -626,6 +626,25 @@ String formatNumericValue(num value, RenderChartAxis? axis, [int digits = 6]) {
     formattedText = labelFormat.replaceAll(RegExp('{value}'), formattedText);
   }
 
+  if (axis?.axisLabelFormatter != null) {
+    final TextStyle callbackTextStyle =
+        axis?.chartThemeData?.axisLabelTextStyle?.merge(
+              axis.labelStyle,
+            ) ??
+            axis?.labelStyle ??
+            const TextStyle();
+    final AxisLabelRenderDetails details = AxisLabelRenderDetails(
+      value,
+      formattedText,
+      callbackTextStyle,
+      axis!,
+      null,
+      null,
+    );
+    final ChartAxisLabel label = axis.axisLabelFormatter!(details);
+    formattedText = label.text;
+  }
+
   return formattedText;
 }
 
@@ -1588,6 +1607,7 @@ extension CartesianSeriesExtension<T, D> on CartesianSeriesRenderer<T, D> {
                 : _dateTimeFormat(actualIntervalType, interval, prevInterval);
 
         break;
+      case DateTimeIntervalType.weeks:
       case DateTimeIntervalType.days:
         format =
             (minimum == interval || interval == prevInterval)
@@ -2027,6 +2047,7 @@ extension IndicatorExtension<T, D> on IndicatorRenderer<T, D> {
                 : _dateTimeFormat(actualIntervalType, interval, prevInterval);
 
         break;
+      case DateTimeIntervalType.weeks:
       case DateTimeIntervalType.days:
         format =
             (minimum == interval || interval == prevInterval)
@@ -2381,6 +2402,7 @@ DateFormat _niceDateFormat(
           ? _firstLabelFormat(intervalType)
           : _normalDateFormat(intervalType, visibleInterval, current, previous);
 
+    case DateTimeIntervalType.weeks:
     case DateTimeIntervalType.days:
       return (minimum == current || current == previous)
           ? _firstLabelFormat(intervalType)

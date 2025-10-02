@@ -210,6 +210,9 @@ enum AxisLabelIntersectAction {
   /// - AxisLabelIntersectAction.hide, hides the intersecting labels.
   hide,
 
+  /// - AxisLabelIntersectAction.hideUniform, hides the intersecting labels and ensures that the interval between visible labels stays uniform
+  hideUniform,
+
   /// - AxisLabelIntersectAction.wrap, wraps and places the intersecting labels
   /// in the next line.
   wrap,
@@ -243,6 +246,9 @@ enum DateTimeIntervalType {
 
   /// - DateTimeIntervalType.days, will consider interval as days.
   days,
+
+  /// - DateTimeIntervalType.weeks, will consider interval as weeks.
+  weeks,
 
   /// - DateTimeIntervalType.hours, will consider interval as hours.
   hours,

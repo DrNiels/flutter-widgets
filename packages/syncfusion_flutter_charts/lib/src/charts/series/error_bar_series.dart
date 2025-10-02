@@ -795,6 +795,13 @@ class ErrorBarSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
           errorXValue.day,
         );
         break;
+      case DateTimeIntervalType.weeks:
+        errorXValue = DateTime(
+          errorXValue.year,
+          errorXValue.month,
+          errorXValue.day + (7 * errorX),
+        );
+        break;
       case DateTimeIntervalType.days:
         errorXValue = DateTime(
           errorXValue.year,

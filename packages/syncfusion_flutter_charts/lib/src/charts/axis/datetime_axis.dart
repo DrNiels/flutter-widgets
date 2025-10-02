@@ -35,6 +35,7 @@ class DateTimeAxis extends ChartAxis {
     super.labelPosition,
     super.tickPosition,
     super.edgeLabelPlacement,
+    this.offsetLabelPlacement = LabelPlacement.onTicks,
     super.initialZoomFactor,
     super.initialZoomPosition,
     super.enableAutoIntervalOnZooming,
@@ -53,6 +54,7 @@ class DateTimeAxis extends ChartAxis {
     super.labelStyle,
     this.dateFormat,
     this.intervalType = DateTimeIntervalType.auto,
+    this.labelsAtBeginning = false,
     super.interactiveTooltip,
     this.labelFormat,
     this.minimum,
@@ -86,6 +88,22 @@ class DateTimeAxis extends ChartAxis {
          'Both properties have the same behavior to display the visible data points, use any one of the properties',
        );
 
+  /// Positions the captions on or between the ticks while leaving the ticks at the original positions
+  /// When placing between ticks, the labels are moved to the right
+  ///
+  /// Defaults to `LabelPlacement.onTicks`.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///    return Container(
+  ///        child: SfCartesianChart(
+  ///           offsetLabelPlacement: LabelPlacement.betweenTicks,
+  ///        )
+  ///    );
+  /// }
+  /// ```
+  final LabelPlacement offsetLabelPlacement;
+
   /// Formats the date-time axis labels. The default data-time axis label can be
   /// formatted with various built-in date formats.
   /// ```dart
@@ -111,6 +129,25 @@ class DateTimeAxis extends ChartAxis {
   /// }
   /// ```
   final String? labelFormat;
+
+  /// If true and an [intervalType] is set to a value different than `DateTimeIntervalType.auto`
+  /// the labels are positioned at the beginning of each interval, e.g., at the first of a month.
+  /// Otherwise, for `DateTimeIntervalType.years` and `DateTimeIntervalType.months` the labels are placed dynamically
+  ///
+  /// Defaults to `false`.
+  ///
+  /// Also refer [DateTimeIntervalType].
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///    return Container(
+  ///        child: SfCartesianChart(
+  ///           primaryXAxis:
+  ///             DateTimeAxis(intervalType: DateTimeIntervalType.years, labelsAtBeginning: true),
+  ///        )
+  ///    );
+  /// }
+  /// ```
+  final bool labelsAtBeginning;
 
   /// Customizes the date-time axis intervals. Intervals can be set to days,
   /// hours, milliseconds, minutes, months, seconds, years, and auto. If it is
@@ -343,13 +380,15 @@ class DateTimeAxis extends ChartAxis {
       ..dateFormat = dateFormat
       ..labelFormat = labelFormat
       ..intervalType = intervalType
+      ..labelsAtBeginning = labelsAtBeginning
       ..minimum = minimum
       ..maximum = maximum
       ..initialVisibleMinimum = initialVisibleMinimum
       ..initialVisibleMaximum = initialVisibleMaximum
       ..autoScrollingDeltaType = autoScrollingDeltaType
       ..multiLevelLabels = multiLevelLabels
-      ..onRendererCreated = onRendererCreated;
+      ..onRendererCreated = onRendererCreated
+      ..offsetLabelPlacement = offsetLabelPlacement;
     return renderer;
   }
 
@@ -363,10 +402,12 @@ class DateTimeAxis extends ChartAxis {
       ..dateFormat = dateFormat
       ..labelFormat = labelFormat
       ..intervalType = intervalType
+      ..labelsAtBeginning = labelsAtBeginning
       ..minimum = minimum
       ..maximum = maximum
       ..autoScrollingDeltaType = autoScrollingDeltaType
-      ..multiLevelLabels = multiLevelLabels;
+      ..multiLevelLabels = multiLevelLabels
+      ..offsetLabelPlacement = offsetLabelPlacement;;
   }
 }
 
@@ -409,6 +450,15 @@ class RenderDateTimeAxis extends RenderChartAxis {
   set intervalType(DateTimeIntervalType value) {
     if (_intervalType != value) {
       _intervalType = value;
+      markNeedsLayout();
+    }
+  }
+
+  bool get labelsAtBeginning => _labelsAtBeginning;
+  bool _labelsAtBeginning = false;
+  set labelsAtBeginning(bool value) {
+    if (_labelsAtBeginning != value) {
+      _labelsAtBeginning = value;
       markNeedsLayout();
     }
   }
@@ -625,6 +675,9 @@ class RenderDateTimeAxis extends RenderChartAxis {
       case DateTimeIntervalType.months:
         return totalDays / 30;
 
+      case DateTimeIntervalType.weeks:
+        return totalDays / 7;
+
       case DateTimeIntervalType.days:
         return totalDays;
 
@@ -762,6 +815,9 @@ class RenderDateTimeAxis extends RenderChartAxis {
         scrollingDelta =
             visibleRange.maximum.toInt() - dateTime.millisecondsSinceEpoch;
         break;
+      case DateTimeIntervalType.weeks:
+        scrollingDelta = Duration(days: autoScrollingDelta! * 7).inMilliseconds;
+        break;
       case DateTimeIntervalType.days:
         scrollingDelta = Duration(days: autoScrollingDelta!).inMilliseconds;
         break;
@@ -819,6 +875,10 @@ class RenderDateTimeAxis extends RenderChartAxis {
 
       case DateTimeIntervalType.months:
         _addAdditionalMonth(range, interval);
+        break;
+
+      case DateTimeIntervalType.weeks:
+        _addAdditionalWeeks(range, interval);
         break;
 
       case DateTimeIntervalType.days:
@@ -891,6 +951,36 @@ class RenderDateTimeAxis extends RenderChartAxis {
             endDate.year,
             endMonth + interval,
             endMonth == 2 ? 28 : 30,
+          ).millisecondsSinceEpoch;
+    }
+  }
+
+  void _addAdditionalWeeks(DoubleRange range, int interval) {
+    final DateTime startDate = DateTime.fromMillisecondsSinceEpoch(
+      range.minimum.toInt(),
+    );
+    final DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
+      range.maximum.toInt(),
+    );
+
+    final int startDay = startDate.day - (startDate.weekday - 1);
+    final int endDay = endDate.day - (endDate.weekday - 1);;
+    if (rangePadding == ChartRangePadding.additionalStart ||
+        rangePadding == ChartRangePadding.additional) {
+      range.minimum =
+          DateTime(
+            startDate.year,
+            startDate.month,
+            startDay - (7 * interval),
+          ).millisecondsSinceEpoch;
+    }
+    if (rangePadding == ChartRangePadding.additional ||
+        rangePadding == ChartRangePadding.additionalEnd) {
+      range.maximum =
+          DateTime(
+            endDate.year,
+            endDate.month,
+            endDay + (7 * interval),
           ).millisecondsSinceEpoch;
     }
   }
@@ -1072,6 +1162,10 @@ class RenderDateTimeAxis extends RenderChartAxis {
         _roundMonths(range, interval);
         break;
 
+      case DateTimeIntervalType.weeks:
+        _roundWeeks(range, interval);
+        break;
+
       case DateTimeIntervalType.days:
         _roundDays(range, interval);
         break;
@@ -1138,6 +1232,38 @@ class RenderDateTimeAxis extends RenderChartAxis {
             endDate.year,
             endMonth,
             DateTime(endDate.year, endDate.month, 0).day,
+            23,
+            59,
+            59,
+          ).millisecondsSinceEpoch;
+    }
+  }
+
+  void _roundWeeks(DoubleRange range, int interval) {
+    final DateTime startDate = DateTime.fromMillisecondsSinceEpoch(
+      range.minimum.toInt(),
+    );
+    final DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
+      range.maximum.toInt(),
+    );
+    final int startDay = startDate.day - (startDate.weekday - 1);
+    final int endDay = endDate.day - (endDate.weekday - 1);
+    if (rangePadding == ChartRangePadding.round ||
+        rangePadding == ChartRangePadding.roundStart) {
+      range.minimum =
+          DateTime(
+            startDate.year,
+            startDate.month,
+            startDay,
+          ).millisecondsSinceEpoch;
+    }
+    if (rangePadding == ChartRangePadding.round ||
+        rangePadding == ChartRangePadding.roundEnd) {
+      range.maximum =
+          DateTime(
+            endDate.year,
+            endDate.month,
+            endDay + 6,
             23,
             59,
             59,
@@ -1334,13 +1460,17 @@ class RenderDateTimeAxis extends RenderChartAxis {
     while (current <= visibleMaximum) {
       if (current < visibleMinimum ||
           !effectiveVisibleRange!.contains(current)) {
-        current =
-            _nextDate(
-              current,
-              visibleInterval,
-              visibleIntervalType,
-            ).millisecondsSinceEpoch;
-        continue;
+        final num nextDate = _nextDate(
+          current,
+          visibleInterval,
+          visibleIntervalType,
+        ).millisecondsSinceEpoch;
+        if ((offsetLabelPlacement == LabelPlacement.onTicks) ||
+            (nextDate <= visibleMinimum) ||
+            !effectiveVisibleRange!.contains(nextDate)) {
+          current = nextDate;
+          continue;
+        }
       }
 
       final DateFormat niceDateFormat =
@@ -1422,13 +1552,19 @@ class RenderDateTimeAxis extends RenderChartAxis {
       case DateTimeIntervalType.years:
         final int year =
             ((date.year / visibleInterval).floor() * visibleInterval).floor();
-        date = DateTime(year, date.month, date.day);
+        date = DateTime(year, labelsAtBeginning ? 1 : date.month, labelsAtBeginning ? 1 : date.day);
         break;
 
       case DateTimeIntervalType.months:
         final int month =
             ((date.month / visibleInterval) * visibleInterval).floor();
-        date = DateTime(date.year, month, date.day);
+        date = DateTime(date.year, month, labelsAtBeginning ? 1 : date.day);
+        break;
+
+      case DateTimeIntervalType.weeks:
+        // TODO: For considering the visible Interval, we'd need to compute the week number
+        // But as this is for personal use and we only use interval: 1, there's no need for now
+        date = DateTime(date.year, date.month, date.day - date.weekday + 1);
         break;
 
       case DateTimeIntervalType.days:
@@ -1514,6 +1650,9 @@ class RenderDateTimeAxis extends RenderChartAxis {
             date.second,
           );
 
+        case DateTimeIntervalType.weeks:
+          return date.add(Duration(days: 7 * effectiveInterval));
+
         case DateTimeIntervalType.days:
           return date.add(Duration(days: effectiveInterval));
 
@@ -1546,6 +1685,9 @@ class RenderDateTimeAxis extends RenderChartAxis {
 
         case DateTimeIntervalType.months:
           return date.add(Duration(days: (interval * 30).floor()));
+
+        case DateTimeIntervalType.weeks:
+          return date.add(Duration(hours: (interval * 24 * 7).floor()));
 
         case DateTimeIntervalType.days:
           return date.add(Duration(hours: (interval * 24).floor()));

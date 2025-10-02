@@ -72,6 +72,7 @@ class StepAreaSeries<T, D> extends XyDataSeries<T, D> {
     super.onPointLongPress,
     super.onCreateShader,
     this.borderDrawMode = BorderDrawMode.top,
+    this.bottom,
   });
 
   /// Border type of step area series.
@@ -93,6 +94,23 @@ class StepAreaSeries<T, D> extends XyDataSeries<T, D> {
   /// ```
   final BorderDrawMode borderDrawMode;
 
+  /// Override default bottom for this series
+  ///
+  /// Defaults to `null`.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///   return SfCartesianChart(
+  ///     series: <StepAreaSeries<SalesData, num>>[
+  ///       StepAreaSeries<SalesData, num>(
+  ///         bottom: 40
+  ///       ),
+  ///     ],
+  ///   );
+  /// }
+  /// ```
+  final num? bottom;
+
   final Color borderColor;
 
   /// To create a step area series renderer.
@@ -113,7 +131,8 @@ class StepAreaSeries<T, D> extends XyDataSeries<T, D> {
         super.createRenderObject(context) as StepAreaSeriesRenderer<T, D>;
     renderer
       ..borderDrawMode = borderDrawMode
-      ..borderColor = borderColor;
+      ..borderColor = borderColor
+      ..bottom = bottom;
     return renderer;
   }
 
@@ -125,7 +144,8 @@ class StepAreaSeries<T, D> extends XyDataSeries<T, D> {
     super.updateRenderObject(context, renderObject);
     renderObject
       ..borderDrawMode = borderDrawMode
-      ..borderColor = borderColor;
+      ..borderColor = borderColor
+      ..bottom = bottom;
   }
 }
 
@@ -134,9 +154,21 @@ class StepAreaSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
     with ContinuousSeriesMixin<T, D> {
   BorderDrawMode get borderDrawMode => _borderDrawMode;
   BorderDrawMode _borderDrawMode = BorderDrawMode.top;
+
   set borderDrawMode(BorderDrawMode value) {
     if (_borderDrawMode != value) {
       _borderDrawMode = value;
+      forceTransformValues = true;
+      markNeedsLayout();
+    }
+  }
+  
+  num? get bottom => _bottom;
+  num? _bottom;
+
+  set bottom(num? value) {
+    if (_bottom != value) {
+      _bottom = value;
       forceTransformValues = true;
       markNeedsLayout();
     }
@@ -154,7 +186,7 @@ class StepAreaSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
   @override
   void setData(int index, ChartSegment segment) {
     super.setData(index, segment);
-    final num bottom = xAxis!.crossesAt ?? max(yAxis!.visibleRange!.minimum, 0);
+    final num bottom = this.bottom ?? xAxis!.crossesAt ?? max(yAxis!.visibleRange!.minimum, 0);
     segment as StepAreaSegment<T, D>
       ..series = this
       .._xValues = xValues
