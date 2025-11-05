@@ -2430,6 +2430,14 @@ abstract class ChartSeriesRenderer<T, D> extends RenderBox
     if (canUpdateOrCreateSegments) {
       createOrUpdateSegments();
     }
+    else {
+      for (int i = 0; i < segments.length; i++) {
+        final ChartSegment segment = segments[i];
+        if (segment.needsDataUpdate()) {
+          setData(i, segment);
+        }
+      }
+    }
 
     if (canUpdateOrCreateSegments ||
         _isXRangeChanged ||
@@ -2653,6 +2661,10 @@ abstract class ChartSegment {
     points.clear();
     fillPaint.shader?.dispose();
     strokePaint.shader?.dispose();
+  }
+
+  bool needsDataUpdate() {
+    return false;
   }
 }
 

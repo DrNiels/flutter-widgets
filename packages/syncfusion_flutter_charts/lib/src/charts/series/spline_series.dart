@@ -1428,6 +1428,14 @@ class SplineAreaSegment<T, D> extends ChartSegment {
     );
   }
 
+  @override
+  bool needsDataUpdate() {
+    return (_highPoints.length != _lowPoints.length) || 
+        (_startControlHighPoints.length != _endControlHighPoints.length) ||
+        ((_highPoints.length + 1) != _startControlHighPoints.length);
+
+  }
+
   void _calculatePoints(List<num> xValues, List<num> yValues) {
     final PointToPixelCallback transformX = series.pointToPixelX;
     final PointToPixelCallback transformY = series.pointToPixelY;
