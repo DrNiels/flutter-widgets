@@ -1651,10 +1651,24 @@ class RenderDateTimeAxis extends RenderChartAxis {
           );
 
         case DateTimeIntervalType.weeks:
-          return date.add(Duration(days: 7 * effectiveInterval));
+          return date = DateTime(
+            date.year,
+            date.month,
+            date.day + 7 * effectiveInterval,
+            date.hour,
+            date.minute,
+            date.second,
+          );
 
         case DateTimeIntervalType.days:
-          return date.add(Duration(days: effectiveInterval));
+          return date = DateTime(
+            date.year,
+            date.month,
+            date.day + effectiveInterval,
+            date.hour,
+            date.minute,
+            date.second,
+          );
 
         case DateTimeIntervalType.hours:
           return date.add(Duration(hours: effectiveInterval));
