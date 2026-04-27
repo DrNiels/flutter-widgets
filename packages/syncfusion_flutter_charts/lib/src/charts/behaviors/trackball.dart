@@ -785,7 +785,12 @@ class TrackballBehavior extends ChartBehavior {
           position,
         );
         for (final int nearestPointIndex in nearestPointIndexes) {
-          final ChartSegment segment = child.segmentAt(nearestPointIndex);
+          ChartSegment segment;
+          try {
+            segment = child.segmentAt(nearestPointIndex);
+          } catch (_) {
+            continue;
+          }
           final TrackballInfo? trackballInfo = segment.trackballInfo(
             position,
             nearestPointIndex,
