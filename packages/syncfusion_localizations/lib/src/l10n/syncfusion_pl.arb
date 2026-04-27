@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Zaznacz wszystko", 
 "sortAndFilterDataGridFilteringLabel" : "Sortuj i filtruj", 
 "clearFilterDataGridFilteringLabel" : "Czysty filtr", 
-"fromDataGridFilteringLabel" : "Z"
+"fromDataGridFilteringLabel" : "Z",
+"selectADateDataGridFilteringLabel": "Wybierz datę"
 }

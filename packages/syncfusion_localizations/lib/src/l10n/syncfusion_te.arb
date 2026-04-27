@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "అన్ని ఎంచుకోండి", 
 "sortAndFilterDataGridFilteringLabel" : "క్రమబద్ధీకరించండి మరియు ఫిల్టర్ చేయండి", 
 "clearFilterDataGridFilteringLabel" : "ఫిల్టర్‌ని క్లియర్ చేయండి", 
-"fromDataGridFilteringLabel" : "నుండి"
+"fromDataGridFilteringLabel" : "నుండి",
+"selectADateDataGridFilteringLabel": "తేదీని ఎంచుకోండి"
 }

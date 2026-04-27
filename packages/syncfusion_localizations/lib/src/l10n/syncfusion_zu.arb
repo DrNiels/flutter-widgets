@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Khetha konke", 
 "sortAndFilterDataGridFilteringLabel" : "Hlunga futhi Hlunga", 
 "clearFilterDataGridFilteringLabel" : "Sula Isihlungi", 
-"fromDataGridFilteringLabel" : "Kusuka"
+"fromDataGridFilteringLabel" : "Kusuka",
+"selectADateDataGridFilteringLabel": "Khetha usuku"
 }

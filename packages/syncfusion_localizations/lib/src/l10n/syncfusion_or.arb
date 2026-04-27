@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "ସବୁ ବାଛ", 
 "sortAndFilterDataGridFilteringLabel" : "ସର୍ଟ ଏବଂ ଫିଲ୍ଟର୍ |", 
 "clearFilterDataGridFilteringLabel" : "ଫିଲ୍ଟର୍ ସଫା କରନ୍ତୁ |", 
-"fromDataGridFilteringLabel" : "ଠାରୁ"
+"fromDataGridFilteringLabel" : "ଠାରୁ",
+"selectADateDataGridFilteringLabel": "ତାରିଖ ବାଛନ୍ତୁ"
 }

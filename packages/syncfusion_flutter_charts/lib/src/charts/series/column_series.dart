@@ -444,6 +444,7 @@ class ColumnSegment<T, D> extends ChartSegment with BarSeriesTrackerMixin {
     }
 
     points.clear();
+    bottom = series.bottom;
     final PointToPixelCallback transformX = series.pointToPixelX;
     final PointToPixelCallback transformY = series.pointToPixelY;
 

@@ -186,7 +186,7 @@ class DataLabelSettings {
   ///   );
   /// }
   /// ```
-  final ChartWidgetBuilder? builder;
+  final ChartWidgetBuilder<dynamic, dynamic>? builder;
 
   /// Color of the data label.
   ///
@@ -1386,7 +1386,9 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
   // To handle multiple series data collision, we need to check the data label
   // collision for all the series after data label layout.
   @override
-  void handleDataLabelCollision(CartesianSeriesRenderer series) {
+  void handleDataLabelCollision(
+    CartesianSeriesRenderer<dynamic, dynamic> series,
+  ) {
     series.parent?.visitChildren((RenderObject child) {
       if (child is CartesianSeriesRenderer &&
           child.controller.isVisible &&

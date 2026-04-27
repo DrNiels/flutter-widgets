@@ -6,8 +6,8 @@ class ErrorCorrectionCodeWords {
   /// Creates the error correction code word
   ErrorCorrectionCodeWords({this.codeVersion, this.correctionLevel}) {
     _codeValue = QRCodeValue(
-      qrCodeVersion: codeVersion!,
-      errorCorrectionLevel: correctionLevel!,
+      qrCodeVersion: codeVersion,
+      errorCorrectionLevel: correctionLevel,
     );
     eccw = _codeValue.noOfErrorCorrectionCodeWord;
   }

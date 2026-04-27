@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Odaberi sve", 
 "sortAndFilterDataGridFilteringLabel" : "Sortiraj i filtriraj", 
 "clearFilterDataGridFilteringLabel" : "Obriši filtar", 
-"fromDataGridFilteringLabel" : "Iz"
+"fromDataGridFilteringLabel" : "Iz",
+"selectADateDataGridFilteringLabel": "Odaberite datum"
 }

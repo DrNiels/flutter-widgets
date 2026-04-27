@@ -16,6 +16,7 @@ namespace pdfviewer
 
   public:
     PdfDocument(std::vector<uint8_t> data, std::string password, std::string id);
+    PdfDocument(std::string filePath, std::string password, std::string id);
 
     ~PdfDocument();
 
@@ -24,6 +25,7 @@ namespace pdfviewer
   };
 
   std::shared_ptr<PdfDocument> initializePdfRenderer(std::vector<uint8_t> data, std::string password, std::string docID);
+  std::shared_ptr<PdfDocument> loadPdfFromFile(std::string filePath, std::string password, std::string docID);
   std::shared_ptr<PdfDocument> getPdfDocument(std::string docID);
   void closePdfDocument(std::string docID);
 }

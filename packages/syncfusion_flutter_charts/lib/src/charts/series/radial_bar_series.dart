@@ -407,7 +407,7 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
     super.handleLegendItemTapped(item, isToggled);
     // Resets `_isLegendToggled` to `true` to handle legend inner and outer radius animations.
     if (item is CircularLegendItem && item.pointIndex != -1) {
-      final RadialBarSegment segment =
+      final RadialBarSegment<dynamic, dynamic> segment =
           segmentAt(item.pointIndex) as RadialBarSegment;
       segment._isLegendToggled = true;
     }
@@ -480,7 +480,7 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
       ..outerRadius = segment._outerRadius
       ..center = center
       ..fill = palette[current.dataPointIndex % palette.length];
-    final CircularChartPoint point = current.point!;
+    final CircularChartPoint<dynamic> point = current.point!;
 
     Offset labelLocation = calculateOffset(
       point.startAngle!,
@@ -525,7 +525,7 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
         .merge(parent!.chartThemeData!.dataLabelTextStyle)
         .merge(dataLabelSettings.textStyle);
 
-    final CircularChartPoint point = dataLabelPositioned.point!;
+    final CircularChartPoint<dynamic> point = dataLabelPositioned.point!;
     if (!point.isVisible || !segments[index].isVisible) {
       return;
     }

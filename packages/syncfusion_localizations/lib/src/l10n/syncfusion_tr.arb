@@ -1,6 +1,6 @@
 {
 "noSelectedDateCalendarLabel" : "Tarih seçilmedi", 
-"noEventsCalendarLabel" : "Olay yok", 
+"noEventsCalendarLabel" : "Etkinlik yok", 
 "ofDataPagerLabel" : "nın-nin", 
 "pagesDataPagerLabel" : "sayfalar", 
 "rowsPerPageDataPagerLabel" : "Sayfa başına satır", 
@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Hepsini seç", 
 "sortAndFilterDataGridFilteringLabel" : "Sırala ve Filtrele", 
 "clearFilterDataGridFilteringLabel" : "Temiz filtre", 
-"fromDataGridFilteringLabel" : "İtibaren"
+"fromDataGridFilteringLabel" : "İtibaren",
+"selectADateDataGridFilteringLabel": "Bir tarih seçin"
 }

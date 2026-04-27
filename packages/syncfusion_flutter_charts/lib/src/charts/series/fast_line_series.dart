@@ -104,7 +104,8 @@ class FastLineSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
 
   @override
   int dataPointIndex(Offset position, ChartSegment segment) {
-    final FastLineSegment fastLineSegment = segment as FastLineSegment<T, D>;
+    final FastLineSegment<dynamic, dynamic> fastLineSegment =
+        segment as FastLineSegment<T, D>;
     final int nearestPointIndex = fastLineSegment._findNearestPoint(
       fastLineSegment.points,
       position,

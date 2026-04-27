@@ -37,7 +37,7 @@ base class CircularChartDataLabelPositioned
 
   Offset offset = Offset.zero;
   Size size = Size.zero;
-  CircularChartPoint? point;
+  CircularChartPoint<dynamic>? point;
 
   @override
   void applyParentData(RenderObject renderObject) {
@@ -353,7 +353,7 @@ class _CircularDataLabelContainerState<T, D>
 }
 
 class CircularDataLabelBoxParentData extends ChartElementParentData {
-  CircularChartPoint? point;
+  CircularChartPoint<dynamic>? point;
 }
 
 class CircularDataLabelStack<T, D> extends ChartElementStack {
@@ -476,7 +476,8 @@ class RenderCircularDataLabelStack<T, D> extends RenderChartElementStack {
       if (selectedIndex == -1) {
         return;
       }
-      final CircularChartPoint point = labels!.elementAt(selectedIndex).point!;
+      final CircularChartPoint<dynamic> point =
+          labels!.elementAt(selectedIndex).point!;
       if (point.isVisible &&
           point.trimmedText != null &&
           point.text != point.trimmedText) {
@@ -492,7 +493,8 @@ class RenderCircularDataLabelStack<T, D> extends RenderChartElementStack {
       if (selectedIndex == -1) {
         return;
       }
-      final CircularChartPoint point = labels!.elementAt(selectedIndex).point!;
+      final CircularChartPoint<dynamic> point =
+          labels!.elementAt(selectedIndex).point!;
       if (point.isVisible &&
           point.trimmedText != null &&
           point.text != point.trimmedText) {
@@ -502,7 +504,7 @@ class RenderCircularDataLabelStack<T, D> extends RenderChartElementStack {
   }
 
   void _showTooltipForTrimmedDataLabel(
-    CircularChartPoint point,
+    CircularChartPoint<dynamic> point,
     int pointIndex,
   ) {
     final RenderCircularChartPlotArea plotArea =
@@ -652,7 +654,7 @@ class RenderCircularDataLabelStack<T, D> extends RenderChartElementStack {
       while (child != null) {
         final CircularDataLabelBoxParentData childParentData =
             child.parentData! as CircularDataLabelBoxParentData;
-        final CircularChartPoint point = childParentData.point!;
+        final CircularChartPoint<dynamic> point = childParentData.point!;
         if (point.isVisible) {
           if (point.connectorPath != null) {
             series!.drawConnectorLine(

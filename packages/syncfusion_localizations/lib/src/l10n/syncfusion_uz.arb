@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Hammasini belgilash", 
 "sortAndFilterDataGridFilteringLabel" : "Saralash va filtrlash", 
 "clearFilterDataGridFilteringLabel" : "Filtrni tozalash", 
-"fromDataGridFilteringLabel" : "Kimdan"
+"fromDataGridFilteringLabel" : "Kimdan",
+"selectADateDataGridFilteringLabel": "Sanani tanlang"
 }

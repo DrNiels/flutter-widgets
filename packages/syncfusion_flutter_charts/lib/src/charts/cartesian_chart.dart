@@ -152,10 +152,10 @@ class SfCartesianChart extends StatefulWidget {
     this.enableMultiSelection = false,
     this.crosshairBehavior,
     this.trackballBehavior,
-    this.series = const <CartesianSeries>[],
+    this.series = const <CartesianSeries<dynamic, dynamic>>[],
     this.title = const ChartTitle(),
     this.axes = const <ChartAxis>[],
-    this.indicators = const <TechnicalIndicator>[],
+    this.indicators = const <TechnicalIndicator<dynamic, dynamic>>[],
   }) : super(key: key);
 
   /// Customizes the chart title.
@@ -990,7 +990,7 @@ class SfCartesianChart extends StatefulWidget {
   ///      );
   /// }
   /// ```
-  final List<CartesianSeries> series;
+  final List<CartesianSeries<dynamic, dynamic>> series;
 
   /// Color palette for chart series. If the series color is not specified,
   /// then the series will be rendered with appropriate palette color.
@@ -1008,7 +1008,7 @@ class SfCartesianChart extends StatefulWidget {
   final List<Color>? palette;
 
   /// Technical indicators for charts.
-  final List<TechnicalIndicator> indicators;
+  final List<TechnicalIndicator<dynamic, dynamic>> indicators;
 
   /// A builder that builds the widget (ex., loading indicator or load more
   /// button) to display at the top of the chart area when horizontal scrolling

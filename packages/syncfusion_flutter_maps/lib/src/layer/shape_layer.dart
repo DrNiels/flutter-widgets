@@ -3496,7 +3496,11 @@ class _RenderGeoJSONLayer extends RenderStack
   }
 
   void _handleTapUp(TapUpDetails details) {
-    _handleTap(details.localPosition, PointerDeviceKind.touch);
+    final RenderBox renderBox = context.findRenderObject()! as RenderBox;
+    final Offset localPosition = renderBox.globalToLocal(
+      details.globalPosition,
+    );
+    _handleTap(localPosition, PointerDeviceKind.touch);
   }
 
   void _handleTap(Offset position, PointerDeviceKind deviceKind) {
@@ -3535,6 +3539,13 @@ class _RenderGeoJSONLayer extends RenderStack
       // Based on the isInInteractive value we have updated the maps at
       // _handleZooming(). To avoid this at double tap zooming, we have reset
       // the isInInteractive.
+      if (_downGlobalPoint != null) {
+        // context refers to the BuildContext stored on the render object.
+        // Convert global to local coordinates relative to this render box.
+        final RenderBox renderBox = context.findRenderObject()! as RenderBox;
+        _downLocalPoint = renderBox.globalToLocal(_downGlobalPoint!);
+      }
+
       _controller.isInInteractive = false;
       _invokeOnZooming(
         _getScale(newZoomLevel),

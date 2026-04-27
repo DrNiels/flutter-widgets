@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Velja allt", 
 "sortAndFilterDataGridFilteringLabel" : "Raða og sía", 
 "clearFilterDataGridFilteringLabel" : "Hreinsaðu síu", 
-"fromDataGridFilteringLabel" : "Frá"
+"fromDataGridFilteringLabel" : "Frá",
+"selectADateDataGridFilteringLabel": "Veldu dagsetningu"
 }

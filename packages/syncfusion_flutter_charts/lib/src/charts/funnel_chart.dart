@@ -129,7 +129,7 @@ class SfFunnelChart extends StatefulWidget {
   ///   );
   /// }
   /// ```
-  final FunnelSeries series;
+  final FunnelSeries<dynamic, dynamic> series;
 
   /// Margin for chart.
   ///

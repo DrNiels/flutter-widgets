@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Pilih Semua", 
 "sortAndFilterDataGridFilteringLabel" : "Sortir dan Filter", 
 "clearFilterDataGridFilteringLabel" : "Hapus Filter", 
-"fromDataGridFilteringLabel" : "Dari"
+"fromDataGridFilteringLabel" : "Dari",
+"selectADateDataGridFilteringLabel": "Pilih tanggal"
 }

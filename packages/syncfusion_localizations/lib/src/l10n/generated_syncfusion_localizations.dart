@@ -86,10 +86,7 @@ class SfLocalizationsAf extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Begin nie met';
@@ -283,6 +280,9 @@ class SfLocalizationsAf extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Selekteer alles';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Kies ’n datum';
 
   @override
   String get series => r'Reeks';
@@ -635,6 +635,9 @@ class SfLocalizationsAm extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'ሁሉንም ምረጥ';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'ቀን ይምረጡ';
+
+  @override
   String get series => r'ተከታታይ';
 
   @override
@@ -970,6 +973,9 @@ class SfLocalizationsAr extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'اختر الكل';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'اختر تاريخًا';
 
   @override
   String get series => r'سلسلة';
@@ -1316,6 +1322,9 @@ class SfLocalizationsAz extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Hamısını seç';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Tarixi seçin';
+
+  @override
   String get series => r'Serial';
 
   @override
@@ -1659,6 +1668,9 @@ class SfLocalizationsBe extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Абраць усё';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Выберыце дату';
 
   @override
   String get series => r'серыял';
@@ -2013,6 +2025,9 @@ class SfLocalizationsBg extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Избери всички';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Изберете дата';
+
+  @override
   String get series => r'Серия';
 
   @override
@@ -2358,6 +2373,9 @@ class SfLocalizationsBn extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'সব নির্বাচন করুন';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'একটি তারিখ নির্বাচন করুন';
+
+  @override
   String get series => r'সিরিজ';
 
   @override
@@ -2517,10 +2535,7 @@ class SfLocalizationsBs extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Ne počinje sa';
@@ -2714,6 +2729,9 @@ class SfLocalizationsBs extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Označi sve';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Odaberite datum';
+
+  @override
   String get series => r'Serije';
 
   @override
@@ -2879,10 +2897,7 @@ class SfLocalizationsCa extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'No comença amb';
@@ -2979,10 +2994,7 @@ class SfLocalizationsCa extends SfGlobalLocalizations {
   String get passwordDialogInvalidPasswordLabel => r'contrasenya invàlida';
 
   @override
-  String get pdfBookmarksLabel =>
-      r'Adreces d'
-      "'"
-      r'interès';
+  String get pdfBookmarksLabel => "Adreces d'interès";
 
   @override
   String get pdfEnterPageNumberLabel => r'Introduïu el número de pàgina';
@@ -3006,12 +3018,7 @@ class SfLocalizationsCa extends SfGlobalLocalizations {
   String get pdfInvalidPageNumberLabel => r'Introduïu un número vàlid';
 
   @override
-  String get pdfNoBookmarksLabel =>
-      r'No s'
-      "'"
-      r'han trobat adreces d'
-      "'"
-      r'interès';
+  String get pdfNoBookmarksLabel => "No s'han trobat adreces d'interès";
 
   @override
   String get pdfPaginationDialogCancelLabel => r'Cancel·lar';
@@ -3088,6 +3095,9 @@ class SfLocalizationsCa extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Seleccionar tot';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Selecciona una data';
 
   @override
   String get series => r'Sèrie';
@@ -3254,10 +3264,7 @@ class SfLocalizationsCs extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Nezačíná s';
@@ -3451,6 +3458,9 @@ class SfLocalizationsCs extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Vybrat vše';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Vyberte datum';
+
+  @override
   String get series => r'Série';
 
   @override
@@ -3615,10 +3625,7 @@ class SfLocalizationsDa extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Begynder ikke med';
@@ -3810,6 +3817,9 @@ class SfLocalizationsDa extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Vælg alle';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Vælg en dato';
 
   @override
   String get series => r'Serie';
@@ -4173,6 +4183,9 @@ class SfLocalizationsDe extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Wählen Sie Alle';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Wählen Sie ein Datum';
+
+  @override
   String get series => r'Serie';
 
   @override
@@ -4335,10 +4348,7 @@ class SfLocalizationsEl extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Δεν ξεκινά με';
@@ -4535,6 +4545,9 @@ class SfLocalizationsEl extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Επιλογή όλων';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Επιλέξτε ημερομηνία';
+
+  @override
   String get series => r'Σειρά';
 
   @override
@@ -4700,10 +4713,7 @@ class SfLocalizationsEn extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Does Not Begin With';
@@ -4897,6 +4907,9 @@ class SfLocalizationsEn extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Select All';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Select a date';
+
+  @override
   String get series => r'Series';
 
   @override
@@ -5047,7 +5060,7 @@ class SfLocalizationsEs extends SfGlobalLocalizations {
   String get cancelDataGridFilteringLabel => r'Cancelar';
 
   @override
-  String get clearFilterDataGridFilteringLabel => r'Filtro claro';
+  String get clearFilterDataGridFilteringLabel => r'Borrar filtro';
 
   @override
   String get containsDataGridFilteringLabel => r'Contiene';
@@ -5062,10 +5075,7 @@ class SfLocalizationsEs extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hiyyah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'no comienza con';
@@ -5137,7 +5147,7 @@ class SfLocalizationsEs extends SfGlobalLocalizations {
   String get ofDataPagerLabel => r'de';
 
   @override
-  String get okDataGridFilteringLabel => r'OK';
+  String get okDataGridFilteringLabel => r'Aceptar';
 
   @override
   String get orDataGridFilteringLabel => r'O';
@@ -5251,6 +5261,9 @@ class SfLocalizationsEs extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Seleccionar todo';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Selecciona una fecha';
 
   @override
   String get series => r'Serie';
@@ -5417,10 +5430,7 @@ class SfLocalizationsEt extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Ei alga';
@@ -5614,6 +5624,9 @@ class SfLocalizationsEt extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Vali kõik';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Valige kuupäev';
+
+  @override
   String get series => r'seeria';
 
   @override
@@ -5778,10 +5791,7 @@ class SfLocalizationsEu extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Ez Da Hasten';
@@ -5974,6 +5984,9 @@ class SfLocalizationsEu extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Hautatu guztiak';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Hautatu data bat';
 
   @override
   String get series => r'Seriea';
@@ -6327,6 +6340,9 @@ class SfLocalizationsFa extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'انتخاب همه';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'یک تاریخ انتخاب کنید';
+
+  @override
   String get series => r'سلسله';
 
   @override
@@ -6482,10 +6498,7 @@ class SfLocalizationsFi extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Ei ala';
@@ -6681,6 +6694,9 @@ class SfLocalizationsFi extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Valitse kaikki';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Valitse päivämäärä';
+
+  @override
   String get series => r'Sarja';
 
   @override
@@ -6846,10 +6862,7 @@ class SfLocalizationsFil extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Hindi Nagsisimula Sa';
@@ -7044,6 +7057,9 @@ class SfLocalizationsFil extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Piliin lahat';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Pumili ng petsa';
+
+  @override
   String get series => r'Serye';
 
   @override
@@ -7212,10 +7228,7 @@ class SfLocalizationsFr extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhou al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Ne commence pas par';
@@ -7267,10 +7280,7 @@ class SfLocalizationsFr extends SfGlobalLocalizations {
   String get muharramLabel => r'Mouharram';
 
   @override
-  String get noEventsCalendarLabel =>
-      r'Pas d'
-      "'"
-      r'événements';
+  String get noEventsCalendarLabel => "Pas d'événements";
 
   @override
   String get noMatchesDataGridFilteringLabel => r'Pas de correspondance';
@@ -7420,6 +7430,9 @@ class SfLocalizationsFr extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Tout sélectionner';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Sélectionnez une date';
 
   @override
   String get series => r'Série';
@@ -7590,10 +7603,7 @@ class SfLocalizationsGl extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Non Comeza Con';
@@ -7784,6 +7794,9 @@ class SfLocalizationsGl extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Seleccionar todo';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Selecciona unha data';
 
   @override
   String get series => r'Serie';
@@ -8138,6 +8151,9 @@ class SfLocalizationsGu extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'બધા પસંદ કરો';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'તારીખ પસંદ કરો';
+
+  @override
   String get series => r'શ્રેણી';
 
   @override
@@ -8290,10 +8306,7 @@ class SfLocalizationsHe extends SfGlobalLocalizations {
   String get daySpanCountLabel => r'יְוֹם';
 
   @override
-  String get dhualhiLabel =>
-      r'דהו אל-היג'
-      "'"
-      r'ה';
+  String get dhualhiLabel => "דהו אל-היג'ה";
 
   @override
   String get dhualqiLabel => r'דהו אל-קיאדה';
@@ -8335,12 +8348,7 @@ class SfLocalizationsHe extends SfGlobalLocalizations {
       r'ומדה אל-אוול';
 
   @override
-  String get jumada2Label =>
-      r'ג'
-      "'"
-      r'ומדה אל-ת'
-      "'"
-      r'אני';
+  String get jumada2Label => "ג'ומדה אל-ת'אני";
 
   @override
   String get lessThanDataGridFilteringLabel => r'פחות מ';
@@ -8494,6 +8502,9 @@ class SfLocalizationsHe extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'בחר הכל';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'בחר תאריך';
+
+  @override
   String get series => r'סִדרָה';
 
   @override
@@ -8558,11 +8569,7 @@ class SfLocalizationsHe extends SfGlobalLocalizations {
   String get showRowsWhereDataGridFilteringLabel => r'הצג שורות היכן';
 
   @override
-  String get sortAToZDataGridFilteringLabel =>
-      r'מיין מא'
-      "'"
-      r' עד ת'
-      "'";
+  String get sortAToZDataGridFilteringLabel => "מיין מא' עד ת'";
 
   @override
   String get sortAndFilterDataGridFilteringLabel => r'מיון ומסנן';
@@ -8860,6 +8867,9 @@ class SfLocalizationsHi extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'सभी का चयन करे';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'तारीख चुनें';
+
+  @override
   String get series => r'श्रृंखला';
 
   @override
@@ -9017,10 +9027,7 @@ class SfLocalizationsHr extends SfGlobalLocalizations {
   String get dhualhiLabel => r'zul-hidždže';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Ne počinje s';
@@ -9213,6 +9220,9 @@ class SfLocalizationsHr extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Odaberi sve';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Odaberite datum';
+
+  @override
   String get series => r'Niz';
 
   @override
@@ -9371,10 +9381,7 @@ class SfLocalizationsHu extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Nem azzal kezdődik';
@@ -9569,6 +9576,9 @@ class SfLocalizationsHu extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Mindet kiválaszt';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Válasszon dátumot';
 
   @override
   String get series => r'Sorozat';
@@ -9925,6 +9935,9 @@ class SfLocalizationsHy extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Ընտրել բոլորը';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Ընտրեք ամսաթիվ';
+
+  @override
   String get series => r'Սերիա';
 
   @override
@@ -10276,6 +10289,9 @@ class SfLocalizationsId extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Pilih Semua';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Pilih tanggal';
+
+  @override
   String get series => r'Seri';
 
   @override
@@ -10434,10 +10450,7 @@ class SfLocalizationsIs extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Byrjar ekki á';
@@ -10629,6 +10642,9 @@ class SfLocalizationsIs extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Velja allt';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Veldu dagsetningu';
 
   @override
   String get series => r'Röð';
@@ -10990,6 +11006,9 @@ class SfLocalizationsIt extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Seleziona tutto';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Seleziona una data';
+
+  @override
   String get series => r'Serie';
 
   @override
@@ -11340,6 +11359,9 @@ class SfLocalizationsJa extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'すべて選択';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'日付を選択';
+
+  @override
   String get series => r'シリーズ';
 
   @override
@@ -11677,6 +11699,9 @@ class SfLocalizationsKa extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Მონიშნე ყველა';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'აირჩიეთ თარიღი';
 
   @override
   String get series => r'სერიალი';
@@ -12027,6 +12052,9 @@ class SfLocalizationsKk extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Барлығын таңдаңыз';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Күнді таңдаңыз';
+
+  @override
   String get series => r'Сериялар';
 
   @override
@@ -12183,10 +12211,7 @@ class SfLocalizationsKm extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'មិនចាប់ផ្តើមជាមួយ';
@@ -12372,6 +12397,9 @@ class SfLocalizationsKm extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'ជ្រើសរើស​ទាំងអស់';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'ជ្រើសរើសកាលបរិច្ឆេទ';
 
   @override
   String get series => r'ស៊េរី';
@@ -12789,6 +12817,10 @@ class SfLocalizationsKn extends SfGlobalLocalizations {
       '\u{c8e}\u{cb2}\u{ccd}\u{cb2}\u{cb5}\u{ca8}\u{ccd}\u{ca8}\u{cc1}\u{20}\u{c86}\u{cb0}\u{cbf}\u{cb8}\u{cc1}';
 
   @override
+  String get selectADateDataGridFilteringLabel =>
+      '\u{0ca6}\u{0cbf}\u{0ca8}\u{0cbe}\u{0c82}\u{0c95}\u{cb5}\u{0ca8}\u{0ccd}\u{0ca8}\u{cc1} \u{0c86}\u{0caf}\u{ccd}\u{0c95}\u{cc6}\u{0cae}\u{0cbe}\u{0ca1}\u{cbf}';
+
+  @override
   String get series => '\u{cb8}\u{cb0}\u{ca3}\u{cbf}';
 
   @override
@@ -13138,6 +13170,9 @@ class SfLocalizationsKo extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'모두 선택';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'날짜를 선택하세요';
+
+  @override
   String get series => r'시리즈';
 
   @override
@@ -13476,6 +13511,9 @@ class SfLocalizationsKy extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Баарын тандаңыз';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Датаны тандаңыз';
+
+  @override
   String get series => r'Сериялар';
 
   @override
@@ -13633,10 +13671,7 @@ class SfLocalizationsLo extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'ບໍ່ໄດ້ເລີ່ມຕົ້ນດ້ວຍ';
@@ -13829,6 +13864,9 @@ class SfLocalizationsLo extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'ເລືອກ​ທັງ​ຫມົດ';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'ເລືອກວັນທີ';
+
+  @override
   String get series => r'ຊຸດ';
 
   @override
@@ -13990,10 +14028,7 @@ class SfLocalizationsLt extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Neprasideda su';
@@ -14183,6 +14218,9 @@ class SfLocalizationsLt extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Pasirinkti viską';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Pasirinkite datą';
+
+  @override
   String get series => r'Serija';
 
   @override
@@ -14344,10 +14382,7 @@ class SfLocalizationsLv extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hidžja';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Nesākas ar';
@@ -14537,6 +14572,9 @@ class SfLocalizationsLv extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Izvēlēties visus';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Izvēlieties datumu';
 
   @override
   String get series => r'sērija';
@@ -14891,6 +14929,9 @@ class SfLocalizationsMk extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Селектирај се';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Изберете датум';
+
+  @override
   String get series => r'Серии';
 
   @override
@@ -15238,6 +15279,9 @@ class SfLocalizationsMl extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'എല്ലാം തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'തീയതി തിരഞ്ഞെടുക്കുക';
 
   @override
   String get series => r'പരമ്പര';
@@ -15589,6 +15633,9 @@ class SfLocalizationsMn extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Бүгдийг сонгох';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Огноо сонгоно уу';
+
+  @override
   String get series => r'Цуврал';
 
   @override
@@ -15932,6 +15979,9 @@ class SfLocalizationsMr extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'सर्व निवडा';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'तारीख निवडा';
+
+  @override
   String get series => r'मालिका';
 
   @override
@@ -16088,10 +16138,7 @@ class SfLocalizationsMs extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dzulhijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Tidak Bermula Dengan';
@@ -16287,6 +16334,9 @@ class SfLocalizationsMs extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Pilih semua';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Pilih tarikh';
+
+  @override
   String get series => r'Siri';
 
   @override
@@ -16446,10 +16496,7 @@ class SfLocalizationsMy extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'ဖြင့် မစတင်ပါ။';
@@ -16645,6 +16692,9 @@ class SfLocalizationsMy extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'အားလုံးကို ရွေးပါ။';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'ရက်စွဲကိုရွေးပါ';
+
+  @override
   String get series => r'စီးရီး';
 
   @override
@@ -16809,10 +16859,7 @@ class SfLocalizationsNb extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Begynner ikke med';
@@ -17004,6 +17051,9 @@ class SfLocalizationsNb extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Velg alle';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Velg en dato';
 
   @override
   String get series => r'Serie';
@@ -17360,6 +17410,9 @@ class SfLocalizationsNe extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'सबै छान्नु';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'मिति चयन गर्नुहोस्';
+
+  @override
   String get series => r'शृङ्खला';
 
   @override
@@ -17516,10 +17569,7 @@ class SfLocalizationsNl extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Begint niet met';
@@ -17716,6 +17766,9 @@ class SfLocalizationsNl extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Selecteer alles';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Selecteer een datum';
+
+  @override
   String get series => r'Serie';
 
   @override
@@ -17877,10 +17930,7 @@ class SfLocalizationsNo extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Begynner ikke med';
@@ -18072,6 +18122,9 @@ class SfLocalizationsNo extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Velg alle';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Velg en dato';
 
   @override
   String get series => r'Serie';
@@ -18435,6 +18488,9 @@ class SfLocalizationsOr extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'ସବୁ ବାଛ';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'ତାରିଖ ବାଛନ୍ତୁ';
+
+  @override
   String get series => r'ସିରିଜ୍';
 
   @override
@@ -18785,6 +18841,9 @@ class SfLocalizationsPa extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'ਸਾਰਿਆ ਨੂੰ ਚੁਣੋ';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'ਤਾਰੀਖ ਚੁਣੋ';
+
+  @override
   String get series => r'ਲੜੀ';
 
   @override
@@ -18940,10 +18999,7 @@ class SfLocalizationsPl extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Du al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Nie zaczyna się od';
@@ -19131,6 +19187,9 @@ class SfLocalizationsPl extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Zaznacz wszystko';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Wybierz datę';
 
   @override
   String get series => r'Seria';
@@ -19486,6 +19545,9 @@ class SfLocalizationsPs extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'ټول وټاکئ';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'یوه نېټه وټاکئ';
+
+  @override
   String get series => r'لړۍ';
 
   @override
@@ -19642,10 +19704,7 @@ class SfLocalizationsPt extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Não começa com';
@@ -19838,6 +19897,9 @@ class SfLocalizationsPt extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Selecionar tudo';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Selecione uma data';
+
+  @override
   String get series => r'Series';
 
   @override
@@ -20016,10 +20078,7 @@ class SfLocalizationsRo extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Nu Începe Cu';
@@ -20211,6 +20270,9 @@ class SfLocalizationsRo extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Selectează tot';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Selectați o dată';
 
   @override
   String get series => r'Serie';
@@ -20565,6 +20627,9 @@ class SfLocalizationsRu extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Выбрать все';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Выберите дату';
+
+  @override
   String get series => r'Серии';
 
   @override
@@ -20720,10 +20785,7 @@ class SfLocalizationsSi extends SfGlobalLocalizations {
   String get dhualhiLabel => r'ඩු අල්-හිජ්ජා';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'සමඟ ආරම්භ නොවේ';
@@ -20911,6 +20973,9 @@ class SfLocalizationsSi extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'සියල්ල තෝරන්න';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'දිනය තෝරන්න';
+
+  @override
   String get series => r'මාලාවක්';
 
   @override
@@ -21066,10 +21131,7 @@ class SfLocalizationsSk extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Nezačína s';
@@ -21263,6 +21325,9 @@ class SfLocalizationsSk extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Vybrať všetko';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Vyberte dátum';
+
+  @override
   String get series => r'séria';
 
   @override
@@ -21427,10 +21492,7 @@ class SfLocalizationsSl extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Se ne začne z';
@@ -21621,6 +21683,9 @@ class SfLocalizationsSl extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Izberi vse';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Izberite datum';
 
   @override
   String get series => r'serija';
@@ -21984,6 +22049,9 @@ class SfLocalizationsSq extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Selektoj të gjitha';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Zgjidhni një datë';
+
+  @override
   String get series => r'Seria';
 
   @override
@@ -22143,10 +22211,7 @@ class SfLocalizationsSr extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Дху ал-Хијјах';
 
   @override
-  String get dhualqiLabel =>
-      r'Дху ал-Ки'
-      "'"
-      r'дах';
+  String get dhualqiLabel => "Дху ал-Ки'дах";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Не почиње са';
@@ -22340,6 +22405,9 @@ class SfLocalizationsSr extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Изабери све';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Изаберите датум';
+
+  @override
   String get series => r'Сериес';
 
   @override
@@ -22511,10 +22579,7 @@ class SfLocalizationsSv extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Börjar inte med';
@@ -22709,6 +22774,9 @@ class SfLocalizationsSv extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Välj alla';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Välj ett datum';
+
+  @override
   String get series => r'Serier';
 
   @override
@@ -22873,10 +22941,7 @@ class SfLocalizationsSw extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Huanza Na';
@@ -23070,6 +23135,9 @@ class SfLocalizationsSw extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Chagua Zote';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Chagua tarehe';
+
+  @override
   String get series => r'Msururu';
 
   @override
@@ -23234,10 +23302,7 @@ class SfLocalizationsTa extends SfGlobalLocalizations {
   String get dhualhiLabel => r'து அல்-ஹிஜ்ஜா';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'உடன் தொடங்கவில்லை';
@@ -23428,6 +23493,9 @@ class SfLocalizationsTa extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'அனைத்தையும் தெரிவுசெய்';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'தேதியைத் தேர்ந்தெடுக்கவும்';
+
+  @override
   String get series => r'தொடர்';
 
   @override
@@ -23586,10 +23654,7 @@ class SfLocalizationsTe extends SfGlobalLocalizations {
   String get dhualhiLabel => r'ధు అల్-హిజ్జా';
 
   @override
-  String get dhualqiLabel =>
-      r'ధు అల్-కి'
-      "'"
-      r'దా';
+  String get dhualqiLabel => "ధు అల్-కి'దా";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'తో ప్రారంభం కాదు';
@@ -23777,6 +23842,9 @@ class SfLocalizationsTe extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'అన్ని ఎంచుకోండి';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'తేదీని ఎంచుకోండి';
 
   @override
   String get series => r'సిరీస్';
@@ -24124,6 +24192,9 @@ class SfLocalizationsTh extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'เลือกทั้งหมด';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'เลือกวันที่';
+
+  @override
   String get series => r'ชุด';
 
   @override
@@ -24280,10 +24351,7 @@ class SfLocalizationsTl extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Hindi Nagsisimula Sa';
@@ -24478,6 +24546,9 @@ class SfLocalizationsTl extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Piliin lahat';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Pumili ng petsa';
+
+  @override
   String get series => r'Serye';
 
   @override
@@ -24646,10 +24717,7 @@ class SfLocalizationsTr extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Zilhicce';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'İle Başlamıyor';
@@ -24698,7 +24766,7 @@ class SfLocalizationsTr extends SfGlobalLocalizations {
   String get muharramLabel => r'Muharrem';
 
   @override
-  String get noEventsCalendarLabel => r'Olay yok';
+  String get noEventsCalendarLabel => r'Etkinlik yok';
 
   @override
   String get noMatchesDataGridFilteringLabel => r'Eşleşme yok';
@@ -24845,6 +24913,9 @@ class SfLocalizationsTr extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Hepsini seç';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Bir tarih seçin';
+
+  @override
   String get series => r'Diziler';
 
   @override
@@ -24893,12 +24964,7 @@ class SfLocalizationsTr extends SfGlobalLocalizations {
   String get showRowsWhereDataGridFilteringLabel => r'satırları göster';
 
   @override
-  String get sortAToZDataGridFilteringLabel =>
-      r'A'
-      "'"
-      r'dan Z'
-      "'"
-      r'ye Sırala';
+  String get sortAToZDataGridFilteringLabel => "A'dan Z'ye Sırala";
 
   @override
   String get sortAndFilterDataGridFilteringLabel => r'Sırala ve Filtrele';
@@ -24920,12 +24986,7 @@ class SfLocalizationsTr extends SfGlobalLocalizations {
       r'Küçükten Büyüğe Sırala';
 
   @override
-  String get sortZToADataGridFilteringLabel =>
-      r'Z'
-      "'"
-      r'den A'
-      "'"
-      r'ya Sırala';
+  String get sortZToADataGridFilteringLabel => "Z'den A'ya Sırala";
 
   @override
   String get textFiltersDataGridFilteringLabel => r'Metin Filtreleri';
@@ -25195,6 +25256,9 @@ class SfLocalizationsUk extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Вибрати все';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Виберіть дату';
 
   @override
   String get series => r'Серія';
@@ -25548,6 +25612,9 @@ class SfLocalizationsUr extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'تمام منتخب کریں';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'تاریخ منتخب کریں';
+
+  @override
   String get series => r'سلسلہ';
 
   @override
@@ -25809,10 +25876,7 @@ class SfLocalizationsUz extends SfGlobalLocalizations {
   String get pdfEnterPageNumberLabel => r'Sahifa raqamini kiriting';
 
   @override
-  String get pdfGoToPageLabel =>
-      r'Sahifaga o'
-      "'"
-      r'tish';
+  String get pdfGoToPageLabel => "Sahifaga o'tish";
 
   @override
   String get pdfHyperlinkContentLabel => r'sahifani ochmoqchimisiz';
@@ -25908,6 +25972,9 @@ class SfLocalizationsUz extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Hammasini belgilash';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Sanani tanlang';
+
+  @override
   String get series => r'Seriya';
 
   @override
@@ -25957,9 +26024,7 @@ class SfLocalizationsUz extends SfGlobalLocalizations {
 
   @override
   String get showRowsWhereDataGridFilteringLabel =>
-      r'Qaerda qatorlarni ko'
-      "'"
-      r'rsatish';
+      "Qaerda qatorlarni ko'rsatish";
 
   @override
   String get sortAToZDataGridFilteringLabel => r'A dan Z gacha tartiblang';
@@ -26070,10 +26135,7 @@ class SfLocalizationsVi extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'không bắt đầu bằng';
@@ -26265,6 +26327,9 @@ class SfLocalizationsVi extends SfGlobalLocalizations {
   String get selectAllDataGridFilteringLabel => r'Chọn tất cả';
 
   @override
+  String get selectADateDataGridFilteringLabel => r'Chọn ngày';
+
+  @override
   String get series => r'Loạt';
 
   @override
@@ -26429,10 +26494,7 @@ class SfLocalizationsZh extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'不以开头';
@@ -26616,6 +26678,9 @@ class SfLocalizationsZh extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'全选';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'選擇日期';
 
   @override
   String get series => r'系列';
@@ -27033,10 +27098,7 @@ class SfLocalizationsZu extends SfGlobalLocalizations {
   String get dhualhiLabel => r'Dhu al-Hijjah';
 
   @override
-  String get dhualqiLabel =>
-      r'Dhu al-Qi'
-      "'"
-      r'dah';
+  String get dhualqiLabel => "Dhu al-Qi'dah";
 
   @override
   String get doesNotBeginWithDataGridFilteringLabel => r'Ayiqali Nge';
@@ -27229,6 +27291,9 @@ class SfLocalizationsZu extends SfGlobalLocalizations {
 
   @override
   String get selectAllDataGridFilteringLabel => r'Khetha konke';
+
+  @override
+  String get selectADateDataGridFilteringLabel => r'Khetha usuku';
 
   @override
   String get series => r'Uchungechunge';

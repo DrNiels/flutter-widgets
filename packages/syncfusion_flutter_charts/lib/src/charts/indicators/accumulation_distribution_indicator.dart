@@ -142,15 +142,15 @@ class ADIndicatorWidget extends IndicatorWidget {
 
   /// Create the ADIndicatorRenderer renderer.
   @override
-  ADIndicatorRenderer createRenderer() {
+  ADIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return ADIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final ADIndicatorRenderer renderer =
+    final ADIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as ADIndicatorRenderer;
-    final AccumulationDistributionIndicator adi =
+    final AccumulationDistributionIndicator<dynamic, dynamic> adi =
         indicator as AccumulationDistributionIndicator;
 
     renderer
@@ -164,10 +164,10 @@ class ADIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    ADIndicatorRenderer renderObject,
+    ADIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final AccumulationDistributionIndicator adi =
+    final AccumulationDistributionIndicator<dynamic, dynamic> adi =
         indicator as AccumulationDistributionIndicator;
 
     renderObject

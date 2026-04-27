@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Välj alla", 
 "sortAndFilterDataGridFilteringLabel" : "Sortera och filtrera", 
 "clearFilterDataGridFilteringLabel" : "Rensa filtret", 
-"fromDataGridFilteringLabel" : "Från"
+"fromDataGridFilteringLabel" : "Från",
+"selectADateDataGridFilteringLabel": "Välj ett datum"
 }

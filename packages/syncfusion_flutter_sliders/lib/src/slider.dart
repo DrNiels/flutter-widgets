@@ -2384,38 +2384,68 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
     Offset actualTrackOffset,
     Rect trackRect,
   ) {
-    if (willDrawTooltip || shouldAlwaysShowTooltip) {
-      final Paint paint = Paint()
-        ..color = sliderThemeData.tooltipBackgroundColor!
-        ..style = PaintingStyle.fill
-        ..strokeWidth = 0;
-
-      final dynamic actualText = sliderType == SliderType.horizontal
-          ? getValueFromPosition(thumbCenter.dx - offset.dx)
-          : getValueFromPosition(trackRect.bottom - thumbCenter.dy);
-      final String tooltipText = tooltipTextFormatterCallback(
-        actualText,
-        getFormattedText(actualText),
-      );
-      final TextSpan textSpan = TextSpan(
-        text: tooltipText,
-        style: sliderThemeData.tooltipTextStyle,
-      );
-      textPainter.text = textSpan;
-      textPainter.layout();
-
-      tooltipShape.paint(
-        context,
-        thumbCenter,
-        Offset(actualTrackOffset.dx, tooltipStartY),
-        textPainter,
-        parentBox: this,
-        sliderThemeData: sliderThemeData,
-        paint: paint,
-        animation: _tooltipAnimation,
-        trackRect: trackRect,
-      );
+    if (!(willDrawTooltip || shouldAlwaysShowTooltip)) {
+      return;
     }
+
+    // clamp thumb center to trackRect so tooltip body stays at the edge if dragged out
+    Offset clampedThumbCenter = thumbCenter;
+    double positionForValue;
+
+    switch (sliderType) {
+      case SliderType.horizontal:
+        final double clampedDx = thumbCenter.dx.clamp(
+          trackRect.left,
+          trackRect.right,
+        );
+        clampedThumbCenter = Offset(clampedDx, thumbCenter.dy);
+        // position expected by getValueFromPosition uses local x (thumbCenter.dx - offset.dx).
+        positionForValue = clampedThumbCenter.dx - offset.dx;
+        break;
+      case SliderType.vertical:
+        final double clampedDy = thumbCenter.dy.clamp(
+          trackRect.top,
+          trackRect.bottom,
+        );
+        clampedThumbCenter = Offset(thumbCenter.dx, clampedDy);
+        // vertical uses trackRect.bottom - y.
+        positionForValue = trackRect.bottom - clampedThumbCenter.dy;
+        break;
+      case null:
+        clampedThumbCenter = thumbCenter;
+        positionForValue = clampedThumbCenter.dx - offset.dx;
+        break;
+    }
+
+    final dynamic actualText = getValueFromPosition(positionForValue);
+
+    final Paint paint = Paint()
+      ..color = sliderThemeData.tooltipBackgroundColor!
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 0;
+
+    final String tooltipText = tooltipTextFormatterCallback(
+      actualText,
+      getFormattedText(actualText),
+    );
+
+    textPainter.text = TextSpan(
+      text: tooltipText,
+      style: sliderThemeData.tooltipTextStyle,
+    );
+    textPainter.layout();
+
+    tooltipShape.paint(
+      context,
+      clampedThumbCenter,
+      Offset(actualTrackOffset.dx, tooltipStartY),
+      textPainter,
+      parentBox: this,
+      sliderThemeData: sliderThemeData,
+      paint: paint,
+      animation: _tooltipAnimation,
+      trackRect: trackRect,
+    );
   }
 
   @override

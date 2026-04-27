@@ -15,6 +15,11 @@ target_include_directories(pdfium_wrapper PRIVATE
     ${CMAKE_SOURCE_DIR}/src/main/cpp/pdfium/include
 )
 
+target_link_options(pdfium_wrapper PRIVATE
+    -Wl,-z,common-page-size=4096
+    -Wl,-z,max-page-size=16384
+)
+
 target_link_libraries(
     pdfium_wrapper
     pdfium

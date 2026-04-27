@@ -1,5 +1,151 @@
 ## Unreleased
 
+* Now, SfPdfViewer prerenders nearby pages to reduce loading delays when scrolling.
+
+## [32.2.3] - 02/05/2026
+
+* No changes.
+
+## [32.1.25] - 01/27/2026
+
+**Bugs**
+
+* Now, the `onAnnotationEdited` callback will be triggered when text is added to a newly created sticky note annotation from the UI on desktop platforms.
+
+* Now, the `SfPdfViewer` widget will no longer freeze the UI when opening large password-protected PDFs.
+
+## [32.1.24] - 01/20/2026
+
+* No changes.
+
+## [32.1.23] - 01/13/2026
+
+* No changes.
+
+## [32.1.22] - 01/06/2026
+
+* No changes.
+
+## [32.1.21] - 12/30/2025
+
+**Bugs**
+
+* Now, the `SfPdfViewer` widget will no longer crash with an out-of-memory error when loading large PDF documents on iPhone 16.
+
+## [32.1.20] - 12/23/2025
+
+**Bugs**
+
+* Now, the `SfPdfViewer` widget renders pages correctly when using the `syncfusion_pdfviewer_android` package on lower-end Android devices.
+
+## [32.1.19] - 12/16/2025
+
+* No changes.
+
+## [31.2.18] - 12/09/2025
+
+* No changes.
+
+## [31.2.16] - 12/02/2025
+
+* No changes.
+
+## [31.2.15] - 11/25/2025
+
+**General**
+
+* The compatible version of our Flutter PDF Viewer widget has been updated to Flutter SDK 3.38.
+
+## [31.2.12] - 11/18/2025
+
+* No changes.
+
+## [31.2.10] - 11/12/2025
+
+* No changes.
+
+## [31.2.5] - 11/04/2025
+
+**Bugs**
+
+* Now, in the `SfPdfViewer` widget, exceptions that occur while switching PDF documents are handled through the `onDocumentLoadFailed` callback.
+
+## [31.2.4] - 10/28/2025
+
+* No changes.
+
+## [31.2.3] - 10/22/2025
+
+**Bugs**
+
+* Now, in the `SfPdfViewer` widget, sticky note annotations can be added and selected using a stylus on Android devices.
+
+**General**
+
+* Updated the Android configuration to support Google Play's 16KB memory page size requirement.
+
+## [31.2.2] - 10/15/2025
+
+**Features**
+
+* Improved document loading performance across all platforms: 39% on Windows, 35% on Android, 23% on Web platform, 19% on macOS, 34% on iOS and 45% on Linux.
+
+**General**
+
+* Updated the Android `compileSdkVersion` to 36.
+
+## [31.1.23] - 10/07/2025
+
+* No changes.
+
+## [31.1.22] - 10/01/2025
+
+**General**
+
+* Upgraded the [`device_info_plus`](https://pub.dev/packages/device_info_plus) package to the latest version `12.1.0`.
+
+## [31.1.21] - 09/23/2025
+
+* No changes.
+
+## [31.1.20] - 09/17/2025
+
+**General**
+
+* The compatible version of our Flutter PDF Viewer widget has been updated to Flutter SDK 3.35.0.
+
+**Bugs**
+
+* Now, in the `SfPdfViewer` widget, hyperlink and document link navigation are restricted while in annotation modes.
+
+## [31.1.19] - 09/12/2025
+
+* No changes.
+
+## [31.1.18] - 09/10/2025
+
+**Breaking changes**
+
+* Now, in the `SfPdfViewer` widget, the [page number](https://pub.dev/documentation/syncfusion_flutter_pdfviewer/latest/pdfviewer/PdfViewerController/pageNumber.html) API is updated when the page crosses the center of the viewport instead of the top of the viewport.
+
+## [31.1.17] - 09/05/2025
+
+* No changes.
+
+## [30.2.40] - 08/07/2025
+
+**Features**
+
+* Added support for free space text selection in the `SfPdfViewer` widget, allowing users to extend text selection by dragging over non-text regions within a PDF page.
+
+## [30.1.40] - 07/15/2025
+
+**Bugs**
+
+* Now, the `SfPdfViewer` widget will not be disposed when a valid page number is entered in the page navigation dialog, provided it is wrapped in a nested navigator.
+
+## [30.1.37] - 06/25/2025
+
 **General**
 
 * The compatible version of our Flutter PDF Viewer widget has been updated to Flutter SDK 3.32.0.
@@ -7,6 +153,9 @@
 **Features**
 
 * Linux platform support has been provided.
+
+## [29.2.10] - 06/10/2025
+
 * Added support for rendering pages using the open-source PDFium library through an optional package (`syncfusion_pdfviewer_android`).
 
 **Bugs**

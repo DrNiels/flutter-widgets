@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Chọn tất cả", 
 "sortAndFilterDataGridFilteringLabel" : "Sắp xếp và lọc", 
 "clearFilterDataGridFilteringLabel" : "LÀm sạch bộ lọc", 
-"fromDataGridFilteringLabel" : "Từ"
+"fromDataGridFilteringLabel" : "Từ",
+"selectADateDataGridFilteringLabel": "Chọn ngày"
 }

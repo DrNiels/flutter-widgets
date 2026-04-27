@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "ເລືອກ​ທັງ​ຫມົດ", 
 "sortAndFilterDataGridFilteringLabel" : "ຄັດແລະການກັ່ນຕອງ", 
 "clearFilterDataGridFilteringLabel" : "ລ້າງການກັ່ນຕອງ", 
-"fromDataGridFilteringLabel" : "ຈາກ"
+"fromDataGridFilteringLabel" : "ຈາກ",
+"selectADateDataGridFilteringLabel": "ເລືອກວັນທີ"
 }

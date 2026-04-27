@@ -72,7 +72,9 @@ class RenderChartFadeTransition extends RenderAnimatedOpacity {
     (child as RenderChartElementStack?)?.handleMultiSeriesDataLabelCollisions();
   }
 
-  void handleDataLabelCollision(CartesianSeriesRenderer series) {
+  void handleDataLabelCollision(
+    CartesianSeriesRenderer<dynamic, dynamic> series,
+  ) {
     (child as RenderChartElementStack?)?.handleDataLabelCollision(series);
   }
 }
@@ -160,7 +162,9 @@ class RenderChartElementLayoutBuilder<T, D> extends RenderBox
         ?.handleMultiSeriesDataLabelCollisions();
   }
 
-  void handleDataLabelCollision(CartesianSeriesRenderer series) {
+  void handleDataLabelCollision(
+    CartesianSeriesRenderer<dynamic, dynamic> series,
+  ) {
     (child as RenderChartFadeTransition?)?.handleDataLabelCollision(series);
   }
 
@@ -223,7 +227,9 @@ class RenderChartElementStack extends RenderBox
 
   // To handle multiple series data collision, we need to check the data label
   // collision for all the series after data label layout.
-  void handleDataLabelCollision(CartesianSeriesRenderer series) {}
+  void handleDataLabelCollision(
+    CartesianSeriesRenderer<dynamic, dynamic> series,
+  ) {}
 }
 
 abstract class CustomConstrainedLayoutBuilder<

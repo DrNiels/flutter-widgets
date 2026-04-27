@@ -1527,6 +1527,12 @@ class ColumnResizeController {
   /// [SystemMouseCursors.resizeColumn] or not.
   bool canSwitchResizeColumnCursor = false;
 
+  /// Notifies listeners when [canSwitchResizeColumnCursor] and [isResizeIndicatorVisible] changes.
+  /// This is used to trigger rebuilds in UI elements (like feedback widgets)
+  final ValueNotifier<bool> canSwitchResizeColumnCursorNotifier = ValueNotifier(
+    true,
+  );
+
   /// Determines whether the resizing indicator is enable or not.
   bool isResizeIndicatorVisible = false;
 
@@ -1907,19 +1913,21 @@ class ColumnResizeController {
     }
   }
 
-  /// Resolves the point of the current local position to get the visibleLine.
+  /// Resolves the point of the current global position to get the visibleLine.
   double getXPosition(
     DataGridConfiguration dataGridConfiguration,
-    double localPosition,
+    double globalPosition,
   ) {
-    final ScrollController scrollController =
-        dataGridConfiguration.horizontalScrollController!;
-    if (dataGridConfiguration.textDirection == TextDirection.ltr) {
-      return localPosition - scrollController.offset;
-    } else {
-      return localPosition -
-          (scrollController.position.maxScrollExtent - scrollController.offset);
-    }
+    // Convert global pointer to the DataGrid's local coordinate space.
+    final RenderBox box =
+        dataGridConfiguration.dataGridKey.currentContext!.findRenderObject()!
+            as RenderBox;
+    final Offset localPosition = box.globalToLocal(Offset(globalPosition, 0));
+
+    /// Removed the previous logic (localPosition.dx - scrollController.offset).
+    /// Since we now use globalToLocal, we directly obtain the correct
+    /// position for both LTR and RTL layouts.
+    return localPosition.dx;
   }
 
   /// Sets the current tapped data cell to the column resizing cell.
@@ -2015,7 +2023,7 @@ class ColumnResizeController {
         }
 
         final VisibleLineInfo? resizingLine = _getHitTestResult(
-          event.localPosition.dx,
+          event.position.dx,
           isPressed: true,
         );
 
@@ -2114,17 +2122,17 @@ class ColumnResizeController {
 
   /// Handles the pointer enter event for the column resizing.
   void onPointerEnter(PointerEnterEvent event, DataRowBase dataRow) {
-    _ensureCursorVisibility(event.localPosition, dataRow);
+    _ensureCursorVisibility(event.position, dataRow);
   }
 
   /// Handles the pointer hover event for the column resizing.
   void onPointerHover(PointerHoverEvent event, DataRowBase dataRow) {
-    _ensureCursorVisibility(event.localPosition, dataRow);
+    _ensureCursorVisibility(event.position, dataRow);
   }
 
   /// Handles the pointer exit event for the column resizing.
   void onPointerExit(PointerExitEvent event, DataRowBase dataRow) {
-    _ensureCursorVisibility(event.localPosition, dataRow);
+    _ensureCursorVisibility(event.position, dataRow);
   }
 
   /// Activates the column resizing in mobile platform by long press.
@@ -2134,13 +2142,17 @@ class ColumnResizeController {
         !dataGridConfiguration.isDesktop) {
       if (_isHeaderRow(dataRow)) {
         final VisibleLineInfo? resizingLine = _getHitTestResult(
-          details.localPosition.dx,
+          details.globalPosition.dx,
           isPressed: true,
           canAllowBuffer: false,
         );
 
         if (resizingLine != null && isResizeIndicatorVisible) {
           _isLongPressEnabled = true;
+          if (dataGridConfiguration.columnDragAndDropController
+              .canAllowColumnDragAndDrop()) {
+            canSwitchResizeColumnCursorNotifier.value = true;
+          }
           // Rebuild to enable the resizing indicator.
           _rebuild();
         }
@@ -2148,7 +2160,7 @@ class ColumnResizeController {
     }
   }
 
-  void _ensureCursorVisibility(Offset localPosition, DataRowBase dataRow) {
+  void _ensureCursorVisibility(Offset globalPosition, DataRowBase dataRow) {
     // To skip updating the cursor visibility when a column is resizing.
     if (isResizing) {
       return;
@@ -2159,16 +2171,34 @@ class ColumnResizeController {
       return;
     }
 
-    canSwitchResizeColumnCursor = _getHitTestResult(localPosition.dx) != null;
-
     final DataGridConfiguration dataGridConfiguration = dataGridStateDetails();
+
+    // Suppress resize cursor/indicator while column drag-and-drop is active.
+    final columnDragAndDrop = dataGridConfiguration.columnDragAndDropController;
+    final bool isDraggingColumn =
+        (columnDragAndDrop.allowColumnDrag) ||
+        (columnDragAndDrop.dragColumnStartIndex != null) ||
+        (columnDragAndDrop.isHoverDisabled);
+    if (isDraggingColumn) {
+      if (canSwitchResizeColumnCursor) {
+        canSwitchResizeColumnCursor = false;
+      }
+      if (isResizeIndicatorVisible) {
+        isResizeIndicatorVisible = false;
+      }
+      if (canSwitchResizeColumnCursorNotifier.value) {
+        canSwitchResizeColumnCursorNotifier.value = false;
+      }
+      return;
+    }
+
+    canSwitchResizeColumnCursor = _getHitTestResult(globalPosition.dx) != null;
+
     if (canSwitchResizeColumnCursor &&
         dataGridConfiguration.columnDragAndDropController
             .canAllowColumnDragAndDrop()) {
-      notifyDataGridPropertyChangeListeners(
-        dataGridConfiguration.source,
-        propertyName: 'columnDragAndDrop',
-      );
+      // Notify the feedback widget to initiate a rebuild.
+      canSwitchResizeColumnCursorNotifier.value = canSwitchResizeColumnCursor;
     }
   }
 
@@ -3839,6 +3869,12 @@ class ColumnDragAndDropController {
   void onPointerUp(PointerUpEvent event) {
     final DataGridConfiguration dataGridConfiguration = dataGridStateDetails();
     disableScrolling = true;
+
+    // Returns early as drag-and-drop was not in progress when the pointer was released.
+    if (!allowColumnDrag && dragColumnStartIndex == null) {
+      return;
+    }
+
     if (allowColumnDrag &&
         scrollOrigin != null &&
         event.position.dy >= scrollOrigin!.dy) {

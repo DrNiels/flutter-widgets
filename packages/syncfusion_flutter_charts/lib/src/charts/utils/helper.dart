@@ -32,7 +32,7 @@ import '../utils/enum.dart';
 import 'constants.dart';
 
 // A circular array for dash offsets and lengths.
-class _IntervalList<double> {
+class _IntervalList {
   _IntervalList(this.dashArray);
 
   final List<double> dashArray;
@@ -198,6 +198,12 @@ int findIndex(num target, List<num> values, {int start = 0, int? end}) {
   }
 
   end ??= values.length - 1;
+  if (values[start] == target) {
+    return start;
+  }
+  if (values[end] == target) {
+    return end;
+  }
   int mid = -1;
   while (start <= end!) {
     mid = start + ((end - start) ~/ 2);
@@ -309,14 +315,14 @@ void drawDashes(
 
     paint.isAntiAlias = false;
     canvas.drawPath(
-      _dashPath(path, dashArray: _IntervalList<double>(dashArray!))!,
+      _dashPath(path, dashArray: _IntervalList(dashArray!))!,
       paint,
     );
   }
 }
 
 /// To calculate dash array path for series.
-Path? _dashPath(Path? source, {required _IntervalList<double> dashArray}) {
+Path? _dashPath(Path? source, {required _IntervalList dashArray}) {
   if (source == null) {
     return null;
   }
@@ -2304,7 +2310,7 @@ Widget buildLegendItem(
   core.LegendItem legendItem,
   Legend legend,
 ) {
-  ChartPoint point;
+  ChartPoint<dynamic> point;
   if (legendItem.series != null) {
     final int length = legendItem.series!.chartPoints.length;
     final int pointIndex = legendItem.pointIndex;
@@ -2473,7 +2479,7 @@ String _labelValue(
   NumberFormat? numberFormat,
   String? labelFormat,
 ) {
-  final List pieces = value.toString().split('.');
+  final List<String> pieces = value.toString().split('.');
   if (pieces.length > 1) {
     value = double.parse(value.toStringAsFixed(showDigits));
     final String decimals = pieces[1];
@@ -2498,7 +2504,7 @@ String _labelValue(
 }
 
 RRect performLegendToggleAnimation(
-  SbsSeriesMixin series,
+  SbsSeriesMixin<dynamic, dynamic> series,
   RRect segmentRect,
   RRect oldSegmentRect,
   BorderRadius borderRadius,
@@ -2518,9 +2524,9 @@ RRect performLegendToggleAnimation(
   }
 
   final RenderCartesianChartPlotArea plotArea = series.parent!;
-  final CartesianSeriesRenderer firstSeries =
+  final CartesianSeriesRenderer<dynamic, dynamic> firstSeries =
       plotArea.firstChild! as CartesianSeriesRenderer;
-  final CartesianSeriesRenderer lastSeries =
+  final CartesianSeriesRenderer<dynamic, dynamic> lastSeries =
       plotArea.lastChild! as CartesianSeriesRenderer;
 
   final bool isSingleBarSeries = _isSingleBarSeries(plotArea);
@@ -2585,7 +2591,7 @@ RRect performLegendToggleAnimation(
 }
 
 RRect performTransposedLegendToggleAnimation(
-  SbsSeriesMixin series,
+  SbsSeriesMixin<dynamic, dynamic> series,
   RRect segmentRect,
   RRect oldSegmentRect,
   bool oldSeriesVisible,
@@ -2593,9 +2599,9 @@ RRect performTransposedLegendToggleAnimation(
   BorderRadius borderRadius,
 ) {
   final RenderCartesianChartPlotArea plotArea = series.parent!;
-  final CartesianSeriesRenderer firstSeries =
+  final CartesianSeriesRenderer<dynamic, dynamic> firstSeries =
       plotArea.firstChild! as CartesianSeriesRenderer;
-  final CartesianSeriesRenderer lastSeries =
+  final CartesianSeriesRenderer<dynamic, dynamic> lastSeries =
       plotArea.lastChild! as CartesianSeriesRenderer;
 
   final bool isSingleBarSeries = _isSingleBarSeries(plotArea);

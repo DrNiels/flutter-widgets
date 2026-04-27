@@ -950,7 +950,7 @@ class QRCodeValue {
       case ' ':
         valueInInt = 36;
         break;
-      case '\$':
+      case r'$':
         valueInInt = 37;
         break;
       case '%':

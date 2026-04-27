@@ -1150,7 +1150,7 @@ class RenderDateTimeCategoryAxis extends RenderChartAxis {
     for (final AxisDependent dependent in dependents) {
       if (dependent is CartesianSeriesRenderer &&
           dependent.controller.isVisible) {
-        final List xRawValues = dependent.xRawValues;
+        final List<dynamic> xRawValues = dependent.xRawValues;
         final int length = xRawValues.length;
         if (length > 0) {
           const int minValue = 0;

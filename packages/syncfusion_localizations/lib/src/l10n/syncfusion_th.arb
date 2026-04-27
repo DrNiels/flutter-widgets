@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "เลือกทั้งหมด", 
 "sortAndFilterDataGridFilteringLabel" : "จัดเรียงและกรอง", 
 "clearFilterDataGridFilteringLabel" : "ล้างตัวกรอง", 
-"fromDataGridFilteringLabel" : "จาก"
+"fromDataGridFilteringLabel" : "จาก",
+"selectADateDataGridFilteringLabel": "เลือกวันที่"
 }

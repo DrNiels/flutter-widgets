@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Vybrať všetko", 
 "sortAndFilterDataGridFilteringLabel" : "Triediť a filtrovať", 
 "clearFilterDataGridFilteringLabel" : "Vymazať filter", 
-"fromDataGridFilteringLabel" : "Od"
+"fromDataGridFilteringLabel" : "Od",
+"selectADateDataGridFilteringLabel": "Vyberte dátum"
 }

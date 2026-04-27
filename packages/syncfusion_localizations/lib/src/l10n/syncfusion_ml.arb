@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "എല്ലാം തിരഞ്ഞെടുക്കുക", 
 "sortAndFilterDataGridFilteringLabel" : "അടുക്കി ഫിൽട്ടർ ചെയ്യുക", 
 "clearFilterDataGridFilteringLabel" : "ഫിൽട്ടർ മായ്‌ക്കുക", 
-"fromDataGridFilteringLabel" : "നിന്ന്"
+"fromDataGridFilteringLabel" : "നിന്ന്",
+"selectADateDataGridFilteringLabel": "തീയതി തിരഞ്ഞെടുക്കുക"
 }

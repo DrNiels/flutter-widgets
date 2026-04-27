@@ -916,7 +916,7 @@ class RenderMarkerPointer extends RenderBox {
       markerHeight / 2,
     );
     if (_image != null) {
-      canvas.drawImageNine(_image!, rect, rect, paint);
+      paintImage(canvas: canvas, rect: rect, image: _image!);
     }
   }
 

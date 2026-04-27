@@ -444,7 +444,7 @@ class PieSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
   }
 
   /// To find data label position.
-  void _findDataLabelPosition(CircularChartPoint point) {
+  void _findDataLabelPosition(CircularChartPoint<dynamic> point) {
     point.midAngle =
         point.midAngle! > 360 ? point.midAngle! - 360 : point.midAngle!;
     point.dataLabelPosition =

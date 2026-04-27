@@ -3377,6 +3377,7 @@ abstract class RenderChartAxis extends RenderBox with ChartAreaUpdateMixin {
       translateX: paddingFromSize(plotBand.horizontalTextPadding, bounds.width),
       translateY: paddingFromSize(plotBand.verticalTextPadding, bounds.height),
       shouldRenderAboveSeries: plotBand.shouldRenderAboveSeries,
+      plotBand: plotBand,
     );
     visiblePlotBands!.add(plotBandDetails);
   }
@@ -4171,6 +4172,7 @@ class AxisPlotBand {
     required this.translateX,
     required this.translateY,
     required this.shouldRenderAboveSeries,
+    required this.plotBand,
   });
 
   final Rect bounds;
@@ -4188,6 +4190,7 @@ class AxisPlotBand {
   final double translateX;
   final double translateY;
   final bool shouldRenderAboveSeries;
+  final PlotBand plotBand;
 }
 
 abstract class _PlotBandRenderer {
@@ -4222,43 +4225,44 @@ abstract class _PlotBandRenderer {
     offset += plotAreaOffset;
     context.canvas.save();
     context.canvas.clipRect(axis.parent!.plotAreaBounds);
-    for (final AxisPlotBand plotBand in axis.visiblePlotBands!) {
-      if (shouldRenderAboveSeries == plotBand.shouldRenderAboveSeries) {
-        final Rect bounds = plotBand.bounds.translate(offset.dx, offset.dy);
-        final Paint paint = Paint();
-        if (plotBand.gradient != null) {
-          paint.shader = plotBand.gradient!.createShader(bounds);
+    final List<AxisPlotBand> visiblePlotBands = axis.visiblePlotBands!;
+    for (final AxisPlotBand axisPlotBand in visiblePlotBands) {
+      if (shouldRenderAboveSeries == axisPlotBand.shouldRenderAboveSeries) {
+        final Rect bounds = axisPlotBand.bounds.translate(offset.dx, offset.dy);
+        final Paint fillPaint = Paint();
+        if (axisPlotBand.gradient != null) {
+          fillPaint.shader = axisPlotBand.gradient!.createShader(bounds);
         } else {
-          if (plotBand.opacity < 1.0) {
-            paint.color = plotBand.color.withValues(alpha: plotBand.opacity);
+          if (axisPlotBand.opacity < 1.0) {
+            fillPaint.color = axisPlotBand.color.withValues(
+              alpha: axisPlotBand.opacity,
+            );
           } else {
-            paint.color = plotBand.color;
+            fillPaint.color = axisPlotBand.color;
           }
         }
 
-        if (paint.color != Colors.transparent && bounds.width != 0.0) {
-          context.canvas.drawRect(bounds, paint);
+        final Paint strokePaint = Paint();
+        if (axisPlotBand.borderWidth > 0 &&
+            axisPlotBand.borderColor != Colors.transparent) {
+          strokePaint
+            ..color =
+                axisPlotBand.opacity < 1.0
+                    ? axisPlotBand.borderColor.withValues(
+                      alpha: axisPlotBand.opacity,
+                    )
+                    : axisPlotBand.borderColor
+            ..strokeWidth = axisPlotBand.borderWidth
+            ..style = PaintingStyle.stroke;
         }
 
-        if (plotBand.borderWidth > 0 &&
-            plotBand.borderColor != Colors.transparent) {
-          paint
-            ..color =
-                plotBand.opacity < 1.0
-                    ? plotBand.borderColor.withValues(alpha: plotBand.opacity)
-                    : plotBand.borderColor
-            ..strokeWidth = plotBand.borderWidth
-            ..style = PaintingStyle.stroke;
-          final Path path =
-              Path()
-                ..moveTo(bounds.left, bounds.top)
-                ..lineTo(bounds.left + bounds.width, bounds.top)
-                ..lineTo(bounds.left + bounds.width, bounds.top + bounds.height)
-                ..lineTo(bounds.left, bounds.top + bounds.height)
-                ..close();
-          drawDashes(context.canvas, plotBand.dashArray, paint, path: path);
-        }
-        _drawText(context, bounds, plotBand);
+        axisPlotBand.plotBand.drawRect(
+          context.canvas,
+          bounds,
+          fillPaint,
+          strokePaint,
+        );
+        _drawText(context, bounds, axisPlotBand);
       }
     }
     context.canvas.restore();
@@ -4312,37 +4316,35 @@ class _HorizontalPlotBandRenderer extends _PlotBandRenderer {
   _HorizontalPlotBandRenderer(RenderChartAxis axis) : super(axis);
 
   @override
-  void _drawText(PaintingContext context, Rect bounds, AxisPlotBand plotBand) {
-    if (plotBand.text.isNotEmpty) {
-      TextStyle style = plotBand.textStyle;
-      if (plotBand.opacity < 1.0) {
+  void _drawText(
+    PaintingContext context,
+    Rect bounds,
+    AxisPlotBand axisPlotBand,
+  ) {
+    if (axisPlotBand.text.isNotEmpty) {
+      TextStyle style = axisPlotBand.textStyle;
+      if (axisPlotBand.opacity < 1.0) {
         style = style.copyWith(
-          color: style.color?.withValues(alpha: plotBand.opacity),
+          color: style.color?.withValues(alpha: axisPlotBand.opacity),
         );
       }
-      final TextSpan span = TextSpan(text: plotBand.text, style: style);
+      final TextSpan span = TextSpan(text: axisPlotBand.text, style: style);
       _textPainter
         ..text = span
         ..textAlign = TextAlign.center
         ..textDirection = TextDirection.ltr
         ..layout();
       final Offset position = _textPosition(
-        plotBand,
+        axisPlotBand,
         bounds,
         _textPainter.size,
       );
-      if (plotBand.textAngle == 0) {
-        _textPainter.paint(context.canvas, position);
-      } else {
-        final double halfWidth = _textPainter.width / 2;
-        final double halfHeight = _textPainter.height / 2;
-        context.canvas
-          ..save()
-          ..translate(position.dx + halfWidth, position.dy + halfHeight)
-          ..rotate(degreeToRadian(plotBand.textAngle));
-        _textPainter.paint(context.canvas, Offset(-halfWidth, -halfHeight));
-        context.canvas.restore();
-      }
+      axisPlotBand.plotBand.drawText(
+        context.canvas,
+        position,
+        style,
+        axisPlotBand.textAngle,
+      );
     }
   }
 }
@@ -4351,37 +4353,35 @@ class _VerticalPlotBandRenderer extends _PlotBandRenderer {
   _VerticalPlotBandRenderer(RenderChartAxis axis) : super(axis);
 
   @override
-  void _drawText(PaintingContext context, Rect bounds, AxisPlotBand plotBand) {
-    if (plotBand.text.isNotEmpty) {
-      TextStyle style = plotBand.textStyle;
-      if (plotBand.opacity < 1.0) {
+  void _drawText(
+    PaintingContext context,
+    Rect bounds,
+    AxisPlotBand axisPlotBand,
+  ) {
+    if (axisPlotBand.text.isNotEmpty) {
+      TextStyle style = axisPlotBand.textStyle;
+      if (axisPlotBand.opacity < 1.0) {
         style = style.copyWith(
-          color: style.color?.withValues(alpha: plotBand.opacity),
+          color: style.color?.withValues(alpha: axisPlotBand.opacity),
         );
       }
-      final TextSpan span = TextSpan(text: plotBand.text, style: style);
+      final TextSpan span = TextSpan(text: axisPlotBand.text, style: style);
       _textPainter
         ..text = span
         ..textAlign = TextAlign.center
         ..textDirection = TextDirection.ltr
         ..layout();
       final Offset position = _textPosition(
-        plotBand,
+        axisPlotBand,
         bounds,
         _textPainter.size,
       );
-      if (plotBand.textAngle == 0) {
-        _textPainter.paint(context.canvas, position);
-      } else {
-        final double halfWidth = _textPainter.width / 2;
-        final double halfHeight = _textPainter.height / 2;
-        context.canvas
-          ..save()
-          ..translate(position.dx + halfWidth, position.dy + halfHeight)
-          ..rotate(degreeToRadian(plotBand.textAngle));
-        _textPainter.paint(context.canvas, Offset(-halfWidth, -halfHeight));
-        context.canvas.restore();
-      }
+      axisPlotBand.plotBand.drawText(
+        context.canvas,
+        position,
+        style,
+        axisPlotBand.textAngle,
+      );
     }
   }
 }

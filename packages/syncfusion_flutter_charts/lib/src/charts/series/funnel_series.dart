@@ -1785,7 +1785,7 @@ class FunnelSeriesController<T, D> {
   ///     )
   /// );
   /// ```
-  PointInfo pixelToPoint(Offset position) {
+  PointInfo<dynamic> pixelToPoint(Offset position) {
     int pointIndex = -1;
     final List<ChartSegment> segments = seriesRenderer.segments;
     for (int i = 0; i < segments.length; i++) {

@@ -2000,7 +2000,7 @@ class CartesianAxes extends MultiChildRenderObjectWidget {
   final bool isTransposed;
   final ChartAxisLabelTapCallback? onAxisLabelTapped;
   final ChartActualRangeChangedCallback? onActualRangeChanged;
-  final List<TechnicalIndicator> indicators;
+  final List<TechnicalIndicator<dynamic, dynamic>> indicators;
   final SfChartThemeData chartThemeData;
 
   @override
@@ -2090,9 +2090,10 @@ class RenderCartesianAxes extends RenderBox
     }
   }
 
-  List<TechnicalIndicator> get indicators => _indicators;
-  List<TechnicalIndicator> _indicators = <TechnicalIndicator>[];
-  set indicators(List<TechnicalIndicator> value) {
+  List<TechnicalIndicator<dynamic, dynamic>> get indicators => _indicators;
+  List<TechnicalIndicator<dynamic, dynamic>> _indicators =
+      <TechnicalIndicator<dynamic, dynamic>>[];
+  set indicators(List<TechnicalIndicator<dynamic, dynamic>> value) {
     if (_indicators != value) {
       _indicators = value;
       markNeedsUpdate();
@@ -2696,7 +2697,7 @@ class IndicatorStack extends StatefulWidget {
   });
 
   final TickerProvider vsync;
-  final List<TechnicalIndicator> indicators;
+  final List<TechnicalIndicator<dynamic, dynamic>> indicators;
   final bool isTransposed;
   final ChartLegendTapCallback? onLegendTapped;
   final ChartLegendRenderCallback? onLegendItemRender;
@@ -2714,7 +2715,8 @@ class _IndicatorStackState extends State<IndicatorStack> {
     final int length = widget.indicators.length;
     for (int i = 0; i < length; i++) {
       late Widget current;
-      final TechnicalIndicator indicator = widget.indicators[i];
+      final TechnicalIndicator<dynamic, dynamic> indicator =
+          widget.indicators[i];
       switch (indicator.toString()) {
         case 'AD':
           current = ADIndicatorWidget(
@@ -2869,7 +2871,7 @@ class IndicatorArea extends MultiChildRenderObjectWidget {
     super.children,
   });
 
-  final List<TechnicalIndicator> indicators;
+  final List<TechnicalIndicator<dynamic, dynamic>> indicators;
   final TrackballBehavior? trackballBehavior;
   final TextDirection? textDirection;
 
@@ -2902,7 +2904,7 @@ class RenderIndicatorArea extends RenderBox
   RenderCartesianChartArea? chartArea;
   TrackballBehavior? trackballBehavior;
   late TextDirection? textDirection;
-  late List<TechnicalIndicator> indicators;
+  late List<TechnicalIndicator<dynamic, dynamic>> indicators;
   final Map<String?, AxisDependent> series = <String?, AxisDependent>{};
 
   @override

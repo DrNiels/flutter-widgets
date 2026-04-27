@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Mindet kiválaszt", 
 "sortAndFilterDataGridFilteringLabel" : "Rendezés és szűrés", 
 "clearFilterDataGridFilteringLabel" : "Szűrő törlése", 
-"fromDataGridFilteringLabel" : "Tól től"
+"fromDataGridFilteringLabel" : "Tól től",
+"selectADateDataGridFilteringLabel": "Válasszon dátumot"
 }

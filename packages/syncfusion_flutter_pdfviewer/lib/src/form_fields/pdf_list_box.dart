@@ -300,47 +300,51 @@ void _showListBoxDialog(
             return SizedBox(
               height: 56.0 * listBoxHelper.listBoxFormField._items.length,
               width: 348,
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemBuilder: (BuildContext context, int index) {
-                  return listBoxHelper.isMultiSelect
-                      ? CheckboxListTile(
-                        controlAffinity: ListTileControlAffinity.leading,
-                        title: Text(
-                          listBoxHelper.listBoxFormField._items[index],
-                        ),
-                        value: newItems.contains(
-                          listBoxHelper.listBoxFormField._items[index],
-                        ),
-                        shape:
-                            isMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                )
-                                : null,
-                        contentPadding: isMaterial3 ? EdgeInsets.zero : null,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            if (value != null) {
-                              if (value) {
-                                newItems.add(
-                                  listBoxHelper.listBoxFormField._items[index],
-                                );
-                              } else {
-                                newItems.remove(
-                                  listBoxHelper.listBoxFormField._items[index],
-                                );
-                              }
-                            }
-                          });
+              child:
+                  listBoxHelper.isMultiSelect
+                      ? ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CheckboxListTile(
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(
+                              listBoxHelper.listBoxFormField._items[index],
+                            ),
+                            value: newItems.contains(
+                              listBoxHelper.listBoxFormField._items[index],
+                            ),
+                            shape:
+                                isMaterial3
+                                    ? RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    )
+                                    : null,
+                            contentPadding:
+                                isMaterial3 ? EdgeInsets.zero : null,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                if (value != null) {
+                                  if (value) {
+                                    newItems.add(
+                                      listBoxHelper
+                                          .listBoxFormField
+                                          ._items[index],
+                                    );
+                                  } else {
+                                    newItems.remove(
+                                      listBoxHelper
+                                          .listBoxFormField
+                                          ._items[index],
+                                    );
+                                  }
+                                }
+                              });
+                            },
+                          );
                         },
+                        itemCount: listBoxHelper.listBoxFormField._items.length,
                       )
-                      : RadioListTile<String>(
-                        controlAffinity: ListTileControlAffinity.leading,
-                        title: Text(
-                          listBoxHelper.listBoxFormField._items[index],
-                        ),
-                        value: listBoxHelper.listBoxFormField._items[index],
+                      : RadioGroup<String>(
                         groupValue: newItems.isEmpty ? null : newItems.first,
                         onChanged: (String? value) {
                           setState(() {
@@ -349,10 +353,22 @@ void _showListBoxDialog(
                             }
                           });
                         },
-                      );
-                },
-                itemCount: listBoxHelper.listBoxFormField._items.length,
-              ),
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (BuildContext context, int index) {
+                            return RadioListTile<String>(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text(
+                                listBoxHelper.listBoxFormField._items[index],
+                              ),
+                              value:
+                                  listBoxHelper.listBoxFormField._items[index],
+                            );
+                          },
+                          itemCount:
+                              listBoxHelper.listBoxFormField._items.length,
+                        ),
+                      ),
             );
           },
         ),

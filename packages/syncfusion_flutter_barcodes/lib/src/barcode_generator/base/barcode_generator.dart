@@ -373,12 +373,12 @@ class _SfBarcodeGeneratorState extends State<SfBarcodeGenerator> {
     return Container(
       color: widget.backgroundColor ?? _barcodeThemeData.backgroundColor,
       child: SfBarcodeGeneratorRenderObjectWidget(
-        value: widget.value!,
+        value: widget.value,
         symbology: widget.symbology,
         foregroundColor: widget.barColor ?? _barcodeThemeData.barColor,
         showText: widget.showValue,
         textSpacing: widget.textSpacing,
-        textStyle: _barcodeThemeData.textStyle!,
+        textStyle: _barcodeThemeData.textStyle,
         symbologyRenderer: _symbologyRenderer,
         textSize: _textSize,
         textAlign: widget.textAlign,

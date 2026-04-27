@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Piliin lahat", 
 "sortAndFilterDataGridFilteringLabel" : "Pagbukud-bukurin at Salain", 
 "clearFilterDataGridFilteringLabel" : "I-clear ang Filter", 
-"fromDataGridFilteringLabel" : "Mula sa"
+"fromDataGridFilteringLabel" : "Mula sa",
+"selectADateDataGridFilteringLabel": "Pumili ng petsa"
 }

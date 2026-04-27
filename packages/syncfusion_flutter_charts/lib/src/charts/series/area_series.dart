@@ -326,6 +326,9 @@ class AreaSegment<T, D> extends ChartSegment {
     _highPoints.clear();
     _lowPoints.clear();
 
+    bottom =
+        series.xAxis!.crossesAt ?? max(series.yAxis!.visibleRange!.minimum, 0);
+
     _fillPath.reset();
     _strokePath.reset();
 

@@ -1,6 +1,32 @@
 ## Unreleased
 
+## SignaturePad
+
+**Bugs**
+
+* Fixed pointer offset issues when hosted inside paint-offset parents. Pointer events now use globalToLocal to compute accurate stroke and tap coordinates, so the ink aligns correctly with touch or mouse input.
+
+## [32.1.25] - 01/27/2026
+
 * No changes.
+
+## [31.2.15] - 12/02/2025
+
+**Enhancements**
+
+* The [renderToContext2D](https://pub.dev/documentation/syncfusion_flutter_signaturepad/latest/signaturepad/SfSignaturePadState/renderToContext2D.html) method has been updated to improve signature canvas rendering on the Web platform.
+
+## [31.2.15] - 11/25/2025
+
+**General**
+
+* The compatible version of our Flutter signaturepad widget has been updated to Flutter SDK 3.38.
+
+## [31.1.20] - 09/17/2025
+
+**General**
+
+*  The compatible version of our Flutter signaturepad widget has been updated to Flutter SDK 3.35.
 
 ## [30.1.37] - 06/25/2025
 

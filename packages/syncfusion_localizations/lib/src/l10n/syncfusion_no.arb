@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Velg alle", 
 "sortAndFilterDataGridFilteringLabel" : "Sorter og filtrer", 
 "clearFilterDataGridFilteringLabel" : "Tøm filter", 
-"fromDataGridFilteringLabel" : "Fra"
+"fromDataGridFilteringLabel" : "Fra",
+"selectADateDataGridFilteringLabel": "Velg en dato"
 }

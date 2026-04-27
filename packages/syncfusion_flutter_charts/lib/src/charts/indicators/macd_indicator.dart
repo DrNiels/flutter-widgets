@@ -329,15 +329,15 @@ class MacdIndicatorWidget extends IndicatorWidget {
 
   // Create the MacdIndicatorRenderer renderer.
   @override
-  MacdIndicatorRenderer createRenderer() {
+  MacdIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return MacdIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final MacdIndicatorRenderer renderer =
+    final MacdIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as MacdIndicatorRenderer;
-    final MacdIndicator macd = indicator as MacdIndicator;
+    final MacdIndicator<dynamic, dynamic> macd = indicator as MacdIndicator;
 
     renderer
       ..closeValueMapper = macd.closeValueMapper
@@ -355,10 +355,10 @@ class MacdIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    MacdIndicatorRenderer renderObject,
+    MacdIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final MacdIndicator macd = indicator as MacdIndicator;
+    final MacdIndicator<dynamic, dynamic> macd = indicator as MacdIndicator;
 
     renderObject
       ..closeValueMapper = macd.closeValueMapper

@@ -124,7 +124,7 @@ class SfPyramidChart extends StatefulWidget {
   ///   );
   /// }
   /// ```
-  final PyramidSeries series;
+  final PyramidSeries<dynamic, dynamic> series;
 
   /// Customizes the chart.
   ///

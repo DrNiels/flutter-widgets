@@ -190,15 +190,15 @@ class TmaIndicatorWidget extends IndicatorWidget {
 
   // Create the TmaIndicatorRenderer renderer.
   @override
-  TmaIndicatorRenderer createRenderer() {
+  TmaIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return TmaIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final TmaIndicatorRenderer renderer =
+    final TmaIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as TmaIndicatorRenderer;
-    final TmaIndicator tma = indicator as TmaIndicator;
+    final TmaIndicator<dynamic, dynamic> tma = indicator as TmaIndicator;
 
     renderer
       ..highValueMapper = tma.highValueMapper
@@ -213,10 +213,10 @@ class TmaIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    TmaIndicatorRenderer renderObject,
+    TmaIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final TmaIndicator tma = indicator as TmaIndicator;
+    final TmaIndicator<dynamic, dynamic> tma = indicator as TmaIndicator;
 
     renderObject
       ..highValueMapper = tma.highValueMapper
@@ -362,7 +362,7 @@ class TmaIndicatorRenderer<T, D> extends IndicatorRenderer<T, D> {
     yMax = yMaximum.isInfinite ? yMax : yMaximum;
   }
 
-  List<num> _splice<num>(List<num> list, int index, num? elements) {
+  List<num> _splice(List<num> list, int index, num? elements) {
     if (elements != null) {
       list.insertAll(index, <num>[elements]);
     }

@@ -24,7 +24,7 @@ class ScrollStatus extends StatefulWidget {
   final bool isSinglePageView;
 
   @override
-  _ScrollStatusState createState() => _ScrollStatusState();
+  State<ScrollStatus> createState() => _ScrollStatusState();
 }
 
 /// State for [ScrollStatus]

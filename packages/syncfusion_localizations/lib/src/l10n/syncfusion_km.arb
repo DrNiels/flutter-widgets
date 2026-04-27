@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "ជ្រើសរើស​ទាំងអស់", 
 "sortAndFilterDataGridFilteringLabel" : "តម្រៀបនិងត្រង", 
 "clearFilterDataGridFilteringLabel" : "ជម្រះតម្រង", 
-"fromDataGridFilteringLabel" : "ពី"
+"fromDataGridFilteringLabel" : "ពី",
+"selectADateDataGridFilteringLabel": "ជ្រើសរើសកាលបរិច្ឆេទ"
 }

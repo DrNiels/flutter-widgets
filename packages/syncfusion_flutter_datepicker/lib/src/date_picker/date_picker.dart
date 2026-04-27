@@ -12266,6 +12266,10 @@ class _PickerViewState extends State<_PickerView>
     final DateRangePickerView pickerView = DateRangePickerHelper.getPickerView(
       widget.controller.view,
     );
+
+    final RenderObject renderObject = context.findRenderObject()!;
+    final RenderBox? box = renderObject is RenderBox ? renderObject : null;
+    final Offset localPosition = box!.globalToLocal(details.globalPosition);
     switch (pickerView) {
       case DateRangePickerView.month:
         {
@@ -12283,21 +12287,17 @@ class _PickerViewState extends State<_PickerView>
                 _isMobilePlatform,
               );
 
-          if (details.localPosition.dy < viewHeaderHeight ||
-              ((!widget.isRtl &&
-                      details.localPosition.dx < weekNumberPanelWidth) ||
+          if (localPosition.dy < viewHeaderHeight ||
+              ((!widget.isRtl && localPosition.dx < weekNumberPanelWidth) ||
                   (widget.isRtl &&
-                      details.localPosition.dx >
+                      localPosition.dx >
                           widget.width - weekNumberPanelWidth))) {
             return;
           }
 
-          if (details.localPosition.dy > viewHeaderHeight) {
+          if (localPosition.dy > viewHeaderHeight) {
             _handleTouch(
-              Offset(
-                details.localPosition.dx,
-                details.localPosition.dy - viewHeaderHeight,
-              ),
+              Offset(localPosition.dx, localPosition.dy - viewHeaderHeight),
               details,
             );
           }
@@ -12307,9 +12307,7 @@ class _PickerViewState extends State<_PickerView>
       case DateRangePickerView.decade:
       case DateRangePickerView.century:
         {
-          _handleYearPanelSelection(
-            Offset(details.localPosition.dx, details.localPosition.dy),
-          );
+          _handleYearPanelSelection(Offset(localPosition.dx, localPosition.dy));
         }
     }
 
@@ -12803,17 +12801,19 @@ class _PickerViewState extends State<_PickerView>
     //// Set drag start value as false, identifies the start date of the range not updated.
     _isDragStart = false;
     widget.getPickerStateDetails(_pickerStateDetails);
-    final double xPosition = details.localPosition.dx;
+
+    final RenderObject renderObject = context.findRenderObject()!;
+    final RenderBox? box = renderObject is RenderBox ? renderObject : null;
+    final Offset localPosition = box!.globalToLocal(details.globalPosition);
+    final double xPosition = localPosition.dx;
     final DateRangePickerView pickerView = DateRangePickerHelper.getPickerView(
       widget.controller.view,
     );
-    double yPosition = details.localPosition.dy;
+    double yPosition = localPosition.dy;
     if (pickerView == DateRangePickerView.month &&
         widget.picker.navigationDirection ==
             DateRangePickerNavigationDirection.horizontal) {
-      yPosition =
-          details.localPosition.dy -
-          widget.picker.monthViewSettings.viewHeaderHeight;
+      yPosition = yPosition - widget.picker.monthViewSettings.viewHeaderHeight;
     }
 
     final int index = _getSelectedIndex(xPosition, yPosition);
@@ -12891,8 +12891,12 @@ class _PickerViewState extends State<_PickerView>
 
   void _dragUpdate(DragUpdateDetails details) {
     widget.getPickerStateDetails(_pickerStateDetails);
-    final double xPosition = details.localPosition.dx;
-    double yPosition = details.localPosition.dy;
+
+    final RenderObject renderObject = context.findRenderObject()!;
+    final RenderBox? box = renderObject is RenderBox ? renderObject : null;
+    final Offset localPosition = box!.globalToLocal(details.globalPosition);
+    final double xPosition = localPosition.dx;
+    double yPosition = localPosition.dy;
     final DateRangePickerView pickerView = DateRangePickerHelper.getPickerView(
       widget.controller.view,
     );
@@ -12900,8 +12904,7 @@ class _PickerViewState extends State<_PickerView>
         widget.picker.navigationDirection ==
             DateRangePickerNavigationDirection.horizontal) {
       yPosition =
-          details.localPosition.dy -
-          widget.picker.monthViewSettings.viewHeaderHeight;
+          localPosition.dy - widget.picker.monthViewSettings.viewHeaderHeight;
     }
 
     final int index = _getSelectedIndex(xPosition, yPosition);
@@ -13345,10 +13348,11 @@ class _PickerViewState extends State<_PickerView>
     //// Set drag start value as false, identifies the start date of the range not updated.
     _isDragStart = false;
     widget.getPickerStateDetails(_pickerStateDetails);
-    final int index = _getYearViewIndex(
-      details.localPosition.dx,
-      details.localPosition.dy,
-    );
+
+    final RenderObject renderObject = context.findRenderObject()!;
+    final RenderBox? box = renderObject is RenderBox ? renderObject : null;
+    final Offset localPosition = box!.globalToLocal(details.globalPosition);
+    final int index = _getYearViewIndex(localPosition.dx, localPosition.dy);
     if (index == -1) {
       return;
     }
@@ -13400,10 +13404,10 @@ class _PickerViewState extends State<_PickerView>
 
   void _dragUpdateOnYear(DragUpdateDetails details) {
     widget.getPickerStateDetails(_pickerStateDetails);
-    final int index = _getYearViewIndex(
-      details.localPosition.dx,
-      details.localPosition.dy,
-    );
+    final RenderObject renderObject = context.findRenderObject()!;
+    final RenderBox? box = renderObject is RenderBox ? renderObject : null;
+    final Offset localPosition = box!.globalToLocal(details.globalPosition);
+    final int index = _getYearViewIndex(localPosition.dx, localPosition.dy);
     if (index == -1) {
       return;
     }

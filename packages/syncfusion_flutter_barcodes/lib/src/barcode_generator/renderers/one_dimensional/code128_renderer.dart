@@ -16,7 +16,7 @@ class Code128Renderer extends SymbologyRenderer {
     code128ACharacterSets.add('!');
     code128ACharacterSets.add('"');
     code128ACharacterSets.add('#');
-    code128ACharacterSets.add('\$');
+    code128ACharacterSets.add(r'$');
     code128ACharacterSets.add('%');
     code128ACharacterSets.add('&');
     // ignore: avoid_escaping_inner_quotes
@@ -73,7 +73,7 @@ class Code128Renderer extends SymbologyRenderer {
     code128ACharacterSets.add('Y');
     code128ACharacterSets.add('Z');
     code128ACharacterSets.add('[');
-    code128ACharacterSets.add('\\');
+    code128ACharacterSets.add(r'\');
     code128ACharacterSets.add(']');
     code128ACharacterSets.add('^');
     code128ACharacterSets.add('_');
@@ -126,7 +126,7 @@ class Code128Renderer extends SymbologyRenderer {
     code128BCharacterSets.add('!');
     code128BCharacterSets.add('"');
     code128BCharacterSets.add('#');
-    code128BCharacterSets.add('\$');
+    code128BCharacterSets.add(r'$');
     code128BCharacterSets.add('%');
     code128BCharacterSets.add('&');
     // ignore: avoid_escaping_inner_quotes
@@ -183,7 +183,7 @@ class Code128Renderer extends SymbologyRenderer {
     code128BCharacterSets.add('Y');
     code128BCharacterSets.add('Z');
     code128BCharacterSets.add('[');
-    code128BCharacterSets.add('\\');
+    code128BCharacterSets.add(r'\');
     code128BCharacterSets.add(']');
     code128BCharacterSets.add('^');
     code128BCharacterSets.add('_');
@@ -669,7 +669,7 @@ class Code128Renderer extends SymbologyRenderer {
       ratio = symbology!.module!.toDouble();
     } else {
       // Calculates the bar length based on number of individual bar codes
-      final int singleModule = (size.width ~/ totalBarLength).toInt();
+      final int singleModule = size.width ~/ totalBarLength;
       ratio = singleModule.toDouble();
       final double leftPadding = (size.width - (totalBarLength * ratio)) / 2;
       left += leftPadding;

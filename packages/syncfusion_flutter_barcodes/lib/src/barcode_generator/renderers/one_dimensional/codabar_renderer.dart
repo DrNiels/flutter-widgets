@@ -19,7 +19,7 @@ class CodabarRenderer extends SymbologyRenderer {
       '8': '100110101',
       '9': '110100101',
       '-': '101001101',
-      '\$': '101100101',
+      r'$': '101100101',
       ':': '1101011011',
       '/': '1101101011',
       '.': '1101101101',
@@ -70,7 +70,7 @@ class CodabarRenderer extends SymbologyRenderer {
             ? offset.dx
             : getLeftPosition(
               barTotalLength,
-              symbology!.module!,
+              symbology!.module,
               size.width,
               offset.dx,
             );
@@ -85,7 +85,7 @@ class CodabarRenderer extends SymbologyRenderer {
       ratio = symbology!.module!.toDouble();
     } else {
       // Calculates the bar length based on number of individual bar codes
-      final int singleModule = (size.width ~/ barTotalLength).toInt();
+      final int singleModule = size.width ~/ barTotalLength;
       ratio = singleModule.toDouble();
       final double leftPadding = (size.width - (barTotalLength * ratio)) / 2;
       left += leftPadding;

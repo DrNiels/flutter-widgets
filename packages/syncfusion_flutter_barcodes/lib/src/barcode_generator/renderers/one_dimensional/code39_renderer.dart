@@ -140,7 +140,7 @@ class Code39Renderer extends SymbologyRenderer {
       ratio = symbology!.module!.toDouble();
     } else {
       // Calculates the bar length based on number of individual bar codes
-      final int singleModule = (size.width ~/ barTotalLength).toInt();
+      final int singleModule = size.width ~/ barTotalLength;
       ratio = singleModule.toDouble();
       final double leftPadding = (size.width - (barTotalLength * ratio)) / 2;
       left += leftPadding;
@@ -209,7 +209,7 @@ class Code39Renderer extends SymbologyRenderer {
   /// Represents the code bar value
   String _getCode39Character() {
     const String code39Character =
-        '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *\$/+%';
+        r'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%';
     return code39Character;
   }
 }

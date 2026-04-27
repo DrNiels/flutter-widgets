@@ -340,15 +340,15 @@ class RocIndicatorWidget extends IndicatorWidget {
 
   // Create the RocIndicatorRenderer renderer.
   @override
-  RocIndicatorRenderer createRenderer() {
+  RocIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return RocIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final RocIndicatorRenderer renderer =
+    final RocIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as RocIndicatorRenderer;
-    final RocIndicator roc = indicator as RocIndicator;
+    final RocIndicator<dynamic, dynamic> roc = indicator as RocIndicator;
     renderer
       ..highValueMapper = roc.highValueMapper
       ..lowValueMapper = roc.lowValueMapper
@@ -364,10 +364,10 @@ class RocIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    RocIndicatorRenderer renderObject,
+    RocIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final RocIndicator roc = indicator as RocIndicator;
+    final RocIndicator<dynamic, dynamic> roc = indicator as RocIndicator;
     renderObject
       ..highValueMapper = roc.highValueMapper
       ..lowValueMapper = roc.lowValueMapper

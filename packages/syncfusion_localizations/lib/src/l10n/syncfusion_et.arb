@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Vali kõik", 
 "sortAndFilterDataGridFilteringLabel" : "Sorteeri ja filtreeri", 
 "clearFilterDataGridFilteringLabel" : "Tühjenda filter", 
-"fromDataGridFilteringLabel" : "Alates"
+"fromDataGridFilteringLabel" : "Alates",
+"selectADateDataGridFilteringLabel": "Valige kuupäev"
 }

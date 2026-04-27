@@ -2890,7 +2890,10 @@ class ChartSeriesController<T, D> {
     return CartesianChartPoint<D>(x: rawX, xValue: xValue, y: yValue);
   }
 
-  D? _rawXValue(CartesianSeriesRenderer seriesRenderer, num xValue) {
+  D? _rawXValue(
+    CartesianSeriesRenderer<dynamic, dynamic> seriesRenderer,
+    num xValue,
+  ) {
     final int index = seriesRenderer.xValues.indexOf(xValue);
     final RenderChartAxis xAxis = seriesRenderer.xAxis!;
 
@@ -4193,7 +4196,7 @@ abstract class CartesianSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
 
   @override
   int viewportIndex(int index, [List<int>? visibleIndexes]) {
-    return super.viewportIndex(index, visibleIndexes ?? this._viewPortIndexes);
+    return super.viewportIndex(index, visibleIndexes ?? _viewPortIndexes);
   }
 
   List<ChartSegment> contains(Offset position) {
@@ -5938,7 +5941,7 @@ mixin BarSeriesTrackerMixin on ChartSegment {
     BorderRadius borderRadius,
     double trackPadding,
     double trackBorderWidth,
-    CartesianSeriesRenderer series,
+    CartesianSeriesRenderer<dynamic, dynamic> series,
   ) {
     final PointToPixelCallback transformX = series.pointToPixelX;
     final PointToPixelCallback transformY = series.pointToPixelY;
@@ -8311,7 +8314,7 @@ abstract class CircularSeries<T, D> extends ChartSeries<T, D> {
   ///   final Shader pointShader;
   ///}
   ///```
-  final ChartShaderMapper? pointShaderMapper;
+  final ChartShaderMapper<dynamic>? pointShaderMapper;
 
   /// Maps the field name, which will be considered for calculating the radius
   /// of all the data points.
@@ -8877,7 +8880,7 @@ class CircularSeriesController<T, D> {
   /// )
   /// ```
 
-  ChartPoint pixelToPoint(Offset position) {
+  ChartPoint<dynamic> pixelToPoint(Offset position) {
     int pointIndex = -1;
     for (int i = 0; i < seriesRenderer.segments.length; i++) {
       final ChartSegment segment = seriesRenderer.segments[i];
@@ -8908,7 +8911,7 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
 
   ChartValueMapper<T, num>? yValueMapper;
 
-  ChartShaderMapper? pointShaderMapper;
+  ChartShaderMapper<dynamic>? pointShaderMapper;
 
   ChartValueMapper<T, String>? pointRadiusMapper;
 
@@ -9503,10 +9506,11 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
     final int pointIndex = current.dataPointIndex;
     Offset labelLocation;
     const int labelPadding = 2;
-    TextStyle dataLabelStyle = parent!.themeData!.textTheme.bodySmall!
-      ..merge(chartThemeData!.dataLabelTextStyle)
-      ..merge(dataLabelSettings.textStyle);
-    final CircularChartPoint point = current.point!;
+    TextStyle dataLabelStyle =
+        parent!.themeData!.textTheme.bodySmall!
+          ..merge(chartThemeData!.dataLabelTextStyle)
+          ..merge(dataLabelSettings.textStyle);
+    final CircularChartPoint<dynamic> point = current.point!;
     if (point.isExplode) {
       point.center = calculateExplodingCenter(
         point.midAngle!,
@@ -9760,7 +9764,7 @@ abstract class CircularSeriesRenderer<T, D> extends ChartSeriesRenderer<T, D>
       segment,
     );
     TextStyle effectiveTextStyle = saturatedTextStyle(surfaceColor, style);
-    final CircularChartPoint point = dataLabelPositioned.point!;
+    final CircularChartPoint<dynamic> point = dataLabelPositioned.point!;
     if (!point.isVisible || !segments[index].isVisible || point.text == '') {
       return;
     }

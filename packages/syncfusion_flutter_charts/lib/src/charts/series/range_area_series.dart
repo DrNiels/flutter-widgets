@@ -161,7 +161,8 @@ class RangeAreaSeriesRenderer<T, D> extends RangeSeriesRendererBase<T, D>
 
   @override
   int segmentPointIndex(Offset position, ChartSegment segment) {
-    final RangeAreaSegment rangeAreaSegment = segment as RangeAreaSegment;
+    final RangeAreaSegment<dynamic, dynamic> rangeAreaSegment =
+        segment as RangeAreaSegment;
     final int index = _computePointIndex(rangeAreaSegment._lowPoints, position);
     if (index != -1) {
       return index;

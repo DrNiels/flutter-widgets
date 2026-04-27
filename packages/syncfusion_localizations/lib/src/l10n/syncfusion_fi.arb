@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Valitse kaikki", 
 "sortAndFilterDataGridFilteringLabel" : "Lajittele ja Suodata", 
 "clearFilterDataGridFilteringLabel" : "Tyhjennä suodatin", 
-"fromDataGridFilteringLabel" : "From"
+"fromDataGridFilteringLabel" : "From",
+"selectADateDataGridFilteringLabel": "Valitse päivämäärä"
 }

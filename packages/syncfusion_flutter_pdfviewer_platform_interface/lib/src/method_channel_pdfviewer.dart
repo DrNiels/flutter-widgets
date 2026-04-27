@@ -20,6 +20,21 @@ class MethodChannelPdfViewer extends PdfViewerPlatform {
     });
   }
 
+  /// Initializes the PDF renderer instance in respective platform by loading the PDF from the specified file path.
+  /// If success, returns page count else returns error message from respective platform
+  @override
+  Future<String?> loadPdfFromFile(
+    String path,
+    String documentID, [
+    String? password,
+  ]) async {
+    return _channel.invokeMethod<String>('loadPdfFromFile', {
+      'path': path,
+      'documentID': documentID,
+      'password': password,
+    });
+  }
+
   /// Gets the height of all pages in the document.
   @override
   Future<List?> getPagesHeight(String documentID) async {

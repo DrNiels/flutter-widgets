@@ -323,15 +323,15 @@ class WmaIndicatorWidget extends IndicatorWidget {
 
   // Create the WmaIndicatorRenderer renderer.
   @override
-  WmaIndicatorRenderer createRenderer() {
+  WmaIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return WmaIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final WmaIndicatorRenderer renderer =
+    final WmaIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as WmaIndicatorRenderer;
-    final WmaIndicator wma = indicator as WmaIndicator;
+    final WmaIndicator<dynamic, dynamic> wma = indicator as WmaIndicator;
     return renderer
       ..highValueMapper = wma.highValueMapper
       ..lowValueMapper = wma.lowValueMapper
@@ -344,10 +344,10 @@ class WmaIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    WmaIndicatorRenderer renderObject,
+    WmaIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final WmaIndicator wma = indicator as WmaIndicator;
+    final WmaIndicator<dynamic, dynamic> wma = indicator as WmaIndicator;
     renderObject
       ..highValueMapper = wma.highValueMapper
       ..lowValueMapper = wma.lowValueMapper

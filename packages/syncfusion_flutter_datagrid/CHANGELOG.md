@@ -1,14 +1,42 @@
 ## Unreleased
 
+No changes.
+
+## [32.1.22] - 01/06/2026
+
+**Bugs**
+
+* The column drag view remains visible when columns are reordered quickly while column resizing is enabled.
+
+## [31.2.16] - 12/02/2025
+
+**Bugs**
+
+* The `Clear Filter` label is now correctly localized for the Spanish locale.
+
+## [31.1.20] - 09/17/2025
+
+**General**
+
+* The compatible version of our Flutter DataGrid widget has been updated to Flutter SDK 3.35.0.
+
+## [30.1.38] - 07/02/2025
+
+**Bugs**
+
+* The `SfDataGrid` now properly handles the tap action on the Filter icon.
+
+## [30.1.37] - 06/25/2025
+
 **General**
 
 * The compatible version of our Flutter DataGrid widget has been updated to Flutter SDK 3.32.0.
 
 **Features**
 
-- Provided support to customize the default appearance of checkbox and advanced filtering popup menus.
-- Provided support to obtain the row details by row index using a helper method.
-- Provided built-in support to customize the background color of the caption summary row.
+* Provided support to customize the default appearance of checkbox and advanced filtering popup menus.
+* Provided support to obtain the row details by row index using a helper method.
+* Provided built-in support to customize the background color of the caption summary row.
 
 ## [29.1.39] - 04/22/2025
 

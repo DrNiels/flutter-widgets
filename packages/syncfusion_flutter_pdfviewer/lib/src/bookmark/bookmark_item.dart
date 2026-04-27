@@ -102,7 +102,7 @@ class BookmarkItem extends StatefulWidget {
   final TextDirection textDirection;
 
   @override
-  _BookmarkItemState createState() => _BookmarkItemState();
+  State<BookmarkItem> createState() => _BookmarkItemState();
 }
 
 /// State for a [BookmarkItem]

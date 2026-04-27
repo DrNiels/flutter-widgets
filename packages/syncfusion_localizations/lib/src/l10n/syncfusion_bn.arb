@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "সব নির্বাচন করুন", 
 "sortAndFilterDataGridFilteringLabel" : "বাছাই এবং ফিল্টার", 
 "clearFilterDataGridFilteringLabel" : "স্বচ্ছ ছাকুনী", 
-"fromDataGridFilteringLabel" : "থেকে"
+"fromDataGridFilteringLabel" : "থেকে",
+"selectADateDataGridFilteringLabel": "একটি তারিখ নির্বাচন করুন"
 }

@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "تمام منتخب کریں", 
 "sortAndFilterDataGridFilteringLabel" : "ترتیب دیں اور فلٹر کریں۔", 
 "clearFilterDataGridFilteringLabel" : "فلٹر صاف کریں۔", 
-"fromDataGridFilteringLabel" : "سے"
+"fromDataGridFilteringLabel" : "سے",
+"selectADateDataGridFilteringLabel": "تاریخ منتخب کریں"
 }

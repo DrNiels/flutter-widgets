@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Барлығын таңдаңыз", 
 "sortAndFilterDataGridFilteringLabel" : "Сұрыптау және сүзу", 
 "clearFilterDataGridFilteringLabel" : "Сүзгіні тазалау", 
-"fromDataGridFilteringLabel" : "бастап"
+"fromDataGridFilteringLabel" : "бастап",
+"selectADateDataGridFilteringLabel": "Күнді таңдаңыз"
 }

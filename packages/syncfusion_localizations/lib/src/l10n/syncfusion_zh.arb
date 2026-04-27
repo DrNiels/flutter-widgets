@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "全选", 
 "sortAndFilterDataGridFilteringLabel" : "排序和过滤", 
 "clearFilterDataGridFilteringLabel" : "清除过滤器", 
-"fromDataGridFilteringLabel" : "从"
+"fromDataGridFilteringLabel" : "从",
+"selectADateDataGridFilteringLabel": "选择日期"
 }

@@ -214,15 +214,16 @@ class MomentumIndicatorWidget extends IndicatorWidget {
 
   // Create the MomentumIndicatorRenderer renderer.
   @override
-  MomentumIndicatorRenderer createRenderer() {
+  MomentumIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return MomentumIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final MomentumIndicatorRenderer renderer =
+    final MomentumIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as MomentumIndicatorRenderer;
-    final MomentumIndicator momentum = indicator as MomentumIndicator;
+    final MomentumIndicator<dynamic, dynamic> momentum =
+        indicator as MomentumIndicator;
 
     renderer
       ..highValueMapper = momentum.highValueMapper
@@ -239,10 +240,11 @@ class MomentumIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    MomentumIndicatorRenderer renderObject,
+    MomentumIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final MomentumIndicator momentum = indicator as MomentumIndicator;
+    final MomentumIndicator<dynamic, dynamic> momentum =
+        indicator as MomentumIndicator;
 
     renderObject
       ..highValueMapper = momentum.highValueMapper

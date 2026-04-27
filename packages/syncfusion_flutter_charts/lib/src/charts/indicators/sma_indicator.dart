@@ -190,15 +190,15 @@ class SmaIndicatorWidget extends IndicatorWidget {
 
   // Create the SmaIndicatorRenderer renderer.
   @override
-  SmaIndicatorRenderer createRenderer() {
+  SmaIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return SmaIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final SmaIndicatorRenderer renderer =
+    final SmaIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as SmaIndicatorRenderer;
-    final SmaIndicator sma = indicator as SmaIndicator;
+    final SmaIndicator<dynamic, dynamic> sma = indicator as SmaIndicator;
 
     renderer
       ..highValueMapper = sma.highValueMapper
@@ -214,10 +214,10 @@ class SmaIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    SmaIndicatorRenderer renderObject,
+    SmaIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final SmaIndicator sma = indicator as SmaIndicator;
+    final SmaIndicator<dynamic, dynamic> sma = indicator as SmaIndicator;
 
     renderObject
       ..highValueMapper = sma.highValueMapper

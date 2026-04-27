@@ -22,6 +22,10 @@ public class SyncfusionFlutterPdfViewerPlugin: NSObject, FlutterPlugin {
         {
             initializePdfRenderer(call:call,result:result)
         }
+        else if (call.method == "loadPdfFromFile") 
+        {
+            loadPdfFromFile(call: call, result: result)
+        }
         else if(call.method == "getPage")
         {
             getPage(call:call,result:result)
@@ -64,6 +68,31 @@ public class SyncfusionFlutterPdfViewerPlugin: NSObject, FlutterPlugin {
             }
         }
         documentRepo.updateValue(document, forKey: currentDocumentID)
+        let pageCount = NSNumber(value: document.numberOfPages)
+        result(pageCount.stringValue);
+    }
+
+    // Initializes the PDF renderer from a URI and returns the page count.
+    private func loadPdfFromFile(call: FlutterMethodCall, result: @escaping FlutterResult) {
+        guard let args = call.arguments as? [String: Any] else { return }
+        guard let path = args["path"] as? String else { return }
+        guard let documentID = args["documentID"] as? String else { return }
+        let password = args["password"] as? String
+        let url: URL
+        if path.hasPrefix("file://"), let tmp = URL(string: path) {
+            url = tmp
+        } else {
+            url = URL(fileURLWithPath: path)
+        }
+        guard let dataProvider = CGDataProvider(url: url as CFURL),
+        let document = CGPDFDocument(dataProvider) else {return}
+        if let password = password, document.isEncrypted {
+            if !document.unlockWithPassword(password) {
+                result(FlutterError(code: "PDF_UNLOCK_FAILED", message: "Failed to unlock the PDF with the provided password", details: nil))
+                return
+            }
+        }
+        documentRepo.updateValue(document, forKey: documentID)
         let pageCount = NSNumber(value: document.numberOfPages)
         result(pageCount.stringValue);
     }

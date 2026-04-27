@@ -412,7 +412,7 @@ class ChartPointInfo {
   dynamic series;
 
   /// Cartesian chart point.
-  CartesianChartPoint? chartPoint;
+  CartesianChartPoint<dynamic>? chartPoint;
 
   /// X position of the label.
   double? xPosition;

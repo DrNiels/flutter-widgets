@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Seleccionar tot", 
 "sortAndFilterDataGridFilteringLabel" : "Ordena i filtra", 
 "clearFilterDataGridFilteringLabel" : "Esborra el filtre", 
-"fromDataGridFilteringLabel" : "Des de"
+"fromDataGridFilteringLabel" : "Des de",
+"selectADateDataGridFilteringLabel": "Selecciona una data"
 }

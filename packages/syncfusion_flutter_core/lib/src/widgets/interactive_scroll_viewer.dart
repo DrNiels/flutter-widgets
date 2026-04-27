@@ -189,9 +189,11 @@ class InteractiveScrollViewerState extends State<InteractiveScrollViewer> {
         Offset.zero,
       );
       widget.transformationController?.value =
-          widget.transformationController!.value.clone()..translate(
+          widget.transformationController!.value.clone()..translateByDouble(
             previousOffset.dx - offset.dx,
             previousOffset.dy - offset.dy,
+            0.0,
+            1.0,
           );
     }
   }
@@ -234,9 +236,10 @@ class InteractiveScrollViewerState extends State<InteractiveScrollViewer> {
       final Offset previousOffset = widget.transformationController!.toScene(
         Offset.zero,
       );
+      final double tx = scale / zoomLevel;
       widget.transformationController?.value =
           widget.transformationController!.value.clone()
-            ..scale(scale / zoomLevel, scale / zoomLevel);
+            ..scaleByDouble(tx, tx, tx, 1.0);
       scrollTo(previousOffset);
     }
   }

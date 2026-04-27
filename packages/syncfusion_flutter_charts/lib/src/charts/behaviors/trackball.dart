@@ -373,7 +373,7 @@ class TrackballBehavior extends ChartBehavior {
   ///   );
   /// }
   /// ```
-  final ChartTrackballBuilder? builder;
+  final ChartTrackballBuilder<dynamic>? builder;
 
   /// Defines the behaviour when the tooltip content overflows the chart bounds.
   ///
@@ -517,7 +517,7 @@ class TrackballBehavior extends ChartBehavior {
     if (parent != null &&
         parent.plotArea != null &&
         parent.plotArea!.firstChild != null) {
-      final CartesianSeriesRenderer renderer =
+      final CartesianSeriesRenderer<dynamic, dynamic> renderer =
           parent.plotArea!.firstChild! as CartesianSeriesRenderer;
       final List<num> visibleIndexes = renderer.visibleIndexes;
       if (visibleIndexes.isNotEmpty &&
@@ -685,7 +685,8 @@ class TrackballBehavior extends ChartBehavior {
     parent.invalidate();
     if (builder != null) {
       final List<TrackballDetails> details = <TrackballDetails>[];
-      final List<CartesianChartPoint> chartPoints = <CartesianChartPoint>[];
+      final List<CartesianChartPoint<dynamic>> chartPoints =
+          <CartesianChartPoint<dynamic>>[];
       final List<int> currentPointIndices = <int>[];
       final List<int> visibleSeriesIndices = <int>[];
       final List<dynamic> visibleSeriesList = <dynamic>[];
@@ -794,7 +795,7 @@ class TrackballBehavior extends ChartBehavior {
           );
 
           if (trackballInfo != null) {
-            final ChartTrackballInfo trackInfo =
+            final ChartTrackballInfo<dynamic, dynamic> trackInfo =
                 trackballInfo as ChartTrackballInfo;
             if (trackInfo.pointIndex >= 0) {
               final Offset trackPosition = trackInfo.position!;
@@ -844,8 +845,9 @@ class TrackballBehavior extends ChartBehavior {
               trackballInfo.isNotEmpty &&
               child.animationFactor == 1) {
             for (final TrackballInfo trackInfo in trackballInfo) {
-              final ChartTrackballInfo info = trackInfo as ChartTrackballInfo;
-              final CartesianChartPoint chartPoint = info.point;
+              final ChartTrackballInfo<dynamic, dynamic> info =
+                  trackInfo as ChartTrackballInfo;
+              final CartesianChartPoint<dynamic> chartPoint = info.point;
               final bool pointIsNaN =
                   (chartPoint.xValue != null && chartPoint.xValue!.isNaN) ||
                   (chartPoint.y != null && chartPoint.y!.isNaN);
@@ -944,7 +946,7 @@ class TrackballBehavior extends ChartBehavior {
   }
 
   List<int> _findNearestChartPointIndexes(
-    CartesianSeriesRenderer series,
+    CartesianSeriesRenderer<dynamic, dynamic> series,
     Offset position,
   ) {
     final List<int> indexes = <int>[];
@@ -1014,7 +1016,7 @@ class TrackballBehavior extends ChartBehavior {
   }
 
   void _addChartPointInfo(
-    ChartTrackballInfo trackballInfo,
+    ChartTrackballInfo<dynamic, dynamic> trackballInfo,
     double xPos,
     double yPos,
   ) {

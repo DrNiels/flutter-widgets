@@ -74,7 +74,7 @@ class SfCircularChart extends StatefulWidget {
     this.onCreateShader,
     this.palette,
     this.margin = const EdgeInsets.fromLTRB(10, 10, 10, 10),
-    this.series = const <CircularSeries>[],
+    this.series = const <CircularSeries<dynamic, dynamic>>[],
     this.title = const ChartTitle(),
     this.legend = const Legend(),
     this.centerX = '50%',
@@ -112,7 +112,7 @@ class SfCircularChart extends StatefulWidget {
   ///    );
   /// }
   /// ```
-  final List<CircularSeries> series;
+  final List<CircularSeries<dynamic, dynamic>> series;
 
   /// Specifies the margin for circular chart.
   ///

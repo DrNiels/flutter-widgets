@@ -235,7 +235,7 @@ class PdfCheckbox extends StatefulWidget {
   final double borderWidth;
 
   @override
-  _PdfCheckboxState createState() => _PdfCheckboxState();
+  State<PdfCheckbox> createState() => _PdfCheckboxState();
 }
 
 class _PdfCheckboxState extends State<PdfCheckbox> {

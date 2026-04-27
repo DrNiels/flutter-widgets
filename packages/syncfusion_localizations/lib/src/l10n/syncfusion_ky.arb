@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Баарын тандаңыз", 
 "sortAndFilterDataGridFilteringLabel" : "Сорттоо жана чыпкалоо", 
 "clearFilterDataGridFilteringLabel" : "Чыпканы тазалоо", 
-"fromDataGridFilteringLabel" : "From"
+"fromDataGridFilteringLabel" : "From",
+"selectADateDataGridFilteringLabel": "Датаны тандаңыз"
 }

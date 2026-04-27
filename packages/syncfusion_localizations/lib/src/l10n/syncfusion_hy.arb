@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Ընտրել բոլորը", 
 "sortAndFilterDataGridFilteringLabel" : "Տեսակավորել և զտել", 
 "clearFilterDataGridFilteringLabel" : "Մաքրել զտիչը", 
-"fromDataGridFilteringLabel" : "Սկսած"
+"fromDataGridFilteringLabel" : "Սկսած",
+"selectADateDataGridFilteringLabel": "Ընտրեք ամսաթիվ"
 }

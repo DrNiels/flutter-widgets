@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Pilih semua", 
 "sortAndFilterDataGridFilteringLabel" : "Isih dan Tapis", 
 "clearFilterDataGridFilteringLabel" : "Kosongkan Penapis", 
-"fromDataGridFilteringLabel" : "daripada"
+"fromDataGridFilteringLabel" : "daripada",
+"selectADateDataGridFilteringLabel": "Pilih tarikh"
 }

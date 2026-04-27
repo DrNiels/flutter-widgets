@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "انتخاب همه", 
 "sortAndFilterDataGridFilteringLabel" : "مرتب سازی و فیلتر کردن", 
 "clearFilterDataGridFilteringLabel" : "فیلتر را پاک کنید", 
-"fromDataGridFilteringLabel" : "از جانب"
+"fromDataGridFilteringLabel" : "از جانب",
+"selectADateDataGridFilteringLabel": "یک تاریخ انتخاب کنید"
 }

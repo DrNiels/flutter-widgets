@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "ټول وټاکئ", 
 "sortAndFilterDataGridFilteringLabel" : "ترتیب او فلټر کړئ", 
 "clearFilterDataGridFilteringLabel" : "فلټر پاک کړئ", 
-"fromDataGridFilteringLabel" : "څخه"
+"fromDataGridFilteringLabel" : "څخه",
+"selectADateDataGridFilteringLabel": "یوه نېټه وټاکئ"
 }

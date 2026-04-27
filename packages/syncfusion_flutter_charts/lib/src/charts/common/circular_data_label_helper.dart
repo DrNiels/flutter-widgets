@@ -19,10 +19,10 @@ import 'data_label.dart';
 bool isIncreaseAngle = false;
 
 /// To store the points which render at left and positioned outside.
-List<CircularChartPoint> leftPoints = <CircularChartPoint>[];
+List<CircularChartPoint<dynamic>> leftPoints = <CircularChartPoint<dynamic>>[];
 
 /// To store the points which render at right and positioned outside.
-List<CircularChartPoint> rightPoints = <CircularChartPoint>[];
+List<CircularChartPoint<dynamic>> rightPoints = <CircularChartPoint<dynamic>>[];
 
 List<Rect> renderDataLabelRegions = <Rect>[];
 
@@ -53,10 +53,10 @@ bool findingCollision(Rect rect, List<Rect> regions, [Rect? pathRect]) {
 
 /// Method to get a text when the text overlap with another segment/slice.
 String segmentOverflowTrimmedText(
-  CircularSeriesRenderer seriesRenderer,
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
   String text,
   Size size,
-  CircularChartPoint point,
+  CircularChartPoint<dynamic> point,
   Rect labelRect,
   Offset centerLocation,
   Offset labelLocation,
@@ -205,8 +205,8 @@ bool _isInsideSegment(
 
 /// Method for setting color to data label.
 Color findThemeColor(
-  CircularSeriesRenderer seriesRenderer,
-  CircularChartPoint point,
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
+  CircularChartPoint<dynamic> point,
   DataLabelSettings dataLabelSettings,
 ) {
   // TODO(Lavanya): Recheck here.
@@ -223,10 +223,10 @@ Color findThemeColor(
 
 /// To render outside positioned data labels.
 void renderOutsideDataLabel(
-  CircularChartPoint point,
+  CircularChartPoint<dynamic> point,
   Size textSize,
   int pointIndex,
-  CircularSeriesRenderer seriesRenderer,
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
   int seriesIndex,
   TextStyle textStyle,
   List<Rect> renderDataLabelRegions,
@@ -401,10 +401,11 @@ Rect? getDataLabelRect(
 }
 
 void shiftCircularDataLabels(
-  CircularSeriesRenderer seriesRenderer,
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
   LinkedList<CircularChartDataLabelPositioned> labels,
 ) {
-  final List<CircularChartPoint> points = <CircularChartPoint>[];
+  final List<CircularChartPoint<dynamic>> points =
+      <CircularChartPoint<dynamic>>[];
 
   if (seriesRenderer is RadialBarSeriesRenderer) {
     return;
@@ -416,11 +417,11 @@ void shiftCircularDataLabels(
     final DataLabelSettings dataLabelSettings =
         seriesRenderer.dataLabelSettings;
     if (dataLabelSettings.builder == null) {
-      leftPoints = <CircularChartPoint>[];
-      rightPoints = <CircularChartPoint>[];
+      leftPoints = <CircularChartPoint<dynamic>>[];
+      rightPoints = <CircularChartPoint<dynamic>>[];
 
       for (int i = 0; i < labels.length; i++) {
-        final CircularChartPoint point = labels.elementAt(i).point!;
+        final CircularChartPoint<dynamic> point = labels.elementAt(i).point!;
         points.add(point);
         if (point.isVisible) {
           point.newAngle = point.midAngle;
@@ -434,7 +435,7 @@ void shiftCircularDataLabels(
         }
       }
       leftPoints.sort(
-        (CircularChartPoint a, CircularChartPoint b) =>
+        (CircularChartPoint<dynamic> a, CircularChartPoint<dynamic> b) =>
             a.newAngle!.compareTo(b.newAngle!),
       );
       if (leftPoints.isNotEmpty) {
@@ -449,7 +450,7 @@ void shiftCircularDataLabels(
     for (int pointIndex = 0; pointIndex < labels.length; pointIndex++) {
       final CircularChartDataLabelPositioned dataLabelPositioned = labels
           .elementAt(pointIndex);
-      final CircularChartPoint point = dataLabelPositioned.point!;
+      final CircularChartPoint<dynamic> point = dataLabelPositioned.point!;
       if (point.isVisible) {
         final EdgeInsets margin = seriesRenderer.dataLabelSettings.margin;
         Rect rect = point.labelRect;
@@ -584,9 +585,11 @@ void shiftCircularDataLabels(
 }
 
 /// Left side points alignment calculation.
-void _arrangeLeftSidePoints(CircularSeriesRenderer seriesRenderer) {
-  CircularChartPoint previousPoint;
-  CircularChartPoint currentPoint;
+void _arrangeLeftSidePoints(
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
+) {
+  CircularChartPoint<dynamic> previousPoint;
+  CircularChartPoint<dynamic> currentPoint;
   bool angleChanged = false;
   bool startFresh = false;
   for (int i = 1; i < leftPoints.length; i++) {
@@ -636,14 +639,16 @@ void _arrangeLeftSidePoints(CircularSeriesRenderer seriesRenderer) {
 }
 
 /// Right side points alignments calculation.
-void _arrangeRightSidePoints(CircularSeriesRenderer seriesRenderer) {
+void _arrangeRightSidePoints(
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
+) {
   bool startFresh = false;
   bool angleChanged = false;
   num checkAngle;
-  CircularChartPoint currentPoint;
-  final CircularChartPoint? lastPoint =
+  CircularChartPoint<dynamic> currentPoint;
+  final CircularChartPoint<dynamic>? lastPoint =
       rightPoints.length > 1 ? rightPoints[rightPoints.length - 1] : null;
-  CircularChartPoint nextPoint;
+  CircularChartPoint<dynamic> nextPoint;
   if (lastPoint != null) {
     if (lastPoint.newAngle! > 360) {
       lastPoint.newAngle = lastPoint.newAngle! - 360;
@@ -707,9 +712,9 @@ void _arrangeRightSidePoints(CircularSeriesRenderer seriesRenderer) {
 
 /// Decrease the angle of the label if it intersects with labels.
 void _decreaseAngle(
-  CircularChartPoint currentPoint,
-  CircularChartPoint previousPoint,
-  CircularSeriesRenderer seriesRenderer,
+  CircularChartPoint<dynamic> currentPoint,
+  CircularChartPoint<dynamic> previousPoint,
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
   bool isRightSide,
 ) {
   int count = 1;
@@ -766,9 +771,9 @@ void _decreaseAngle(
 
 /// Increase the angle of the label if it intersects labels.
 void _increaseAngle(
-  CircularChartPoint currentPoint,
-  CircularChartPoint nextPoint,
-  CircularSeriesRenderer seriesRenderer,
+  CircularChartPoint<dynamic> currentPoint,
+  CircularChartPoint<dynamic> nextPoint,
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
   bool isRightSide,
 ) {
   int count = 1;
@@ -816,9 +821,9 @@ void _increaseAngle(
 
 /// Change the label angle based on the given new angle.
 void _changeLabelAngle(
-  CircularChartPoint currentPoint,
+  CircularChartPoint<dynamic> currentPoint,
   num newAngle,
-  CircularSeriesRenderer seriesRenderer,
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
 ) {
   // TODO(Lavanya): Code cleanup for seriesRenderer field.
 
@@ -883,8 +888,8 @@ bool isOverlap(Rect currentRect, Rect rect) {
 
 /// To find the current point overlapped with previous points.
 bool isOverlapWithPrevious(
-  CircularChartPoint currentPoint,
-  List<CircularChartPoint> points,
+  CircularChartPoint<dynamic> currentPoint,
+  List<CircularChartPoint<dynamic>> points,
   int currentPointIndex,
 ) {
   for (int i = 0; i < currentPointIndex; i++) {
@@ -899,8 +904,8 @@ bool isOverlapWithPrevious(
 
 /// To find the current point overlapped with next points.
 bool isOverlapWithNext(
-  CircularChartPoint point,
-  List<CircularChartPoint> points,
+  CircularChartPoint<dynamic> point,
+  List<CircularChartPoint<dynamic>> points,
   int pointIndex,
 ) {
   for (int i = pointIndex; i < points.length; i++) {
@@ -916,7 +921,10 @@ bool isOverlapWithNext(
 }
 
 /// Calculate the connected line path for shifted data label.
-Offset getPerpendicularDistance(Offset startPoint, CircularChartPoint point) {
+Offset getPerpendicularDistance(
+  Offset startPoint,
+  CircularChartPoint<dynamic> point,
+) {
   Offset increasedLocation;
   const num add = 10;
   final num height = add + 10 * sin(point.midAngle! * pi / 360);
@@ -979,22 +987,23 @@ String getTrimmedText(
 
 /// To shift the data label template in the circular chart.
 void shiftCircularDataLabelTemplate(
-  CircularSeriesRenderer seriesRenderer,
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
   List<CircularDataLabelBoxParentData> widgets,
 ) {
   if (seriesRenderer is RadialBarSeriesRenderer) {
     return;
   }
 
-  leftPoints = <CircularChartPoint>[];
-  rightPoints = <CircularChartPoint>[];
-  final List<CircularChartPoint> points = <CircularChartPoint>[];
+  leftPoints = <CircularChartPoint<dynamic>>[];
+  rightPoints = <CircularChartPoint<dynamic>>[];
+  final List<CircularChartPoint<dynamic>> points =
+      <CircularChartPoint<dynamic>>[];
   final List<Rect> renderDataLabelRegions = <Rect>[];
   const int labelPadding = 2;
   final List<CircularDataLabelBoxParentData> templates = widgets;
 
   for (int i = 0; i < templates.length; i++) {
-    final CircularChartPoint point = templates[i].point!;
+    final CircularChartPoint<dynamic> point = templates[i].point!;
 
     if (point.newAngle == null && point.isVisible) {
       // For the data label position is inside.
@@ -1045,7 +1054,7 @@ void shiftCircularDataLabelTemplate(
   }
 
   for (int i = 0; i < templates.length; i++) {
-    final CircularChartPoint point = templates[i].point!;
+    final CircularChartPoint<dynamic> point = templates[i].point!;
     points.add(point);
     if (point.isVisible) {
       point.newAngle = point.midAngle;
@@ -1059,7 +1068,7 @@ void shiftCircularDataLabelTemplate(
     }
   }
   leftPoints.sort(
-    (CircularChartPoint a, CircularChartPoint b) =>
+    (CircularChartPoint<dynamic> a, CircularChartPoint<dynamic> b) =>
         a.newAngle!.compareTo(b.newAngle!),
   );
   if (leftPoints.isNotEmpty) {
@@ -1075,7 +1084,7 @@ void shiftCircularDataLabelTemplate(
   while (pointIndex < templates.length) {
     final CircularDataLabelBoxParentData child = templates[pointIndex];
 
-    final CircularChartPoint point = child.point!;
+    final CircularChartPoint<dynamic> point = child.point!;
     if (point.isVisible) {
       final EdgeInsets margin = seriesRenderer.dataLabelSettings.margin;
       final Rect rect = point.labelRect;
@@ -1153,8 +1162,8 @@ bool isTemplateWithinBounds(Rect bounds, Rect templateRect) =>
 // Calculate the data label rectangle value when the data label template
 // position is outside and it consider the outer radius.
 void _renderOutsideDataLabelTemplate(
-  CircularChartPoint point,
-  CircularSeriesRenderer seriesRenderer,
+  CircularChartPoint<dynamic> point,
+  CircularSeriesRenderer<dynamic, dynamic> seriesRenderer,
   Size templateSize,
   List<Rect> renderDataLabelRegion,
 ) {

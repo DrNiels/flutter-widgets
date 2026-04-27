@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "அனைத்தையும் தெரிவுசெய்", 
 "sortAndFilterDataGridFilteringLabel" : "வரிசைப்படுத்தி வடிகட்டவும்", 
 "clearFilterDataGridFilteringLabel" : "வடிகட்டியை அழி", 
-"fromDataGridFilteringLabel" : "இருந்து"
+"fromDataGridFilteringLabel" : "இருந்து",
+"selectADateDataGridFilteringLabel": "தேதியைத் தேர்ந்தெடுக்கவும்"
 }

@@ -134,6 +134,7 @@ class StickyNoteAnnotationView extends InteractiveGraphicsView
     Color selectorColor = defaultSelectorColor,
     double selectorStorkeWidth = 1,
     double zoomLevel = 1,
+    double scaleFactor = 1,
   }) : super(
          key: key,
          color: annotation.color,
@@ -145,10 +146,14 @@ class StickyNoteAnnotationView extends InteractiveGraphicsView
          selectorStorkeWidth: selectorStorkeWidth,
        ) {
     _zoomLevel = zoomLevel;
+    _scaleFactor = scaleFactor;
   }
 
   /// Zoom level of the pdf page.
   late final double _zoomLevel;
+
+  /// Scale Factor of the pdf page
+  late final double _scaleFactor;
 
   /// Called when the annotation is moved.
   final AnnotationMoveEndedCallback? onAnnotationMoved;
@@ -172,6 +177,7 @@ class StickyNoteAnnotationView extends InteractiveGraphicsView
       selectorColor: selectorColor,
       selectorStorkeWidth: selectorStorkeWidth,
       zoomLevel: _zoomLevel,
+      scaleFactor: _scaleFactor,
       onAnnotationMoved: onAnnotationMoved,
       onAnnotationMoving: onAnnotationMoving,
       onDoubleTap: onDoubleTap,
@@ -191,7 +197,8 @@ class StickyNoteAnnotationView extends InteractiveGraphicsView
         ..onAnnotationMoved = onAnnotationMoved
         ..onAnnotationMoving = onAnnotationMoving
         .._onDoubleTap = onDoubleTap
-        .._onTap = onTap;
+        .._onTap = onTap
+        .._scaleFactor = _scaleFactor;
     }
     super.updateRenderObject(context, renderObject);
   }
@@ -215,6 +222,7 @@ class RenderStickyNoteAnnotationView extends RenderInteractiveGraphicsView {
     VoidCallback? onTap,
     void Function()? onDoubleTap,
     double zoomLevel = 1,
+    double scaleFactor = 1,
   }) : _onDoubleTap = onDoubleTap,
        super(
          strokeColor: color,
@@ -226,20 +234,17 @@ class RenderStickyNoteAnnotationView extends RenderInteractiveGraphicsView {
        ) {
     _onTap = onTap;
     _zoomLevel = zoomLevel;
+    _scaleFactor = scaleFactor;
     _selectorStorkeWidth = selectorStorkeWidth;
 
     _doubleTapGestureRecognizer =
-        DoubleTapGestureRecognizer()
-          ..onDoubleTap = _onDoubleTap
-          ..gestureSettings = const DeviceGestureSettings(touchSlop: 0.0);
-    super.tapGestureRecognizer.gestureSettings = const DeviceGestureSettings(
-      touchSlop: 0.0,
-    );
+        DoubleTapGestureRecognizer()..onDoubleTap = _onDoubleTap;
     _strokePath = Path();
     _fillPath = Path();
   }
 
   late double _zoomLevel;
+  late double _scaleFactor;
   late DoubleTapGestureRecognizer _doubleTapGestureRecognizer;
   late Path _fillPath;
   late Path _strokePath;
@@ -298,10 +303,10 @@ class RenderStickyNoteAnnotationView extends RenderInteractiveGraphicsView {
   Rect _getPaintRect(Rect rect, Offset offset) {
     final Rect localRect = rect.translate(-_bounds.left, -_bounds.top);
     final Offset globalOffset = Offset(
-      offset.dx + (localRect.left / zoomLevel),
-      offset.dy + (localRect.top / zoomLevel),
+      offset.dx + (localRect.left * _scaleFactor / zoomLevel),
+      offset.dy + (localRect.top * _scaleFactor / zoomLevel),
     );
-    return globalOffset & (localRect.size / zoomLevel);
+    return globalOffset & (localRect.size * _scaleFactor / zoomLevel);
   }
 
   void _applyRotationTransform(Canvas canvas, int rotation, Offset offset) {

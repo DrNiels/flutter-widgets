@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Selektoj të gjitha", 
 "sortAndFilterDataGridFilteringLabel" : "Rendit dhe filtro", 
 "clearFilterDataGridFilteringLabel" : "Pastro filtrin", 
-"fromDataGridFilteringLabel" : "Nga"
+"fromDataGridFilteringLabel" : "Nga",
+"selectADateDataGridFilteringLabel": "Zgjidhni një datë"
 }

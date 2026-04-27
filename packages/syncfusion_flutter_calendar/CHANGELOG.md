@@ -1,6 +1,48 @@
 ## Unreleased
 
-* No changes.
+**Features**
+
+* #FR29362 - Added explicit `height` and `width` support to [ResourceViewSettings](https://pub.dev/documentation/syncfusion_flutter_calendar/latest/calendar/SfCalendar/resourceViewSettings.html). When provided, `height` adjusts each resource item's height and `width` adjusts the resource panel width. These explicit values take precedence over `size`.
+
+## [32.1.24] - 01/20/2026
+
+**General**
+
+* Upgraded the `timezone` package to the latest version 0.11.0.
+
+## [32.1.22] - 01/06/2026
+
+**Bugs**
+
+* #GH1498 - The child widget in [loadMoreWidgetBuilder](https://pub.dev/documentation/syncfusion_flutter_calendar/latest/calendar/SfCalendar/loadMoreWidgetBuilder.html) was repeatedly invoked when [minDate](https://pub.dev/documentation/syncfusion_flutter_calendar/latest/calendar/SfCalendar/minDate.html) was set to current month-end date. Now, it runs once initially, and then load-more will be triggered only when required during scrolling. 
+
+## [31.2.15] - 11/25/2025
+
+**General**
+
+*  The compatible version of our Flutter calendar widget has been updated to Flutter SDK 3.38.
+
+## [31.2.5] - 11/04/2025
+
+**General**
+
+*  The translation for “No events” has been modified to “Etkinlik yok” from “Olay yok” for Turkish language. 
+
+## [31.2.4] - 10/28/2025
+
+**Enhancements**
+
+* \#FB70566 - The display of exceeding events has been improved for all-day events with [appointmentBuilder](https://pub.dev/documentation/syncfusion_flutter_calendar/latest/calendar/SfCalendar/appointmentBuilder.html) customization.
+
+**Breaking changes**
+
+* \#FB70575 - The [leadingDateTextStyle](https://pub.dev/documentation/syncfusion_flutter_calendar/latest/calendar/MonthCellStyle/leadingDatesTextStyle.html) now applies to dates in the previous month, while the [trailingDateTextStyle](https://pub.dev/documentation/syncfusion_flutter_calendar/latest/calendar/MonthCellStyle/trailingDatesTextStyle.html) applies to dates in the next month in the month view.
+
+## [31.1.20] - 09/17/2025
+
+**General**
+
+* The compatible version of our Flutter calendar widget has been updated to Flutter SDK 3.35.
 
 ## [30.1.37] - 06/25/2025
 

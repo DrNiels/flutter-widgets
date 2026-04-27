@@ -639,6 +639,12 @@
       "description" : "The label that is displayed in the filter view in SfDataGrid for `Select All` option in drop down widget.",
       "type" : "text"
   },
+
+  "selectADateDataGridFilteringLabel": "Select a date",
+  "@selectADateDataGridFilteringLabel": {
+      "description" : "The label that is displayed in the header view of the calendar in SfDataGrid for `Select a date` option in the popup menu.",
+      "type" : "text"
+  },
   
   "sortAndFilterDataGridFilteringLabel": "Sort and Filter",
   "@sortAndFilterDataGridFilteringLabel": {

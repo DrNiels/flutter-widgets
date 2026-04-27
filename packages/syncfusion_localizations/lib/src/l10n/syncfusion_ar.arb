@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "اختر الكل", 
 "sortAndFilterDataGridFilteringLabel" : "الفرز والتصفية", 
 "clearFilterDataGridFilteringLabel" : "مسح المرشح",
-"fromDataGridFilteringLabel" : "من"
+"fromDataGridFilteringLabel" : "من",
+"selectADateDataGridFilteringLabel" : "اختر تاريخًا"
 }

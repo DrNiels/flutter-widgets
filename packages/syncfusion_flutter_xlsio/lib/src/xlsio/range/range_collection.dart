@@ -38,7 +38,7 @@ class RangeCollection {
   }
 
   /// Indexer set of the class
-  operator []=(int index, Range? value) {
+  void operator []=(int index, Range? value) {
     if (_iCount < index) {
       _updateSize(index);
     }

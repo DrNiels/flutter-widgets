@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Მონიშნე ყველა", 
 "sortAndFilterDataGridFilteringLabel" : "დალაგება და გაფილტვრა", 
 "clearFilterDataGridFilteringLabel" : "ფილტრის გასუფთავება", 
-"fromDataGridFilteringLabel" : "დან"
+"fromDataGridFilteringLabel" : "დან",
+"selectADateDataGridFilteringLabel": "აირჩიეთ თარიღი"
 }

@@ -93,7 +93,7 @@ void drawDashedPath(
 /// To calculate dash array path for series.
 Path? _dashPath(
   Path? source, {
-  @required DashArrayIntervalList<double>? dashArray,
+  required DashArrayIntervalList<double>? dashArray,
 }) {
   if (source == null) {
     return null;

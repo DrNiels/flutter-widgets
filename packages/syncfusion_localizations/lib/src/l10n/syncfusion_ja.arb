@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "すべて選択", 
 "sortAndFilterDataGridFilteringLabel" : "並べ替えとフィルター", 
 "clearFilterDataGridFilteringLabel" : "フィルターをクリア", 
-"fromDataGridFilteringLabel" : "から"
+"fromDataGridFilteringLabel" : "から",
+"selectADateDataGridFilteringLabel": "日付を選択"
 }

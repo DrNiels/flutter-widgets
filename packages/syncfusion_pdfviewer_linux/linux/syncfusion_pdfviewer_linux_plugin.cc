@@ -20,6 +20,7 @@ G_DEFINE_TYPE(SyncfusionPdfviewerLinuxPlugin, syncfusion_pdfviewer_linux_plugin,
 
 // Forward declarations for method handlers
 FlMethodResponse *InitializePDFRenderer(FlMethodCall *method_call);
+FlMethodResponse *LoadPdfFromFile(FlMethodCall *method_call);
 FlMethodResponse *GetPagesHeight(FlMethodCall *method_call);
 FlMethodResponse *GetPagesWidth(FlMethodCall *method_call);
 FlMethodResponse *GetPdfPageImage(FlMethodCall *method_call);
@@ -43,6 +44,10 @@ static void syncfusion_pdfviewer_linux_plugin_handle_method_call(
   if (g_strcmp0(method, "initializePdfRenderer") == 0)
   {
     response = InitializePDFRenderer(method_call);
+  }
+  else if (g_strcmp0(method, "loadPdfFromFile") == 0)
+  {
+    response = LoadPdfFromFile(method_call);
   }
   else if (g_strcmp0(method, "getPagesHeight") == 0)
   {
@@ -141,6 +146,31 @@ FlMethodResponse *InitializePDFRenderer(FlMethodCall *method_call)
     }
   }
   return create_error_response("InvalidArguments", "Initialization failed");
+}
+
+// Function to initialize PDF renderer from a URI
+FlMethodResponse *LoadPdfFromFile(FlMethodCall *method_call) {
+  FlValue *args = fl_method_call_get_args(method_call);
+  if (args != nullptr && fl_value_get_type(args) == FL_VALUE_TYPE_MAP) {
+    FlValue *path_key = fl_value_lookup_string(args, "path");
+    const gchar *path = fl_value_get_string(path_key);
+    FlValue *idKey = fl_value_lookup_string(args, "documentID");
+    const gchar *documentID = idKey ? fl_value_get_string(idKey) : "";
+    FlValue *passwordKey = fl_value_lookup_string(args, "password");
+    const gchar *password = "";
+    if (passwordKey && fl_value_get_type(passwordKey) == FL_VALUE_TYPE_STRING) {
+      password = fl_value_get_string(passwordKey);
+    }
+
+    auto document = pdfviewer::LoadPdfFromFile(path, password, documentID);    
+    if (document) {
+      int pageCount = FPDF_GetPageCount(document->pdfDocument());
+      FlValue *result = fl_value_new_string(g_strdup_printf("%d", pageCount));
+      return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
+    }
+    return create_error_response("InitializationFailed", "Unable to initialize PDF document from provided path");
+  }
+  return create_error_response("InvalidArguments", "Expected a map of arguments");
 }
 
 // Function to get pages' heights

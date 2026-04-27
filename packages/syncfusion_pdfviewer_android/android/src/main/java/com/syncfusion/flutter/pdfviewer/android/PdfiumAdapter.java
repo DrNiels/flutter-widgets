@@ -30,6 +30,8 @@ public class PdfiumAdapter {
      */
     public static native long loadDocument(byte[] data, String password);
 
+    public static native long loadDocumentFromFile(String path, String password);
+    
     /**
      * Closes the specified PDF document and releases resources tied to it.
      * 

@@ -448,7 +448,7 @@ class Legend {
   ///   );
   /// }
   /// ```
-  final LegendItemBuilder? legendItemBuilder;
+  final LegendItemBuilder<dynamic, dynamic>? legendItemBuilder;
 
   /// Overflow legend items.
   ///

@@ -1145,15 +1145,34 @@ abstract class RenderBaseRangeSlider extends RenderBaseSlider
       Offset thumbCenter = isStartThumbActive
           ? endThumbCenter
           : startThumbCenter;
-      dynamic actualText = (sliderType == SliderType.horizontal)
-          ? getValueFromPosition(thumbCenter.dx - offset.dx)
-          : getValueFromPosition(trackRect.bottom - thumbCenter.dy);
+
+      Offset clampedThumbCenter = thumbCenter;
+      switch (sliderType) {
+        case SliderType.horizontal:
+          clampedThumbCenter = Offset(
+            thumbCenter.dx.clamp(trackRect.left, trackRect.right),
+            thumbCenter.dy,
+          );
+          break;
+        case SliderType.vertical:
+          clampedThumbCenter = Offset(
+            thumbCenter.dx,
+            thumbCenter.dy.clamp(trackRect.top, trackRect.bottom),
+          );
+          break;
+        case null:
+          break;
+      }
+
+      dynamic clampedActualText = (sliderType == SliderType.horizontal)
+          ? getValueFromPosition(clampedThumbCenter.dx - offset.dx)
+          : getValueFromPosition(trackRect.bottom - clampedThumbCenter.dy);
 
       String tooltipText = tooltipTextFormatterCallback(
-        actualText,
-        getFormattedText(actualText),
+        clampedActualText,
+        getFormattedText(clampedActualText),
       );
-      TextSpan textSpan = TextSpan(
+      final TextSpan textSpan = TextSpan(
         text: tooltipText,
         style: sliderThemeData.tooltipTextStyle,
       );
@@ -1166,7 +1185,7 @@ abstract class RenderBaseRangeSlider extends RenderBaseSlider
           textPainter,
           actualThumbSize.width / 2,
           Offset(actualTrackOffset.dx, tooltipStartY),
-          thumbCenter,
+          clampedThumbCenter,
           trackRect,
           sliderThemeData,
         );
@@ -1174,7 +1193,7 @@ abstract class RenderBaseRangeSlider extends RenderBaseSlider
         bottomTooltipRect = getRectangularTooltipRect(
           textPainter,
           Offset(actualTrackOffset.dx, tooltipStartY),
-          thumbCenter,
+          clampedThumbCenter,
           trackRect,
           sliderThemeData,
         );
@@ -1184,7 +1203,7 @@ abstract class RenderBaseRangeSlider extends RenderBaseSlider
       showOverlappingTooltipStroke = false;
       tooltipShape.paint(
         context,
-        thumbCenter,
+        clampedThumbCenter,
         Offset(actualTrackOffset.dx, tooltipStartY),
         textPainter,
         parentBox: this,
@@ -1197,19 +1216,38 @@ abstract class RenderBaseRangeSlider extends RenderBaseSlider
       );
 
       thumbCenter = isStartThumbActive ? startThumbCenter : endThumbCenter;
-      actualText = (sliderType == SliderType.horizontal)
-          ? getValueFromPosition(thumbCenter.dx - offset.dx)
-          : getValueFromPosition(trackRect.bottom - thumbCenter.dy);
+
+      clampedThumbCenter = thumbCenter;
+      switch (sliderType) {
+        case SliderType.horizontal:
+          clampedThumbCenter = Offset(
+            thumbCenter.dx.clamp(trackRect.left, trackRect.right),
+            thumbCenter.dy,
+          );
+          break;
+        case SliderType.vertical:
+          clampedThumbCenter = Offset(
+            thumbCenter.dx,
+            thumbCenter.dy.clamp(trackRect.top, trackRect.bottom),
+          );
+          break;
+        case null:
+          break;
+      }
+
+      clampedActualText = (sliderType == SliderType.horizontal)
+          ? getValueFromPosition(clampedThumbCenter.dx - offset.dx)
+          : getValueFromPosition(trackRect.bottom - clampedThumbCenter.dy);
 
       tooltipText = tooltipTextFormatterCallback(
-        actualText,
-        getFormattedText(actualText),
+        clampedActualText,
+        getFormattedText(clampedActualText),
       );
-      textSpan = TextSpan(
+      final TextSpan textSpan1 = TextSpan(
         text: tooltipText,
         style: sliderThemeData.tooltipTextStyle,
       );
-      textPainter.text = textSpan;
+      textPainter.text = textSpan1;
       textPainter.layout();
 
       Rect? topTooltipRect;
@@ -1218,7 +1256,7 @@ abstract class RenderBaseRangeSlider extends RenderBaseSlider
           textPainter,
           actualThumbSize.width / 2,
           Offset(actualTrackOffset.dx, tooltipStartY),
-          thumbCenter,
+          clampedThumbCenter,
           trackRect,
           sliderThemeData,
         );
@@ -1226,7 +1264,7 @@ abstract class RenderBaseRangeSlider extends RenderBaseSlider
         topTooltipRect = getRectangularTooltipRect(
           textPainter,
           Offset(actualTrackOffset.dx, tooltipStartY),
-          thumbCenter,
+          clampedThumbCenter,
           trackRect,
           sliderThemeData,
         );
@@ -1240,7 +1278,7 @@ abstract class RenderBaseRangeSlider extends RenderBaseSlider
 
       tooltipShape.paint(
         context,
-        thumbCenter,
+        clampedThumbCenter,
         Offset(actualTrackOffset.dx, tooltipStartY),
         textPainter,
         parentBox: this,

@@ -100,13 +100,14 @@
 "dateFiltersDataGridFilteringLabel" : "Filtros de fecha", 
 "searchDataGridFilteringLabel" : "Búsqueda", 
 "noMatchesDataGridFilteringLabel" : "No hay coincidencias", 
-"okDataGridFilteringLabel" : "OK", 
+"okDataGridFilteringLabel" : "Aceptar", 
 "cancelDataGridFilteringLabel" : "Cancelar", 
 "showRowsWhereDataGridFilteringLabel" : "Mostrar filas donde", 
 "andDataGridFilteringLabel" : "Y", 
 "orDataGridFilteringLabel" : "O", 
 "selectAllDataGridFilteringLabel" : "Seleccionar todo", 
 "sortAndFilterDataGridFilteringLabel" : "Ordenar y filtrar", 
-"clearFilterDataGridFilteringLabel" : "Filtro claro", 
-"fromDataGridFilteringLabel" : "De"
+"clearFilterDataGridFilteringLabel" : "Borrar filtro", 
+"fromDataGridFilteringLabel" : "De",
+"selectADateDataGridFilteringLabel": "Selecciona una fecha"
 }

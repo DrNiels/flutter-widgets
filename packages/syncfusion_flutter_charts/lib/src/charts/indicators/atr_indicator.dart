@@ -156,15 +156,15 @@ class AtrIndicatorWidget extends IndicatorWidget {
 
   /// Create the ADIndicatorRenderer renderer.
   @override
-  AtrIndicatorRenderer createRenderer() {
+  AtrIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return AtrIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final AtrIndicatorRenderer renderer =
+    final AtrIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as AtrIndicatorRenderer;
-    final AtrIndicator atr = indicator as AtrIndicator;
+    final AtrIndicator<dynamic, dynamic> atr = indicator as AtrIndicator;
 
     renderer
       ..highValueMapper = atr.highValueMapper
@@ -177,10 +177,10 @@ class AtrIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    AtrIndicatorRenderer renderObject,
+    AtrIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final AtrIndicator atr = indicator as AtrIndicator;
+    final AtrIndicator<dynamic, dynamic> atr = indicator as AtrIndicator;
 
     renderObject
       ..highValueMapper = atr.highValueMapper

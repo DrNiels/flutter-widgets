@@ -1412,6 +1412,9 @@ class SplineAreaSegment<T, D> extends ChartSegment {
     _startControlHighPoints.clear();
     _endControlHighPoints.clear();
 
+    bottom =
+        series.xAxis!.crossesAt ?? max(series.yAxis!.visibleRange!.minimum, 0);
+
     _fillPath.reset();
     _strokePath.reset();
     if (_xValues.isEmpty || _yValues.isEmpty) {
@@ -2199,7 +2202,7 @@ class SplineRangeAreaSeriesRenderer<T, D> extends RangeSeriesRendererBase<T, D>
 
   @override
   int segmentPointIndex(Offset position, ChartSegment segment) {
-    final SplineRangeAreaSegment splineRangeAreaSegment =
+    final SplineRangeAreaSegment<dynamic, dynamic> splineRangeAreaSegment =
         segment as SplineRangeAreaSegment;
     final int index = _computePointIndex(
       splineRangeAreaSegment._lowPoints,

@@ -226,7 +226,8 @@ class _ZoomableState extends State<Zoomable> with TickerProviderStateMixin {
       return matrix.clone();
     }
 
-    return matrix.clone()..translate(translation.dx, translation.dy);
+    return matrix.clone()
+      ..translateByDouble(translation.dx, translation.dy, 0.0, 1.0);
   }
 
   // Scales the given matrix with considering the min and max zoomLevel.
@@ -242,7 +243,8 @@ class _ZoomableState extends State<Zoomable> with TickerProviderStateMixin {
       _getScale(widget.maxZoomLevel),
     );
     final double clampedScale = clampedTotalScale / currentScale;
-    return matrix.clone()..scale(clampedScale);
+    return matrix.clone()
+      ..scaleByDouble(clampedScale, clampedScale, clampedScale, 1.0);
   }
 
   ActionType _getActionTypes(
@@ -840,9 +842,10 @@ class _ZoomableState extends State<Zoomable> with TickerProviderStateMixin {
             .._actualRect = widget.initialRect
             .._zoomLevel = widget.initialZoomLevel;
           _boundaryRect = _getBoundaryRect();
+          final double clampedScale = _getScale(widget.initialZoomLevel);
           widget.zoomController.controllerMatrix =
               Matrix4.identity()
-                ..scale(_getScale(widget.initialZoomLevel))
+                ..scaleByDouble(clampedScale, clampedScale, clampedScale, 1.0)
                 ..setTranslation(
                   Vector3(widget.initialRect.left, widget.initialRect.top, 0.0),
                 );
@@ -947,7 +950,7 @@ class ZoomableController {
       final double newScale = pow(2, _zoomLevel - 1).toDouble();
       controllerMatrix =
           Matrix4.identity()
-            ..scale(newScale)
+            ..scaleByDouble(newScale, newScale, newScale, 1.0)
             ..setTranslation(Vector3(_actualRect.left, _actualRect.top, 0.0));
       notifyListeners();
       return;
@@ -961,7 +964,7 @@ class ZoomableController {
     final double newScale = pow(2, _zoomLevel - 1).toDouble();
     controllerMatrix =
         Matrix4.identity()
-          ..scale(newScale)
+          ..scaleByDouble(newScale, newScale, newScale, 1.0)
           ..setTranslation(Vector3(_actualRect.left, _actualRect.top, 0.0));
     notifyListeners();
   }

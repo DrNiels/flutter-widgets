@@ -408,7 +408,7 @@ class SelectionBehavior extends ChartBehavior {
       return;
     }
 
-    ChartSeriesRenderer? seriesRenderer;
+    ChartSeriesRenderer<dynamic, dynamic>? seriesRenderer;
     RenderBox? child = plotArea.firstChild;
     while (child != null) {
       final ContainerParentDataMixin<RenderBox> childParentData =
@@ -434,7 +434,7 @@ class SelectionBehavior extends ChartBehavior {
   }
 
   /// Provides the list of selected point indices for given series.
-  List<int> getSelectedDataPoints(CartesianSeries series) {
+  List<int> getSelectedDataPoints(CartesianSeries<dynamic, dynamic> series) {
     RenderChartPlotArea? plotArea;
     if (parentBox is RenderChartPlotArea) {
       plotArea = parentBox! as RenderChartPlotArea;

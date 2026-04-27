@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Pasirinkti viską", 
 "sortAndFilterDataGridFilteringLabel" : "Rūšiuoti ir filtruoti", 
 "clearFilterDataGridFilteringLabel" : "Išvalyti filtrą", 
-"fromDataGridFilteringLabel" : "Iš"
+"fromDataGridFilteringLabel" : "Iš",
+"selectADateDataGridFilteringLabel": "Pasirinkite datą"
 }

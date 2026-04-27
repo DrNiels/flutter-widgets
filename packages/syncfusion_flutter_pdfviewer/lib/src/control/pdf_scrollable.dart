@@ -33,6 +33,7 @@ class PdfScrollable extends StatefulWidget {
     this.minScale,
     this.enableDoubleTapZooming,
     this.interactionMode,
+    this.pageSpacing,
     this.maxPdfPageWidth,
     this.scaleEnabled,
     this.maxScrollExtent,
@@ -66,6 +67,9 @@ class PdfScrollable extends StatefulWidget {
 
   /// Indicates interaction mode of pdfViewer.
   final PdfInteractionMode interactionMode;
+
+  /// Indicates the page spacing between the pages
+  final double pageSpacing;
 
   /// Indicates whether scroll status  must be shown or not.
   final bool canShowScrollStatus;
@@ -317,14 +321,24 @@ class PdfScrollableState extends State<PdfScrollable> {
         widget.viewportDimension.width.round() >
             (totalPdfPageWidth * widget.pdfViewerController.zoomLevel)
                 .round()) {
-      _transformationController.value.translate(currentOffset.dx);
+      _transformationController.value.translateByDouble(
+        currentOffset.dx,
+        0.0,
+        0.0,
+        1.0,
+      );
       _isOverFlowed = false;
     } else {
       if (widget.scrollDirection == PdfScrollDirection.horizontal &&
           totalPdfPageWidth < widget.viewportDimension.width) {
         /// Invoked when pdf pages width greater viewport width
         if (_isOverFlowed == false) {
-          _transformationController.value.translate(currentOffset.dx);
+          _transformationController.value.translateByDouble(
+            currentOffset.dx,
+            0.0,
+            0.0,
+            1.0,
+          );
           _isOverFlowed = true;
         }
       }
@@ -415,9 +429,11 @@ class PdfScrollableState extends State<PdfScrollable> {
       final Offset previousOffset = _transformationController.toScene(
         Offset.zero,
       );
-      _transformationController.value.translate(
+      _transformationController.value.translateByDouble(
         previousOffset.dx - offset.dx,
         previousOffset.dy - offset.dy,
+        0.0,
+        1.0,
       );
       widget.onPdfOffsetChanged!.call(
         _transformationController.toScene(Offset.zero),
@@ -448,9 +464,11 @@ class PdfScrollableState extends State<PdfScrollable> {
     final Offset previousOffset = _transformationController.toScene(
       Offset.zero,
     );
-    _transformationController.value.translate(
+    _transformationController.value.translateByDouble(
       previousOffset.dx - offset.dx,
       previousOffset.dy - offset.dy,
+      0.0,
+      1.0,
     );
     widget.onPdfOffsetChanged!.call(
       _transformationController.toScene(Offset.zero),
@@ -481,7 +499,12 @@ class PdfScrollableState extends State<PdfScrollable> {
       final Offset previousOffset = _transformationController.toScene(
         Offset.zero,
       );
-      _transformationController.value.scale(zoomChangeFactor, zoomChangeFactor);
+      _transformationController.value.scaleByDouble(
+        zoomChangeFactor,
+        zoomChangeFactor,
+        zoomChangeFactor,
+        1.0,
+      );
       if (kIsDesktop &&
           !widget.isMobileWebView &&
           widget.maxPdfPageWidth * zoomLevel < widget.viewportDimension.width) {
@@ -496,42 +519,53 @@ class PdfScrollableState extends State<PdfScrollable> {
     return zoomLevel;
   }
 
-  /// Retrieves the page number based on the offset of the page.
-  int getPageNumber(double offset) {
-    int pageNumber = 0;
-    if (widget.textDirection == TextDirection.rtl &&
-        widget.scrollDirection == PdfScrollDirection.horizontal) {
-      for (int i = 1; i <= widget.pdfViewerController.pageCount; i++) {
-        if (i == widget.pdfViewerController.pageCount || offset.round() <= 0) {
-          pageNumber = widget.pdfViewerController.pageCount;
-          break;
-        } else if ((offset.round() + widget.viewportDimension.width.round()) <=
-                (widget.pdfPages[i]!.pageOffset.round() +
-                    widget.pdfPages[i]!.pageSize.width.round()) &&
-            (offset.round() + widget.viewportDimension.width.round()) >
-                (widget.pdfPages[i + 1]!.pageOffset.round() +
-                    widget.pdfPages[i + 1]!.pageSize.width.round())) {
-          pageNumber = i;
-          break;
-        } else {
-          continue;
-        }
-      }
+  /// Retrieves the page number based on the center of the viewport.
+  int getPageNumber() {
+    // Calculate the center point of the viewport
+    Offset centerOffset;
+    if (widget.scrollDirection == PdfScrollDirection.vertical) {
+      centerOffset = Offset(
+        currentOffset.dx,
+        widget.viewportDimension.height / 2,
+      );
     } else {
-      for (int i = 1; i <= widget.pdfViewerController.pageCount; i++) {
-        if (i == widget.pdfViewerController.pageCount ||
-            offset.round() >= widget.maxScrollExtent.round()) {
-          pageNumber = widget.pdfViewerController.pageCount;
-          break;
-        } else if (offset.round() >= widget.pdfPages[i]!.pageOffset.round() &&
-            offset.round() < widget.pdfPages[i + 1]!.pageOffset.round()) {
-          pageNumber = i;
-          break;
-        } else {
-          continue;
+      centerOffset = Offset(
+        widget.viewportDimension.width / 2,
+        currentOffset.dy,
+      );
+    }
+    final Offset viewportCenter = _transformationController.toScene(
+      centerOffset,
+    );
+
+    // Loop through all pages to find which one contains the center point
+    for (
+      int pageNumber = 1;
+      pageNumber <= widget.pdfViewerController.pageCount;
+      pageNumber++
+    ) {
+      final page = widget.pdfPages[pageNumber];
+      if (page != null) {
+        final Rect pageRect = Rect.fromLTWH(
+          widget.scrollDirection == PdfScrollDirection.horizontal
+              ? page.pageOffset
+              : 0,
+          widget.scrollDirection == PdfScrollDirection.vertical
+              ? page.pageOffset
+              : 0,
+          widget.scrollDirection == PdfScrollDirection.horizontal
+              ? page.pageSize.width + widget.pageSpacing
+              : page.pageSize.width,
+          widget.scrollDirection == PdfScrollDirection.vertical
+              ? page.pageSize.height + widget.pageSpacing
+              : page.pageSize.height,
+        );
+
+        if (pageRect.contains(viewportCenter)) {
+          return pageNumber;
         }
       }
     }
-    return pageNumber;
+    return widget.pdfViewerController.pageNumber;
   }
 }

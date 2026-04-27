@@ -59,7 +59,7 @@ class AnnotationContainer extends StatefulWidget {
   final VoidCallback? onDragEnd;
 
   /// Called when the tap is done.
-  final Function(Offset) onTap;
+  final Function(PointerEvent) onTap;
 
   final bool isZooming;
 
@@ -69,6 +69,7 @@ class AnnotationContainer extends StatefulWidget {
 
 class _AnnotationContainerState extends State<AnnotationContainer> {
   Annotation? _selectedAnnotation;
+  Size _viewportSize = Size.zero;
   @override
   Widget build(BuildContext context) {
     _selectedAnnotation = widget.selectedAnnotation;
@@ -89,47 +90,55 @@ class _AnnotationContainerState extends State<AnnotationContainer> {
     annotations.sort((Annotation a, Annotation b) {
       return a.zOrder.compareTo(b.zOrder);
     });
-    return Listener(
-      onPointerUp: (PointerUpEvent details) {
-        widget.onTap(details.position);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (_viewportSize != constraints.biggest) {
+          _viewportSize = constraints.biggest;
+        }
+        return Listener(
+          onPointerUp: (PointerUpEvent details) {
+            widget.onTap(details);
+          },
+          child: Stack(
+            children: <Widget>[
+              for (final Annotation annotation in annotations)
+                // Annotations with empty annotation bounds will not be rendered in the view.
+                if (!annotation.boundingBox.isEmpty)
+                  _getPositionedAnnotationView(annotation),
+              if (_selectedAnnotation != null &&
+                  !_selectedAnnotation!.boundingBox.isEmpty &&
+                  widget.pageNumber == widget.selectedAnnotation!.pageNumber)
+                ListenableBuilder(
+                  listenable: Listenable.merge(<Listenable>[
+                    widget.selectedAnnotation!,
+                    _getTypeSettings(_selectedAnnotation!),
+                    _selectedAnnotation!,
+                  ]),
+                  builder: (BuildContext context, Widget? child) {
+                    return _getPositionedAnnotationView(_selectedAnnotation!);
+                  },
+                ),
+            ],
+          ),
+        );
       },
-      child: Stack(
-        children: <Widget>[
-          for (final Annotation annotation in annotations)
-            // Annotations with empty annotation bounds will not be rendered in the view.
-            if (!annotation.boundingBox.isEmpty)
-              _getPositionedAnnotationView(annotation),
-          if (_selectedAnnotation != null &&
-              !_selectedAnnotation!.boundingBox.isEmpty &&
-              widget.pageNumber == widget.selectedAnnotation!.pageNumber)
-            ListenableBuilder(
-              listenable: Listenable.merge(<Listenable>[
-                widget.selectedAnnotation!,
-                _getTypeSettings(_selectedAnnotation!),
-                _selectedAnnotation!,
-              ]),
-              builder: (BuildContext context, Widget? child) {
-                return _getPositionedAnnotationView(_selectedAnnotation!);
-              },
-            ),
-        ],
-      ),
     );
   }
 
   Widget _getPositionedAnnotationView(Annotation annotation) {
     if (annotation is StickyNoteAnnotation) {
+      final double scaleFactor = _viewportSize.shortestSide >= 600 ? 2 : 1.25;
       return ListenableBuilder(
         listenable: annotation,
         builder: (BuildContext context, Widget? child) {
           return Positioned(
             left: annotation.uiBounds.left / widget.heightPercentage,
             top: annotation.uiBounds.top / widget.heightPercentage,
-            width: annotation.uiBounds.width / widget.zoomLevel,
-            height: annotation.uiBounds.height / widget.zoomLevel,
+            width: annotation.uiBounds.width * scaleFactor / widget.zoomLevel,
+            height: annotation.uiBounds.height * scaleFactor / widget.zoomLevel,
             child: Visibility(
               visible: !widget.isZooming,
-              child: _getAnnotationView(annotation),
+              child: _getAnnotationView(annotation, scaleFactor: scaleFactor),
             ),
           );
         },
@@ -174,7 +183,7 @@ class _AnnotationContainerState extends State<AnnotationContainer> {
     }
   }
 
-  Widget _getAnnotationView(Annotation annotation) {
+  Widget _getAnnotationView(Annotation annotation, {double scaleFactor = 1}) {
     Widget? annotationView;
 
     if (annotation is HighlightAnnotation ||
@@ -198,6 +207,7 @@ class _AnnotationContainerState extends State<AnnotationContainer> {
         annotation: annotation,
         isSelected: annotation == _selectedAnnotation,
         zoomLevel: widget.zoomLevel,
+        scaleFactor: scaleFactor,
         canEdit: !isLocked,
         selectorColor:
             isLocked

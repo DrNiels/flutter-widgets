@@ -242,7 +242,7 @@ abstract class LegendItem {
   VoidCallback? onToggled;
 
   /// Specifies the series associated with the legend item.
-  final ChartSeriesRenderer? series;
+  final ChartSeriesRenderer<dynamic, dynamic>? series;
 
   /// Specifies the index of the series associated with the legend item.
   final int seriesIndex;

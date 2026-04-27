@@ -43,7 +43,7 @@ class RowCollection {
   }
 
   /// Indexer set of the class
-  operator []=(int index, Row? value) {
+  void operator []=(int index, Row? value) {
     if (_iCount < index) {
       _updateSize(index);
     }

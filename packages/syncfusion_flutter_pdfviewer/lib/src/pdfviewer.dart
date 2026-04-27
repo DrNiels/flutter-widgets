@@ -35,6 +35,7 @@ import 'control/pdfviewer_callback_details.dart';
 import 'control/single_page_view.dart';
 import 'control/sticky_note_edit_text.dart';
 import 'control/text_selection_menu.dart';
+import 'decryption/decryption.dart';
 import 'form_fields/pdf_checkbox.dart';
 import 'form_fields/pdf_combo_box.dart';
 import 'form_fields/pdf_form_field.dart';
@@ -1203,10 +1204,8 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
   late PdfViewerController _pdfViewerController;
   CancelableOperation<Uint8List>? _getPdfFileCancellableOperation;
   CancelableOperation<PdfDocument?>? _pdfDocumentLoadCancellableOperation;
-  CancelableOperation<List<dynamic>?>? _getHeightCancellableOperation,
-      _getWidthCancellableOperation;
-  List<dynamic>? _originalHeight;
-  List<dynamic>? _originalWidth;
+  List<double>? _originalHeight;
+  List<double>? _originalWidth;
   double? _viewportHeightInLandscape;
   double? _otherContextHeight;
   double _maxPdfPageWidth = 0.0;
@@ -1342,11 +1341,18 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
   /// Used to extract text from the PDF document.
   TextExtractionEngine? _textExtractionEngine;
 
+  /// Used to decrypt an encrypted PDF document
+  DecryptionEngine? _decryptionEngine;
+
   /// Instance of [TextSelectionHelper].
   final TextSelectionHelper _textSelectionHelper = TextSelectionHelper();
 
   /// Password used to open the encrypted PDF document.
   String? _password;
+
+  /// Caches the original PDF bytes to avoid redundant loading
+  Uint8List? _originalSourceBytes;
+  bool _isDecrypting = false;
 
   @override
   void initState() {
@@ -1436,11 +1442,7 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
       _undoController?.dispose();
       _changeTracker.undoController = _effectiveUndoController;
     }
-    _compareDocument(
-      oldWidget._source.getBytes(context),
-      widget._source.getBytes(context),
-      oldWidget.password,
-    );
+    _compareDocument(oldWidget, context);
     if (oldWidget.pageLayoutMode != widget.pageLayoutMode) {
       _transformationController.value = Matrix4.identity();
       // Content size and view size is handled only for single page layout mode
@@ -1490,19 +1492,52 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
 
   // Compares the document bytes and load the PDF document if new bytes are provided.
   Future<void> _compareDocument(
-    Future<Uint8List> oldBytesData,
-    Future<Uint8List> newBytesData,
-    String? oldPassword,
+    SfPdfViewer oldWidget,
+    BuildContext context,
   ) async {
-    final Uint8List oldBytes = await oldBytesData;
-    final Uint8List newBytes = await newBytesData;
-    if (!listEquals(oldBytes, newBytes) ||
-        (widget.password != null && widget.password != oldPassword)) {
-      _password = null;
-      _pdfViewerController.clearSelection();
-      // PDF document gets loaded only when the user changes
-      // the input source of PDF document.
-      await _loadPdfDocument(true, false);
+    Uint8List? oldBytes;
+    Uint8List? newBytes;
+    if (widget._source != oldWidget._source ||
+        (widget.password != null && widget.password != oldWidget.password)) {
+      try {
+        oldBytes = _originalSourceBytes;
+        newBytes = await widget._source.getBytes(context);
+        if (!listEquals(oldBytes, newBytes) ||
+            (widget.password != null &&
+                widget.password != oldWidget.password)) {
+          _password = null;
+          _originalSourceBytes = newBytes;
+          _pdfViewerController.clearSelection();
+          // PDF document gets loaded only when the user changes
+          // the input source of PDF document.
+          await _loadPdfDocument(true, false, newBytes);
+        }
+      } catch (e) {
+        final String errorMessage = e.toString();
+        if (errorMessage.contains('Failed to fetch')) {
+          widget.onDocumentLoadFailed?.call(
+            PdfDocumentLoadFailedDetails(
+              'Error',
+              'Unable to load the document because the URL is invalid or the device is disconnected.',
+            ),
+          );
+        } else if (errorMessage.contains('Unable to load asset') ||
+            errorMessage.contains('FileSystemException: Cannot open file')) {
+          widget.onDocumentLoadFailed?.call(
+            PdfDocumentLoadFailedDetails(
+              'File Not Found',
+              'The document cannot be opened because the provided path or link is invalid.',
+            ),
+          );
+        } else {
+          widget.onDocumentLoadFailed?.call(
+            PdfDocumentLoadFailedDetails(
+              'Error',
+              'There was an error opening this document.',
+            ),
+          );
+        }
+      }
     }
   }
 
@@ -1512,8 +1547,6 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
     helper.enableDefaultMenu();
     _getPdfFileCancellableOperation?.cancel();
     _pdfDocumentLoadCancellableOperation?.cancel();
-    _getHeightCancellableOperation?.cancel();
-    _getWidthCancellableOperation?.cancel();
     _matchedTextPageIndices.clear();
     _extractedTextCollection.clear();
     _pdfViewerThemeData = null;
@@ -1524,6 +1557,8 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
     _plugin.closeDocument();
     _textExtractionEngine?.dispose();
     _textExtractionEngine = null;
+    _decryptionEngine?.dispose();
+    _decryptionEngine = null;
     _disposeCollection(_originalHeight);
     _disposeCollection(_originalWidth);
     _renderedImages.clear();
@@ -1580,6 +1615,8 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
     _isLoaded = false;
     _textExtractionEngine?.dispose();
     _textExtractionEngine = null;
+    _decryptionEngine?.dispose();
+    _decryptionEngine = null;
     _killTextSearchIsolate();
     _isEncrypted = false;
     _matchedTextPageIndices.clear();
@@ -2235,13 +2272,21 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
   }
 
   /// Loads a PDF document and gets the page count from Plugin
-  Future<void> _loadPdfDocument(bool isPdfChanged, bool isDocumentSaved) async {
+  Future<void> _loadPdfDocument(
+    bool isPdfChanged,
+    bool isDocumentSaved, [
+    Uint8List? bytes,
+  ]) async {
     try {
-      if (!_isEncrypted && !isDocumentSaved) {
-        _getPdfFileCancellableOperation =
-            CancelableOperation<Uint8List>.fromFuture(
-              widget._source.getBytes(context),
-            );
+      if (bytes == null) {
+        if (!_isEncrypted && !isDocumentSaved) {
+          _getPdfFileCancellableOperation =
+              CancelableOperation<Uint8List>.fromFuture(
+                widget._source.getBytes(context),
+              );
+          bytes = await _getPdfFileCancellableOperation?.value;
+          _originalSourceBytes = bytes;
+        }
       }
       if (_isAndroid) {
         await _getAndroidDeviceDetails();
@@ -2251,7 +2296,7 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
               ? _decryptedBytes
               : isDocumentSaved
               ? _pdfBytes
-              : (await _getPdfFileCancellableOperation?.value)!;
+              : bytes!;
       if (isPdfChanged) {
         _reset();
         _plugin = PdfViewerPlugin();
@@ -2278,16 +2323,7 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
       }
       _pdfViewerController.zoomLevel = widget.initialZoomLevel;
       _setInitialScrollOffset();
-      _getHeightCancellableOperation =
-          CancelableOperation<List<dynamic>?>.fromFuture(
-            _plugin.getPagesHeight(),
-          );
-      _originalHeight = await _getHeightCancellableOperation?.value;
-      _getWidthCancellableOperation =
-          CancelableOperation<List<dynamic>?>.fromFuture(
-            _plugin.getPagesWidth(),
-          );
-      _originalWidth = await _getWidthCancellableOperation?.value;
+      _getPageSizes();
     } catch (e) {
       _pdfViewerController._reset();
       _hasError = true;
@@ -2408,6 +2444,15 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
           );
         }
       });
+    }
+  }
+
+  Offset? _globalToLocal(Offset globalPosition) {
+    final RenderObject? renderObject = context.findRenderObject();
+    if (renderObject is RenderBox && renderObject.hasSize) {
+      return renderObject.globalToLocal(globalPosition);
+    } else {
+      return null;
     }
   }
 
@@ -3184,7 +3229,7 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
                           autofocus: true,
                           focusNode: _focusNode,
                           onFieldSubmitted: (String value) {
-                            _handlePasswordValidation();
+                            _handlePasswordValidation(context);
                           },
                           onChanged:
                               isMaterial3
@@ -3196,11 +3241,19 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
                                   }
                                   : null,
                           validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Empty Password';
+                            }
+                            _password = value;
                             try {
-                              _decryptedProtectedDocument(_pdfBytes, value);
+                              final PdfDocument document = PdfDocument(
+                                inputBytes: _pdfBytes,
+                                password: value,
+                              );
+                              document.dispose();
                             } catch (e) {
                               if (widget.onDocumentLoadFailed != null) {
-                                if (value!.isEmpty) {
+                                if (value.isEmpty) {
                                   widget.onDocumentLoadFailed!(
                                     PdfDocumentLoadFailedDetails(
                                       'Empty Password Error',
@@ -3269,11 +3322,11 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
                           isMaterial3
                               ? (_isPasswordDialogOpenButtonEnabled
                                   ? () {
-                                    _handlePasswordValidation();
+                                    _handlePasswordValidation(context);
                                   }
                                   : () {})
                               : () {
-                                _handlePasswordValidation();
+                                _handlePasswordValidation(context);
                               },
                       style:
                           isMaterial3
@@ -3331,10 +3384,11 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
   }
 
   /// Validates the password entered in text field for mobile.
-  void _handlePasswordValidation() {
+  void _handlePasswordValidation(BuildContext context) {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       _textFieldController.clear();
-      Navigator.of(context, rootNavigator: true).pop();
+      Navigator.of(context).pop();
+      _decryptedProtectedDocument(_pdfBytes, _password);
     }
   }
 
@@ -3353,22 +3407,38 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
       inputBytes: pdfBytes,
       password: password,
     );
-    if (_isAndroid && !(_isAtLeastApiLevel35 ??= false)) {
-      if (helper.isPdfiumLoaded()) {
-        _decryptedBytes = pdfBytes;
-        _password = password;
-      } else {
-        document.security.userPassword = '';
-        document.security.ownerPassword = '';
-        _decryptedBytes = document.saveAsBytesSync();
-      }
-    } else {
-      _decryptedBytes = pdfBytes;
+    final needsDecryption =
+        _isAndroid &&
+        !(_isAtLeastApiLevel35 ??= false) &&
+        !helper.isPdfiumLoaded();
+
+    void load(Uint8List bytes, String? password) {
+      _decryptedBytes = bytes;
+      _isEncrypted = true;
       _password = password;
+      _loadPdfDocument(true, false);
+      document.dispose();
     }
-    document.dispose();
-    _isEncrypted = true;
-    _loadPdfDocument(true, false);
+
+    if (needsDecryption) {
+      setState(() {
+        _isDecrypting = true;
+      });
+      _decryptionEngine = DecryptionEngine();
+      _decryptionEngine!.decrypt(pdfBytes, password).then((
+        Uint8List? decryptedBytes,
+      ) {
+        document.dispose();
+        if (decryptedBytes != null) {
+          load(decryptedBytes, null);
+        }
+        if (mounted) {
+          setState(() => _isDecrypting = false);
+        }
+      });
+    } else {
+      load(pdfBytes, password);
+    }
   }
 
   /// Get the file of the Pdf.
@@ -3574,7 +3644,9 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
     final bool isPdfLoaded =
         _pdfViewerController.pageCount > 0 &&
         _originalWidth != null &&
-        _originalHeight != null;
+        _originalHeight != null &&
+        _originalWidth!.length == _pdfViewerController.pageCount &&
+        _originalHeight!.length == _pdfViewerController.pageCount;
     _pdfDimension =
         _childKey.currentContext?.findRenderObject()?.paintBounds.size ??
         Size.zero;
@@ -3672,8 +3744,8 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
                   final int pageIndex = index + 1;
                   final Size calculatedSize = _calculateSize(
                     BoxConstraints(maxWidth: _viewportConstraints.maxWidth),
-                    _originalWidth![index].toDouble(),
-                    _originalHeight![index].toDouble(),
+                    _originalWidth![index],
+                    _originalHeight![index],
                     _viewportConstraints.maxWidth,
                     viewportDimension.height,
                   );
@@ -3681,9 +3753,8 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
                     _pdfPagesKey[pageIndex] = GlobalKey();
                   }
                   if (kIsDesktop && !_isMobileView) {
-                    if (_originalWidth![index].toDouble() > _maxPdfPageWidth !=
-                        null) {
-                      _maxPdfPageWidth = _originalWidth![index].toDouble();
+                    if (_originalWidth![index] > _maxPdfPageWidth) {
+                      _maxPdfPageWidth = _originalWidth![index];
                     }
                   }
 
@@ -3924,6 +3995,7 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
                     _minScale,
                     widget.enableDoubleTapZooming,
                     widget.interactionMode,
+                    widget.pageSpacing,
                     _maxPdfPageWidth,
                     _isScaleEnabled,
                     _maxScrollExtent,
@@ -3976,11 +4048,13 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
             ),
           ),
         )
-        : (_hasError
-            ? _isEncryptedDocument
-                ? _showWebPasswordDialogue()
-                : _getEmptyContainer()
-            : _getEmptyLinearProgressView());
+        : (_isDecrypting
+            ? _getEmptyLinearProgressView()
+            : (_hasError
+                ? _isEncryptedDocument
+                    ? _showWebPasswordDialogue()
+                    : _getEmptyContainer()
+                : _getEmptyLinearProgressView()));
   }
 
   void _checkVisiblePages() {
@@ -4009,10 +4083,10 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
       final double y = offset.dy;
 
       final Rect viewportRect = Rect.fromLTWH(
-        x,
-        y,
-        _viewportSize.width,
-        _viewportSize.height,
+        x - _viewportSize.width,
+        y - _viewportSize.height,
+        3 * _viewportSize.width,
+        3 * _viewportSize.height,
       );
       // Render or clear images from the current page to the last page.
       for (
@@ -4031,7 +4105,7 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
           _pdfPages[pageNumber]!.pageSize.height,
         );
 
-        if (!viewportRect.intersect(pageRect).isEmpty) {
+        if (viewportRect.overlaps(pageRect)) {
           _renderedImages.add(pageNumber);
           //Extract page text only if it's not already available.
           if (!_pageTextExtractor.containsKey(pageNumber - 1)) {
@@ -4064,7 +4138,7 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
           _pdfPages[pageNumber]!.pageSize.height,
         );
 
-        if (!viewportRect.intersect(pageRect).isEmpty) {
+        if (viewportRect.overlaps(pageRect)) {
           _renderedImages.add(pageNumber);
           //Extract page text only if it's not already available.
           if (!_pageTextExtractor.containsKey(pageNumber - 1)) {
@@ -4269,10 +4343,11 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
 
   void _handlePointerDown(PointerDownEvent event) {
     _canInvokeOnTap = true;
+    final Offset localPosition =
+        _globalToLocal(event.position) ?? event.localPosition;
     if (_pagePointerDownTimeStamp != Duration.zero &&
         event.timeStamp - _pagePointerDownTimeStamp < kDoubleTapTimeout) {
-      final Offset draggedDistance =
-          event.localPosition - _pagePointerDownPosition;
+      final Offset draggedDistance = localPosition - _pagePointerDownPosition;
       if (_pagePointerDownPosition != Offset.zero &&
           draggedDistance.dx.abs() < kDoubleTapSlop &&
           draggedDistance.dy.abs() < kDoubleTapSlop) {
@@ -4283,7 +4358,7 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
     } else {
       _isDoubleTapped = false;
     }
-    _pagePointerDownPosition = event.localPosition;
+    _pagePointerDownPosition = localPosition;
     _pagePointerDownTimeStamp = event.timeStamp;
     if (!_isPdfPageTapped) {
       _pdfPagesKey[_pdfViewerController.pageNumber]
@@ -4310,12 +4385,19 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
   }
 
   void _handlePointerMove(PointerMoveEvent event) {
-    final Offset draggedDistance =
-        event.localPosition - _pagePointerDownPosition;
+    final Offset localPosition =
+        _globalToLocal(event.position) ?? event.localPosition;
+    final Offset draggedDistance = localPosition - _pagePointerDownPosition;
     if (event.kind == PointerDeviceKind.touch) {
       _canInvokeOnTap &=
           draggedDistance.dx.abs() < kTouchSlop &&
           draggedDistance.dy.abs() < kTouchSlop;
+    } else if (event.kind == PointerDeviceKind.stylus ||
+        event.kind == PointerDeviceKind.invertedStylus) {
+      const double kStylusSlop = kTouchSlop / 3;
+      _canInvokeOnTap &=
+          draggedDistance.dx.abs() < kStylusSlop &&
+          draggedDistance.dy.abs() < kStylusSlop;
     } else {
       _canInvokeOnTap &=
           draggedDistance.dx.abs() < kPrecisePointerHitSlop &&
@@ -4344,21 +4426,21 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
   }
 
   void _handlePointerUp(PointerUpEvent details) {
+    final Offset localPosition =
+        _globalToLocal(details.position) ?? details.localPosition;
     _canInvokeOnTap &=
         details.timeStamp - _pagePointerDownTimeStamp < kLongPressTimeout;
     bool isSlopDistanceExceeded = false;
     if (details.kind == PointerDeviceKind.touch) {
       isSlopDistanceExceeded =
-          kTouchSlop >
-              (details.localPosition.dx - _pagePointerDownPosition.dx).abs() &&
-          kTouchSlop >
-              (details.localPosition.dy - _pagePointerDownPosition.dy).abs();
+          kTouchSlop > (localPosition.dx - _pagePointerDownPosition.dx).abs() &&
+          kTouchSlop > (localPosition.dy - _pagePointerDownPosition.dy).abs();
     } else {
       isSlopDistanceExceeded =
           kPrecisePointerHitSlop >
-              (details.localPosition.dx - _pagePointerDownPosition.dx).abs() &&
+              (localPosition.dx - _pagePointerDownPosition.dx).abs() &&
           kPrecisePointerHitSlop >
-              (details.localPosition.dy - _pagePointerDownPosition.dy).abs();
+              (localPosition.dy - _pagePointerDownPosition.dy).abs();
     }
     final bool isLongPressed =
         (details.timeStamp - _pagePointerDownTimeStamp > kLongPressTimeout) &&
@@ -4368,11 +4450,8 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
         if (widget.onTap != null) {
           final Offset viewportPosition =
               _textDirection == TextDirection.ltr
-                  ? details.localPosition
-                  : Offset(
-                    _viewportWidth - details.localPosition.dx,
-                    details.localPosition.dy,
-                  );
+                  ? localPosition
+                  : Offset(_viewportWidth - localPosition.dx, localPosition.dy);
           widget.onTap!(
             PdfGestureDetails(
               _tappedPageNumber,
@@ -4946,8 +5025,8 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
   void _updateCurrentPageNumber({double currentOffset = 0}) {
     if (currentOffset > 0) {
       _pdfViewerController._pageNumber =
-          _pdfScrollableStateKey.currentState?.getPageNumber(currentOffset) ??
-          0;
+          _pdfScrollableStateKey.currentState?.getPageNumber() ??
+          _pdfViewerController.pageNumber;
     } else {
       if (_textDirection == TextDirection.rtl &&
           _scrollDirection == PdfScrollDirection.horizontal) {
@@ -6585,6 +6664,24 @@ class SfPdfViewerState extends State<SfPdfViewer> with WidgetsBindingObserver {
             ? (_maxScrollExtent - offset.dx)
             : offset.dx;
     _pdfViewerController._scrollPositionY = offset.dy;
+  }
+
+  /// Extracts and stores the width and height of each page from the PDF document.
+  void _getPageSizes() {
+    _originalWidth = <double>[];
+    _originalHeight = <double>[];
+    for (int pageIndex = 0; pageIndex < _document!.pages.count; pageIndex++) {
+      final PdfPage page = _document!.pages[pageIndex];
+      final bool isRotatedTo90or270 =
+          page.rotation == PdfPageRotateAngle.rotateAngle90 ||
+          page.rotation == PdfPageRotateAngle.rotateAngle270;
+      final double width =
+          isRotatedTo90or270 ? page.size.height : page.size.width;
+      final double height =
+          isRotatedTo90or270 ? page.size.width : page.size.height;
+      _originalWidth!.add(width);
+      _originalHeight!.add(height);
+    }
   }
 }
 

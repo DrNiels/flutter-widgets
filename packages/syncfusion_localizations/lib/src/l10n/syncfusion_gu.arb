@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "બધા પસંદ કરો", 
 "sortAndFilterDataGridFilteringLabel" : "સૉર્ટ કરો અને ફિલ્ટર કરો", 
 "clearFilterDataGridFilteringLabel" : "ફિલ્ટર સાફ કરો", 
-"fromDataGridFilteringLabel" : "થી"
+"fromDataGridFilteringLabel" : "થી",
+"selectADateDataGridFilteringLabel": "તારીખ પસંદ કરો"
 }

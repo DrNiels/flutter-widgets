@@ -53,7 +53,7 @@ class ScrollHead extends StatefulWidget {
   final PdfPageLayoutMode pageLayoutMode;
 
   @override
-  _ScrollHeadState createState() => _ScrollHeadState();
+  State<ScrollHead> createState() => _ScrollHeadState();
 }
 
 /// State for [ScrollHead]

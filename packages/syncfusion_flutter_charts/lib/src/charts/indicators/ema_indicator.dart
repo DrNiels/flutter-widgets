@@ -192,15 +192,15 @@ class EmaIndicatorWidget extends IndicatorWidget {
 
   // Create the EmaIndicatorRenderer renderer.
   @override
-  EmaIndicatorRenderer createRenderer() {
+  EmaIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return EmaIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final EmaIndicatorRenderer renderer =
+    final EmaIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as EmaIndicatorRenderer;
-    final EmaIndicator ema = indicator as EmaIndicator;
+    final EmaIndicator<dynamic, dynamic> ema = indicator as EmaIndicator;
 
     renderer
       ..highValueMapper = ema.highValueMapper
@@ -215,10 +215,10 @@ class EmaIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    EmaIndicatorRenderer renderObject,
+    EmaIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final EmaIndicator ema = indicator as EmaIndicator;
+    final EmaIndicator<dynamic, dynamic> ema = indicator as EmaIndicator;
 
     renderObject
       ..highValueMapper = ema.highValueMapper

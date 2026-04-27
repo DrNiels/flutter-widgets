@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/enum.dart';
+import '../utils/helper.dart';
 
 /// Render plot band.
 ///
@@ -474,8 +475,8 @@ class PlotBand {
   ///
   /// Defaults to `TextAnchor.middle`.
   ///
-  ///```dart
-  ///Widget build(BuildContext context) {
+  /// ```dart
+  /// Widget build(BuildContext context) {
   ///    return Container(
   ///        child: SfCartesianChart(
   ///           primaryXAxis: NumericAxis(
@@ -488,8 +489,8 @@ class PlotBand {
   ///           )
   ///        )
   ///    );
-  ///}
-  ///```
+  /// }
+  /// ```
   final TextAnchor horizontalTextAlignment;
 
   /// Fills the plot band with gradient color.
@@ -529,19 +530,18 @@ class PlotBand {
   ///
   /// Takes pixel or percentage value. For pixel, input should be like `10px`
   /// and for percentage input should be like `10%`. If no suffix is specified
-  // (`10`), it will be considered as pixel value. Percentage value refers to
-  // the overall height of the chart. i.e. 100% is equal to the height
+  /// (`10`), it will be considered as pixel value. Percentage value refers to
+  /// the overall height of the chart. i.e. 100% is equal to the height
   /// of the chart.
   ///
   /// This is applicable for both vertical and horizontal axis. Positive value
   /// for this property moves the text upwards and negative
-  // value moves downwards.
+  /// value moves downwards.
   ///
   /// If [verticalTextAlignment] or [horizontalTextAlignment] is specified,
   /// text padding will be calculated from that modified position.
   ///
   /// Defaults to `null`.
-  ///
   ///
   /// ```dart
   /// Widget build(BuildContext context) {
@@ -592,6 +592,132 @@ class PlotBand {
   /// }
   /// ```
   final String? horizontalTextPadding;
+
+  /// The rectangle rendering of a plotband, based on the start
+  /// and end values defined.
+  ///
+  /// Allows complete customization of the plot band custom shapes
+  /// appearance using canvas drawing operations.
+  ///
+  /// Custom visuals such as gradients, patterns, textures, borders, and
+  /// transparency effects can be implemented.
+  ///
+  /// [rect] defines the plot band rendering bounds.
+  ///
+  /// Example – render a rectangle with corner radius:
+  ///
+  /// ```dart
+  /// class CustomPlotBand extends PlotBand {
+  ///   @override
+  ///   void drawRect(
+  ///     Canvas canvas,
+  ///     Rect rect,
+  ///     Paint fillPaint, [
+  ///     Paint? strokePaint,
+  ///   ]) {
+  ///     canvas.drawRRect(
+  ///       RRect.fromRectAndRadius(rect, const Radius.circular(8)),
+  ///       fillPaint,
+  ///     );
+  ///   }
+  /// }
+  /// ```
+  void drawRect(
+    Canvas canvas,
+    Rect rect,
+    Paint fillPaint, [
+    Paint? strokePaint,
+  ]) {
+    if (fillPaint.color != Colors.transparent && rect.width != 0.0) {
+      canvas.drawRect(rect, fillPaint);
+    }
+    if (strokePaint != null &&
+        strokePaint.strokeWidth > 0 &&
+        strokePaint.color != Colors.transparent) {
+      final double left = rect.left;
+      final double top = rect.top;
+      final double width = rect.width;
+      final double height = rect.height;
+      final Path path =
+          Path()
+            ..moveTo(left, top)
+            ..lineTo(left + width, top)
+            ..lineTo(left + width, top + height)
+            ..lineTo(left, top + height)
+            ..close();
+      drawDashes(canvas, dashArray, strokePaint, path: path);
+    }
+  }
+
+  /// Draws the context (label) of a plotband.
+  ///
+  /// Allows a complete customization of bespoke typography,
+  /// dynamic positioning, drop shadows, or interactive effects.
+  ///
+  /// [position] represents the top-left origin of the text.
+  /// [angle] is the clockwise rotation angle in degrees.
+  ///
+  /// Example – render a rotated label with a pill-shaped highlight:
+  ///
+  /// ```dart
+  /// class RibbonLabelPlotBand extends PlotBand {
+  ///   const RibbonLabelPlotBand()
+  ///       : super(text: 'Target Range', textAngle: 45);
+  ///
+  ///   @override
+  ///   void drawText(Canvas canvas, Offset position, TextStyle style,
+  ///     int angle) {
+  ///     final TextPainter painter = TextPainter(
+  ///       text: TextSpan(text: text),
+  ///       textAlign: TextAlign.center,
+  ///       textDirection: TextDirection.ltr,
+  ///     )..layout();
+  ///     final Offset center =
+  ///         position + Offset(painter.width / 2, painter.height / 2);
+  ///
+  ///     canvas.save();
+  ///     canvas.translate(center.dx, center.dy);
+  ///     canvas.rotate(angle * (pi / 180));
+  ///     final Rect capsule = Rect.fromCenter(
+  ///       center: Offset.zero,
+  ///       width: painter.width + 12,
+  ///       height: painter.height + 8,
+  ///     );
+  ///     canvas.drawRRect(
+  ///       RRect.fromRectAndRadius(capsule, const Radius.circular(12)),
+  ///       Paint()..color = Colors.deepPurple.withAlpha(115),
+  ///     );
+  ///     painter.paint(canvas,
+  ///       Offset(-painter.width / 2, -painter.height / 2));
+  ///     canvas.restore();
+  ///   }
+  /// }
+  /// ```
+  void drawText(Canvas canvas, Offset position, TextStyle style, int angle) {
+    if (text == null || text!.isEmpty) {
+      return;
+    }
+    final TextSpan span = TextSpan(text: text, style: style);
+    final TextPainter textPainter = TextPainter(
+      text: span,
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    if (angle == 0) {
+      textPainter.paint(canvas, position);
+    } else {
+      final double halfWidth = textPainter.width / 2;
+      final double halfHeight = textPainter.height / 2;
+      canvas
+        ..save()
+        ..translate(position.dx + halfWidth, position.dy + halfHeight)
+        ..rotate(degreesToRadians(angle.toDouble()));
+      textPainter.paint(canvas, Offset(-halfWidth, -halfHeight));
+      canvas.restore();
+    }
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {

@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Επιλογή όλων", 
 "sortAndFilterDataGridFilteringLabel" : "Ταξινόμηση και φιλτράρισμα", 
 "clearFilterDataGridFilteringLabel" : "Διαγραφή φίλτρου", 
-"fromDataGridFilteringLabel" : "Από"
+"fromDataGridFilteringLabel" : "Από",
+"selectADateDataGridFilteringLabel": "Επιλέξτε ημερομηνία"
 }

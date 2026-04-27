@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "모두 선택", 
 "sortAndFilterDataGridFilteringLabel" : "정렬 및 필터링", 
 "clearFilterDataGridFilteringLabel" : "필터 지우기", 
-"fromDataGridFilteringLabel" : "에서"
+"fromDataGridFilteringLabel" : "에서",
+"selectADateDataGridFilteringLabel": "날짜를 선택하세요"
 }

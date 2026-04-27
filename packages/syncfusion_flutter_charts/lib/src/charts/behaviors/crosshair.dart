@@ -342,7 +342,7 @@ class CrosshairBehavior extends ChartBehavior {
     if (parent != null &&
         parent.plotArea != null &&
         parent.plotArea!.firstChild != null) {
-      final CartesianSeriesRenderer seriesRenderer =
+      final CartesianSeriesRenderer<dynamic, dynamic> seriesRenderer =
           parent.plotArea!.firstChild! as CartesianSeriesRenderer;
       final List<num> visibleIndexes = seriesRenderer.visibleIndexes;
       if (visibleIndexes.isNotEmpty &&

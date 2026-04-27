@@ -767,7 +767,7 @@ class QRCodeRenderer extends SymbologyRenderer {
           _encodedText[i].codeUnitAt(0) > 47) {
       } else if ((_encodedText[i].codeUnitAt(0) < 91 &&
               _encodedText[i].codeUnitAt(0) > 64) ||
-          _encodedText[i] == '\$' ||
+          _encodedText[i] == r'$' ||
           _encodedText[i] == '%' ||
           _encodedText[i] == '*' ||
           _encodedText[i] == '+' ||
@@ -1970,10 +1970,10 @@ class QRCodeRenderer extends SymbologyRenderer {
         );
         canvas.drawRect(rect, paint);
 
-        x = (x + dimension).toInt();
+        x = x + dimension;
       }
 
-      yPosition = (yPosition + dimension).toInt();
+      yPosition = yPosition + dimension;
     }
 
     if (showValue) {

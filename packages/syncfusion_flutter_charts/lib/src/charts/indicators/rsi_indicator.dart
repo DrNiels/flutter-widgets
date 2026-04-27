@@ -341,15 +341,15 @@ class RsiIndicatorWidget extends IndicatorWidget {
 
   // Create the RsiIndicatorRenderer renderer.
   @override
-  RsiIndicatorRenderer createRenderer() {
+  RsiIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return RsiIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final RsiIndicatorRenderer renderer =
+    final RsiIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as RsiIndicatorRenderer;
-    final RsiIndicator rsi = indicator as RsiIndicator;
+    final RsiIndicator<dynamic, dynamic> rsi = indicator as RsiIndicator;
 
     renderer
       ..highValueMapper = rsi.highValueMapper
@@ -370,10 +370,10 @@ class RsiIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    RsiIndicatorRenderer renderObject,
+    RsiIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final RsiIndicator rsi = indicator as RsiIndicator;
+    final RsiIndicator<dynamic, dynamic> rsi = indicator as RsiIndicator;
 
     renderObject
       ..highValueMapper = rsi.highValueMapper

@@ -449,15 +449,16 @@ class StochasticIndicatorWidget extends IndicatorWidget {
 
   // Create the StochasticIndicatorRenderer renderer.
   @override
-  StochasticIndicatorRenderer createRenderer() {
+  StochasticIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return StochasticIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final StochasticIndicatorRenderer renderer =
+    final StochasticIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as StochasticIndicatorRenderer;
-    final StochasticIndicator stochastic = indicator as StochasticIndicator;
+    final StochasticIndicator<dynamic, dynamic> stochastic =
+        indicator as StochasticIndicator;
 
     renderer
       ..highValueMapper = stochastic.highValueMapper
@@ -482,10 +483,11 @@ class StochasticIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    StochasticIndicatorRenderer renderObject,
+    StochasticIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final StochasticIndicator stochastic = indicator as StochasticIndicator;
+    final StochasticIndicator<dynamic, dynamic> stochastic =
+        indicator as StochasticIndicator;
 
     renderObject
       ..highValueMapper = stochastic.highValueMapper

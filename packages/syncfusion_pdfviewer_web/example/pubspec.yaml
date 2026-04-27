@@ -3,7 +3,10 @@ description: Demonstrates how to use the syncfusion_pdfviewer_web with the help 
 publish_to: 'none'
 
 environment:
-  sdk: ^3.7.0-0
+  sdk: ^3.7.0
+
+flutter:
+  uses-material-design: true
 
 dependencies:
   flutter:
@@ -13,6 +16,3 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-flutter:
-  uses-material-design: true

@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "בחר הכל", 
 "sortAndFilterDataGridFilteringLabel" : "מיון ומסנן", 
 "clearFilterDataGridFilteringLabel" : "נקה מסנן", 
-"fromDataGridFilteringLabel" : "מ"
+"fromDataGridFilteringLabel" : "מ",
+"selectADateDataGridFilteringLabel": "בחר תאריך"
 }

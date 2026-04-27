@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Селектирај се", 
 "sortAndFilterDataGridFilteringLabel" : "Сортирање и филтрирање", 
 "clearFilterDataGridFilteringLabel" : "Исчистете го филтерот", 
-"fromDataGridFilteringLabel" : "Од"
+"fromDataGridFilteringLabel" : "Од",
+"selectADateDataGridFilteringLabel": "Изберете датум"
 }

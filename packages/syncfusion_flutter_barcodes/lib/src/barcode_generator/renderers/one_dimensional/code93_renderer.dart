@@ -6,7 +6,7 @@ import 'symbology_base_renderer.dart';
 /// Represents the code93 renderer class
 class Code93Renderer extends SymbologyRenderer {
   /// Creates the code93 renderer
-  Code93Renderer({Symbology? symbology}) : super(symbology: symbology!) {
+  Code93Renderer({Symbology? symbology}) : super(symbology: symbology) {
     _character = _getCode93Character();
   }
 
@@ -67,11 +67,11 @@ class Code93Renderer extends SymbologyRenderer {
       '-': '36',
       '.': '37',
       ' ': '38',
-      '\$': '39',
+      r'$': '39',
       '/': '40',
       '+': '41',
       '%': '42',
-      '(\$)': '43',
+      r'($)': '43',
       '(/)': '44',
       '(+)': '45',
       '(%)': '46',
@@ -120,11 +120,11 @@ class Code93Renderer extends SymbologyRenderer {
       '-': '100101110',
       '.': '111010100',
       ' ': '111010010',
-      '\$': '111001010',
+      r'$': '111001010',
       '/': '101101110',
       '+': '101110110',
       '%': '110101110',
-      '(\$)': '100100110',
+      r'($)': '100100110',
       '(/)': '111010110',
       '(+)': '100110010',
       '(%)': '111011010',
@@ -166,7 +166,7 @@ class Code93Renderer extends SymbologyRenderer {
       ratio = symbology!.module!.toDouble();
     } else {
       //Calculates the bar length based on number of individual bar codes
-      final int singleModule = (size.width ~/ barTotalLength).toInt();
+      final int singleModule = size.width ~/ barTotalLength;
       ratio = singleModule.toDouble();
       final double leftPadding = (size.width - (barTotalLength * ratio)) / 2;
       left += leftPadding;
@@ -264,7 +264,7 @@ class Code93Renderer extends SymbologyRenderer {
   /// Retuns the supported input symbol
   String _getCode93Character() {
     const String code93Character =
-        '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *\$/+%';
+        r'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%';
     return code93Character;
   }
 }

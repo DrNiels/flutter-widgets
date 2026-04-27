@@ -44,6 +44,17 @@ abstract class PdfViewerPlatform extends PlatformInterface {
     );
   }
 
+  /// Initializes the PDF renderer instance in respective platform by loading the PDF from the specified file path.
+  ///
+  /// If success, returns page count else returns error message from respective platform
+  Future<String?> loadPdfFromFile(
+    String path,
+    String documentID, [
+    String? password,
+  ]) {
+    throw UnimplementedError('loadPdfFromFile() has not been implemented.');
+  }
+
   /// Gets the height of all pages in the document.
   Future<List?> getPagesHeight(String documentID) async {
     throw UnimplementedError('getPagesHeight() has not been implemented.');

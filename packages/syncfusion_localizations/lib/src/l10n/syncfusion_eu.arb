@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Hautatu guztiak", 
 "sortAndFilterDataGridFilteringLabel" : "Ordenatu eta Iragazi", 
 "clearFilterDataGridFilteringLabel" : "Garbitu iragazkia", 
-"fromDataGridFilteringLabel" : "Bertatik"
+"fromDataGridFilteringLabel" : "Bertatik",
+"selectADateDataGridFilteringLabel": "Hautatu data bat"
 }

@@ -92,6 +92,29 @@ namespace pdfviewer
     result->Success(flutter::EncodableValue(std::to_string(pageCount)));
   }
 
+  void LoadPdfFromFile(
+    const flutter::MethodCall<flutter::EncodableValue>& method_call,
+    std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) 
+  {
+    const auto* arguments = std::get_if<flutter::EncodableMap>(method_call.arguments());
+    auto pathIter = arguments->find(flutter::EncodableValue("path"));
+    auto documentID = arguments->find(flutter::EncodableValue("documentID"));
+    auto passwordIter = arguments->find(flutter::EncodableValue("password"));
+
+    std::string path = std::get<std::string>(pathIter->second);
+    std::optional<std::string> password;
+    if (passwordIter != arguments->end()) {
+        const auto& passwordValue = passwordIter->second;
+        if (!passwordValue.IsNull()) {
+            password = std::get<std::string>(passwordValue);
+        }
+    }
+    std::string docID = std::get<std::string>(documentID->second);
+    std::shared_ptr<PdfDocument> filePdfDoc = loadPdfFromFile(path, password.value_or(""), docID);
+    int pageCount = FPDF_GetPageCount(filePdfDoc->pdfDocument);
+    result->Success(flutter::EncodableValue(std::to_string(pageCount)));
+  }
+
   /// Gets the PDF pages height
   void GetPagesHeight(
       const flutter::MethodCall<flutter::EncodableValue> &method_call,
@@ -257,7 +280,10 @@ namespace pdfviewer
       const flutter::MethodCall<flutter::EncodableValue> &method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result)
   {
-    if (method_call.method_name().compare("initializePdfRenderer") == 0)
+    if (method_call.method_name().compare("loadPdfFromFile") == 0) {
+      LoadPdfFromFile(method_call, std::move(result));
+    }
+    else if (method_call.method_name().compare("initializePdfRenderer") == 0)
     {
       InitializePdfRenderer(method_call, std::move(result));
     }

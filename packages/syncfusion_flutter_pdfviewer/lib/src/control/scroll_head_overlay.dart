@@ -226,24 +226,6 @@ class ScrollHeadOverlayState extends State<ScrollHeadOverlay> {
         // set x offset as zero
         offset = Offset(0, offset.dy);
       }
-    } else {
-      if (kIsDesktop && !widget.isMobileWebView) {
-        if (widget.viewportDimension.width <
-            widget.maxPdfPageWidth * widget.pdfViewerController.zoomLevel) {
-          final double clampedX =
-              tapPosition.dx > widget.maxPdfPageWidth
-                  ? ((widget.maxPdfPageWidth * 2) -
-                          widget.viewportDimension.width) /
-                      2
-                  : 0;
-          offset = Offset(
-            (widget.scrollDirection == PdfScrollDirection.vertical)
-                ? clampedX
-                : offset.dx,
-            offset.dy,
-          );
-        }
-      }
     }
     final double widthFactor =
         (widget.pdfDimension.width) -
@@ -616,7 +598,7 @@ class ScrollHeadOverlayState extends State<ScrollHeadOverlay> {
               ),
               TextButton(
                 onPressed: () {
-                  _handlePageNumberValidation();
+                  _handlePageNumberValidation(context);
                 },
                 style:
                     isMaterial3
@@ -768,9 +750,11 @@ class ScrollHeadOverlayState extends State<ScrollHeadOverlay> {
           enableInteractiveSelection: false,
           controller: _textFieldController,
           autofocus: true,
-          onEditingComplete: _handlePageNumberValidation,
+          onEditingComplete: () {
+            _handlePageNumberValidation(context);
+          },
           onFieldSubmitted: (String value) {
-            _handlePageNumberValidation();
+            _handlePageNumberValidation(context);
           },
           validator: (String? value) {
             try {
@@ -794,7 +778,7 @@ class ScrollHeadOverlayState extends State<ScrollHeadOverlay> {
   }
 
   /// Validates the page number entered in text field.
-  void _handlePageNumberValidation() {
+  void _handlePageNumberValidation(BuildContext context) {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       final int index = int.parse(_textFieldController.text);
       _textFieldController.clear();

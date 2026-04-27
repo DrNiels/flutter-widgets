@@ -62,6 +62,9 @@ public class SyncfusionFlutterPdfViewerPdfiumPlugin implements FlutterPlugin, Me
             case "initializePdfRenderer":
                 initializePdfRenderer(call, result);
                 break;
+            case "loadPdfFromFile":
+                loadPdfFromFile(call, result);
+                break;
             case "getPagesWidth":
                 getPagesWidth(call, result);
                 break;
@@ -143,6 +146,27 @@ public class SyncfusionFlutterPdfViewerPdfiumPlugin implements FlutterPlugin, Me
                 long docHandle = PdfiumAdapter.loadDocument(bytes, password);
                 documentHandleMap.put(documentID, docHandle);
                 int pageCount = PdfiumAdapter.getPageCount(docHandle);                
+                result.success(String.valueOf(pageCount));
+            } catch (SecurityException e) {
+                result.error("PASSWORD_ERROR", "Incorrect password or document is encrypted", null);
+            } catch (Exception e) {
+                result.error("PDF_RENDERER_ERROR", e.getMessage(), null);
+            }
+        });
+    }
+
+    private void loadPdfFromFile(MethodCall call, Result result) {
+        executorService.execute(() -> {
+            String path = call.argument("path");
+            String documentID = call.argument("documentID");
+            String password = call.argument("password");
+            try {
+                if (password == null) {
+                    password = "";
+                }
+                long docHandle = PdfiumAdapter.loadDocumentFromFile(path, password);
+                documentHandleMap.put(documentID, docHandle);
+                int pageCount = PdfiumAdapter.getPageCount(docHandle);
                 result.success(String.valueOf(pageCount));
             } catch (SecurityException e) {
                 result.error("PASSWORD_ERROR", "Incorrect password or document is encrypted", null);

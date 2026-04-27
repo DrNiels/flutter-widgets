@@ -584,7 +584,7 @@ class RenderCategoryAxis extends RenderChartAxis {
     for (final AxisDependent dependent in dependents) {
       if (dependent is CartesianSeriesRenderer) {
         if (dependent.controller.isVisible) {
-          final List actualXValues = dependent.xRawValues;
+          final List<dynamic> actualXValues = dependent.xRawValues;
           final int actualXValuesLength = actualXValues.length;
           for (int i = 0; i < actualXValuesLength; i++) {
             final String rawX = actualXValues[i].toString();
@@ -938,7 +938,7 @@ class RenderCategoryAxis extends RenderChartAxis {
       for (final AxisDependent dependent in dependents) {
         if (dependent is CartesianSeriesRenderer &&
             dependent.controller.isVisible) {
-          final List xRawValues = dependent.xRawValues;
+          final List<dynamic> xRawValues = dependent.xRawValues;
           final int length = xRawValues.length;
           if (length > 0) {
             num minValue = 0;

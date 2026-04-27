@@ -511,7 +511,8 @@ class RenderBehaviorArea extends RenderBox
     if (tooltipBehavior != null &&
         tooltipBehavior!.shared &&
         info is! TrendlineTooltipInfo) {
-      final ChartTooltipInfo chartTooltipInfo = info as ChartTooltipInfo;
+      final ChartTooltipInfo<dynamic, dynamic> chartTooltipInfo =
+          info as ChartTooltipInfo;
       tooltipBehavior!.showByIndex(
         chartTooltipInfo.seriesIndex,
         chartTooltipInfo.pointIndex,

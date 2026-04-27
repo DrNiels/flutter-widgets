@@ -131,7 +131,10 @@ class RenderInteractiveGraphicsView extends RenderBox {
           ..onTap = onTap
           ..onTapDown = onTapDown
           ..onTapUp = onTapUp
-          ..onTapCancel = onTapCancel;
+          ..onTapCancel = onTapCancel
+          ..gestureSettings = const DeviceGestureSettings(
+            touchSlop: kTouchSlop / 3,
+          );
 
     panGestureRecognizer =
         PanGestureRecognizer()
@@ -140,7 +143,9 @@ class RenderInteractiveGraphicsView extends RenderBox {
           ..onEnd = onDragEnd
           ..onUpdate = onDragUpdate
           ..onCancel = onDragCancel
-          ..gestureSettings = const DeviceGestureSettings(touchSlop: 0.0);
+          ..gestureSettings = const DeviceGestureSettings(
+            touchSlop: kTouchSlop / 3,
+          );
   }
 
   late Color _color;

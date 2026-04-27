@@ -199,7 +199,7 @@ class PdfRadioButton extends StatefulWidget {
   final double borderWidth;
 
   @override
-  _PdfRadioButtonState createState() => _PdfRadioButtonState();
+  State<PdfRadioButton> createState() => _PdfRadioButtonState();
 }
 
 class _PdfRadioButtonState extends State<PdfRadioButton> {

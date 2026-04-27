@@ -1,19 +1,32 @@
 #include <jni.h>
 #include <fpdfview.h>
-#include <dlfcn.h>
+#include <new>
+#include <stdlib.h>
 
 extern "C" {
 
-static void* pdfiumLibHandle = nullptr;
+/**
+ * Structure to hold PDFium document handle and its backing buffer.
+ * We keep the buffer pointer so we can free it when closing the document.
+ */
+struct PdfiumDocument {
+    FPDF_DOCUMENT doc; 
+    uint8_t* buffer;
+};
+
+/**
+ * Helper to safely cast jlong handle to PdfiumDocument* and validate it.
+ * Returns nullptr if invalid.
+ */
+static inline PdfiumDocument* asDocument(jlong handle) {
+    if (handle == 0) return nullptr;
+    PdfiumDocument* document = reinterpret_cast<PdfiumDocument*>(handle);
+    if (!document || !document->doc) return nullptr;
+    return document;
+}
 
 JNIEXPORT jboolean JNICALL
 Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_initLibrary(JNIEnv* env, jobject thiz) {
-    const char* libName = "libpdfium.so";
-
-    pdfiumLibHandle = dlopen(libName, RTLD_NOW | RTLD_LOCAL);
-    if (!pdfiumLibHandle) {
-        return JNI_FALSE;
-    }
     FPDF_InitLibraryWithConfig(nullptr);
     return JNI_TRUE;
 }
@@ -21,66 +34,104 @@ Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_initLibrary(JNIEnv* 
 JNIEXPORT void JNICALL
 Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_destroyLibrary(JNIEnv* env, jobject thiz) {
     FPDF_DestroyLibrary();
-    if (pdfiumLibHandle) {
-        dlclose(pdfiumLibHandle);
-        pdfiumLibHandle = nullptr;
-    }
 }
 
 JNIEXPORT jlong JNICALL
 Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_loadDocument(JNIEnv* env, jobject thiz, jbyteArray pdfData, jstring password) {
-    if (!pdfiumLibHandle) {
-        return 0;
-    }
     if (pdfData == nullptr) {
         return 0;
     }
 
-    jbyte* buffer = env->GetByteArrayElements(pdfData, nullptr);
     jsize length = env->GetArrayLength(pdfData);
-    const char* pwd = password ? env->GetStringUTFChars(password, nullptr) : nullptr;
+    if (length <= 0) return 0;
+    // Allocate buffer and copy PDF data
+    uint8_t* buffer = static_cast<uint8_t*>(malloc(static_cast<size_t>(length)));
+    if (!buffer) return 0;
 
-    FPDF_DOCUMENT doc = FPDF_LoadMemDocument64(buffer, (size_t)length, pwd);
-    env->ReleaseByteArrayElements(pdfData, buffer, JNI_ABORT);
+    env->GetByteArrayRegion(pdfData, 0, length, reinterpret_cast<jbyte*>(buffer));
+    const char* pwd = password ? env->GetStringUTFChars(password, nullptr) : nullptr;
+    FPDF_DOCUMENT doc = FPDF_LoadMemDocument64(buffer, static_cast<size_t>(length), pwd);
     if (pwd) {
         env->ReleaseStringUTFChars(password, pwd);
     }
     if (!doc) {
+        free(buffer);
         return 0;
     }
 
-    return reinterpret_cast<jlong>(doc);
+     // Create the wrapper object that owns both document and buffer
+    PdfiumDocument* document = new (std::nothrow) PdfiumDocument();
+    if (!document) {
+        FPDF_CloseDocument(doc);
+        free(buffer);
+        return 0;
+    }
+
+    document->doc = doc;
+    document->buffer = buffer;
+    return reinterpret_cast<jlong>(document);
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_loadDocumentFromFile(JNIEnv* env, jobject thiz, jstring path, jstring password) {
+    if (path == nullptr) {
+        return 0;
+    }
+
+    const char* filePath = env->GetStringUTFChars(path, nullptr);
+    const char* pwd = password ? env->GetStringUTFChars(password, nullptr) : nullptr;
+
+    FPDF_DOCUMENT doc = FPDF_LoadDocument(filePath, pwd);
+    env->ReleaseStringUTFChars(path, filePath);
+    if (pwd) {
+        env->ReleaseStringUTFChars(password, pwd);
+    }
+
+    if (!doc) {
+        return 0;
+    }
+
+    // Create the wrapper object
+    PdfiumDocument* document = new (std::nothrow) PdfiumDocument();
+    if (!document) {
+        FPDF_CloseDocument(doc);
+        return 0;
+    }
+
+    document->doc = doc;
+    document->buffer = nullptr;  // No buffer to free
+    return reinterpret_cast<jlong>(document);
 }
 
 JNIEXPORT void JNICALL
 Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_closeDocument(JNIEnv* env, jobject thiz, jlong docHandle) {
-    if (!pdfiumLibHandle) {
-        return;
+    if (docHandle == 0) return;
+    PdfiumDocument* document = reinterpret_cast<PdfiumDocument*>(docHandle);
+    if (!document) return;
+    if (document->doc != nullptr) {
+        FPDF_CloseDocument(document->doc);
     }
-    FPDF_DOCUMENT doc = reinterpret_cast<FPDF_DOCUMENT>(docHandle);
-    if (doc) {
-        FPDF_CloseDocument(doc);
+    if (document->buffer != nullptr) {
+        free(document->buffer);
     }
+    delete document;
 }
 
 JNIEXPORT jint JNICALL
 Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_getPageCount(JNIEnv* env, jobject thiz, jlong docHandle) {
-    if (!pdfiumLibHandle) {
-        return -1;
-    }
-    FPDF_DOCUMENT doc = reinterpret_cast<FPDF_DOCUMENT>(docHandle);
-    return doc ? FPDF_GetPageCount(doc) : -1;
+    PdfiumDocument* document = asDocument(docHandle);
+    return document ? FPDF_GetPageCount(document->doc) : -1;
 }
 
 JNIEXPORT jfloat JNICALL
 Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_getPageWidth(JNIEnv* env, jobject thiz, jlong docHandle, jint index) {
-    if (!pdfiumLibHandle) {
-        return -1;
-    }
-    FPDF_DOCUMENT doc = reinterpret_cast<FPDF_DOCUMENT>(docHandle);
-    if (!doc) return -1;
+    PdfiumDocument* document = asDocument(docHandle);
+    if (!document) return -1;
 
-    FPDF_PAGE page = FPDF_LoadPage(doc, index);
+    int count = FPDF_GetPageCount(document->doc);
+    if (index < 0 || index >= count) return -1;
+
+    FPDF_PAGE page = FPDF_LoadPage(document->doc, index);
     if (!page) return -1;
     jfloat width = FPDF_GetPageWidthF(page);
     FPDF_ClosePage(page);
@@ -88,14 +139,14 @@ Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_getPageWidth(JNIEnv*
 }
 
 JNIEXPORT jfloat JNICALL
-Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_getPageHeight(JNIEnv* env, jobject thiz, jlong docHandle, jint index) {
-    if (!pdfiumLibHandle) {
-        return -1;
-    }
-    FPDF_DOCUMENT doc = reinterpret_cast<FPDF_DOCUMENT>(docHandle);
-    if (!doc) return -1;
+Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_getPageHeight(JNIEnv*, jobject, jlong docHandle, jint index) {
+    PdfiumDocument* document = asDocument(docHandle);
+    if (!document) return -1;
 
-    FPDF_PAGE page = FPDF_LoadPage(doc, index);
+    int count = FPDF_GetPageCount(document->doc);
+    if (index < 0 || index >= count) return -1;
+
+    FPDF_PAGE page = FPDF_LoadPage(document->doc, index);
     if (!page) return -1;
 
     jfloat height = FPDF_GetPageHeightF(page);
@@ -105,13 +156,13 @@ Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_getPageHeight(JNIEnv
 
 JNIEXPORT jbyteArray JNICALL
 Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_renderPage(JNIEnv* env, jobject thiz, jlong docHandle, jint pageIndex, jint width, jint height) {
-    if (!pdfiumLibHandle) {
-        return nullptr;
-    }
-    FPDF_DOCUMENT doc = reinterpret_cast<FPDF_DOCUMENT>(docHandle);
-    if (!doc) return nullptr;
+    PdfiumDocument* document = asDocument(docHandle);
+    if (!document) return nullptr;
 
-    FPDF_PAGE page = FPDF_LoadPage(doc, pageIndex);
+    int pageCount = FPDF_GetPageCount(document->doc);
+    if (pageIndex < 0 || pageIndex >= pageCount) return nullptr;
+
+    FPDF_PAGE page = FPDF_LoadPage(document->doc, pageIndex);
     if (!page) return nullptr;
 
     FPDF_BITMAP bitmap = FPDFBitmap_Create(width, height, 0);
@@ -129,7 +180,7 @@ Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_renderPage(JNIEnv* e
 
     jbyteArray result = env->NewByteArray(totalSize);
     if (result != nullptr) {
-        env->SetByteArrayRegion(result, 0, totalSize, (jbyte*)buffer);
+         env->SetByteArrayRegion(result, 0, totalSize, reinterpret_cast<jbyte*>(buffer));
     }
 
     FPDFBitmap_Destroy(bitmap);
@@ -145,13 +196,13 @@ Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_renderTile(JNIEnv* e
                                                  jfloat x, jfloat y,
                                                  jint width, jint height,
                                                  jfloat scale) {
-    if (!pdfiumLibHandle) {
-        return nullptr;
-    }
-    FPDF_DOCUMENT doc = reinterpret_cast<FPDF_DOCUMENT>(docHandle);
-    if (!doc) return nullptr;
+    PdfiumDocument* document = asDocument(docHandle);
+    if (!document) return nullptr;
 
-    FPDF_PAGE page = FPDF_LoadPage(doc, pageIndex);
+    int pageCount = FPDF_GetPageCount(document->doc);
+    if (pageIndex < 0 || pageIndex >= pageCount) return nullptr;
+
+    FPDF_PAGE page = FPDF_LoadPage(document->doc, pageIndex);
     if (!page) return nullptr;
 
     FPDF_BITMAP bitmap = FPDFBitmap_Create(width, height, 0);
@@ -167,7 +218,7 @@ Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_renderTile(JNIEnv* e
         scale, -x * scale, -y * scale
     };
 
-    FS_RECTF clip = {0, 0, (float)(width * scale), (float)(height * scale)};
+    FS_RECTF clip = {0, 0, static_cast<float>(width), static_cast<float>(height) };
 
     FPDF_RenderPageBitmapWithMatrix(bitmap, page, &matrix, &clip, FPDF_LCD_TEXT | FPDF_REVERSE_BYTE_ORDER);
 
@@ -177,7 +228,7 @@ Java_com_syncfusion_flutter_pdfviewer_android_PdfiumAdapter_renderTile(JNIEnv* e
 
     jbyteArray result = env->NewByteArray(totalSize);
     if (result != nullptr) {
-        env->SetByteArrayRegion(result, 0, totalSize, (jbyte*)buffer);
+        env->SetByteArrayRegion(result, 0, totalSize, reinterpret_cast<jbyte*>(buffer));
     }
 
     FPDFBitmap_Destroy(bitmap);

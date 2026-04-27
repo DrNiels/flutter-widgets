@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Selecteer alles", 
 "sortAndFilterDataGridFilteringLabel" : "Sorteren en filteren", 
 "clearFilterDataGridFilteringLabel" : "Filter wissen", 
-"fromDataGridFilteringLabel" : "Van"
+"fromDataGridFilteringLabel" : "Van",
+"selectADateDataGridFilteringLabel": "Selecteer een datum"
 }

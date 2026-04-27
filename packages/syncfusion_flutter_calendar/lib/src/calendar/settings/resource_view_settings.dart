@@ -65,15 +65,44 @@ import 'package:flutter/material.dart';
 /// ```
 @immutable
 class ResourceViewSettings with Diagnosticable {
-  /// Creates a resource view settings for calendar.
+  /// Creates resource view settings for [SfCalendar].
   ///
-  /// The properties allows to customize the resource view of [SfCalendar].
+  /// Use this to customize the size, layout, and appearance of the resource view.
+  ///
+  /// `size` — Sets both the resource panel width and each resource item's height.
+  /// Defaults to `75`.
+  ///
+  /// `height` — Sets the height for each resource item when given explicitly.
+  /// Ignored when `visibleResourceCount` > 0. Falls back to `size` when null.
+  ///
+  /// `width` — Sets the width for the resource panel when given explicitly.
+  /// Falls back to `size` when null.
+  ///
+  /// `visibleResourceCount` — When greater than `0`, splits the available
+  /// vertical space equally among visible resources, overriding both `height`
+  /// and `size`.
+  ///
+  /// `showAvatar` — Indicates whether a circular avatar is shown for each
+  /// resource. Defaults to `true`.
+  ///
+  /// `displayNameTextStyle` — Text style used for the display name of each
+  /// resource.
+  ///
+  /// ### Behavior and precedence
+  ///
+  /// * If `height` or `width` is provided, the provided value is used.
+  /// * If neither is provided, `size` is used for both dimensions.
+  /// * When `visibleResourceCount` > 0, it takes precedence for resource item
+  ///   height over both `height` and `size`.
   const ResourceViewSettings({
     this.size = 75,
     this.visibleResourceCount = -1,
     this.showAvatar = true,
     this.displayNameTextStyle,
-  }) : assert(size >= 0),
+    this.height,
+    double? width,
+  }) : width = width ?? size,
+       assert(size >= 0),
        assert(visibleResourceCount >= -1);
 
   /// The number of resources to be displayed in the available screen height in
@@ -181,6 +210,60 @@ class ResourceViewSettings with Diagnosticable {
   /// ```
   final double size;
 
+  /// Optional explicit height to use for each resource item.
+  ///
+  /// When `height` is provided, value will be used as the per-resource height in scenarios where `visibleResourceCount`
+  /// is not provided. If `visibleResourceCount` is provided, it determines
+  /// the height distribution and height property will be ignored.
+  ///
+  /// Example:
+  /// ```dart
+  ///@override
+  ///  Widget build(BuildContext context) {
+  ///    return Container(
+  ///      child: SfCalendar(
+  ///        view: CalendarView.timelineMonth,
+  ///        dataSource: _getCalendarDataSource(),
+  ///        resourceViewSettings: ResourceViewSettings(
+  ///          height: 120,
+  ///          displayNameTextStyle: TextStyle(
+  ///              fontStyle: FontStyle.italic,
+  ///              fontSize: 15,
+  ///              fontWeight: FontWeight.w400,
+  ///        ),
+  ///      ),
+  ///    ),
+  ///  );
+  ///}
+  ///```
+  final double? height;
+
+  /// Optional explicit width to use for the resource panel.
+  ///
+  /// When `width` is provided, value will be used as the resource panel width.
+  ///
+  /// Example:
+  /// ```dart
+  ///@override
+  ///  Widget build(BuildContext context) {
+  ///    return Container(
+  ///      child: SfCalendar(
+  ///        view: CalendarView.timelineMonth,
+  ///        dataSource: _getCalendarDataSource(),
+  ///        resourceViewSettings: ResourceViewSettings(
+  ///          width: 150,
+  ///          displayNameTextStyle: TextStyle(
+  ///              fontStyle: FontStyle.italic,
+  ///              fontSize: 15,
+  ///              fontWeight: FontWeight.w400,
+  ///        ),
+  ///      ),
+  ///    ),
+  ///  );
+  ///}
+  ///```
+  final double? width;
+
   /// Shows a circle that represents a user.
   ///
   /// Typically used with a user's profile image, or, in the absence of such an
@@ -235,6 +318,8 @@ class ResourceViewSettings with Diagnosticable {
       otherStyle = other;
     }
     return otherStyle.size == size &&
+        otherStyle.height == height &&
+        otherStyle.width == width &&
         otherStyle.visibleResourceCount == visibleResourceCount &&
         otherStyle.showAvatar == showAvatar &&
         otherStyle.displayNameTextStyle == displayNameTextStyle;
@@ -250,6 +335,8 @@ class ResourceViewSettings with Diagnosticable {
       ),
     );
     properties.add(DoubleProperty('size', size));
+    properties.add(DoubleProperty('height', height));
+    properties.add(DoubleProperty('width', width));
     properties.add(DiagnosticsProperty<bool>('showAvatar', showAvatar));
     properties.add(IntProperty('visibleResourceCount', visibleResourceCount));
   }
@@ -258,6 +345,8 @@ class ResourceViewSettings with Diagnosticable {
   int get hashCode {
     return Object.hash(
       size,
+      height,
+      width,
       visibleResourceCount,
       showAvatar,
       displayNameTextStyle,

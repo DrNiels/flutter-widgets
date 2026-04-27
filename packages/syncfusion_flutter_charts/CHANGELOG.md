@@ -1,3 +1,31 @@
+## Unreleased
+
+* No changes.
+
+## [32.1.21] - 30/12/2025
+
+**Bugs**
+
+* \#BD795850 - Now, the chart correctly renders all segments when multiple data points shared the same x value within the visible range.
+
+## [32.1.19] - 16/12/2025
+
+### Features
+
+* \#FR68922 - [PlotBand](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/PlotBand-class.html) now provides an option to override its rendering using the `drawRect` and `drawText` methods.
+
+## [31.2.16] - 09/12/2025
+
+**Bugs**
+
+* \#GH2464 - Now, the series fill updates correctly when the axis range changes during screen resize or orientation changes.
+
+## [31.1.20] - 17/09/2025
+
+**General**
+ 
+* The compatible version of our Flutter charts widget has been updated to Flutter SDK 3.35.0.
+
 ## [30.2.6+1] - 20/08/2025 
 
 **Bugs**

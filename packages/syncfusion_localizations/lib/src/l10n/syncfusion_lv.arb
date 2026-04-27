@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Izvēlēties visus", 
 "sortAndFilterDataGridFilteringLabel" : "Kārtot un filtrēt", 
 "clearFilterDataGridFilteringLabel" : "Notīrīt filtru", 
-"fromDataGridFilteringLabel" : "No"
+"fromDataGridFilteringLabel" : "No",
+"selectADateDataGridFilteringLabel": "Izvēlieties datumu"
 }

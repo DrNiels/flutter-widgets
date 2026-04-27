@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Wählen Sie Alle", 
 "sortAndFilterDataGridFilteringLabel" : "Sortieren und filtern", 
 "clearFilterDataGridFilteringLabel" : "Filter löschen", 
-"fromDataGridFilteringLabel" : "Aus"
+"fromDataGridFilteringLabel" : "Aus",
+"selectADateDataGridFilteringLabel": "Wählen Sie ein Datum"
 }

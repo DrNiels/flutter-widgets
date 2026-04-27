@@ -1,6 +1,38 @@
 ## Unreleased
 
+## SfSlider
+
+**Bugs**
+
+*  Fixed an issue where the slider tooltip appeared in the wrong position when it exceeded its offset bounds. It now stays correctly aligned with the thumb while dragging.
+
+## SfRangeSlider
+
+**Bugs**
+
+*  Fixed the tooltip and thumb behavior when dragging near or beyond the track. Both tooltips now remain within the track and display the correct clamped values without overlapping or crossing.
+
+## SfRangeSelector
+
+**Bugs**
+
+*  Fixed tooltip and thumb positioning issues when the widget is shifted by an offset. Both tooltips now stay within the track and display the correct clamped values during drag interactions.
+
+## [32.1.25] - 01/27/2026
+
 * No changes.
+
+## [31.2.15] - 11/25/2025
+
+**General**
+
+*  The compatible version of our Flutter sliders widget has been updated to Flutter SDK 3.38.
+
+## [31.1.20] - 09/17/2025
+
+**General**
+
+*  The compatible version of our Flutter sliders widget has been updated to Flutter SDK 3.35.
 
 ## [30.1.37] - 06/25/2025
 

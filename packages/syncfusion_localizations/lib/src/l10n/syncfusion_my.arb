@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "အားလုံးကို ရွေးပါ။", 
 "sortAndFilterDataGridFilteringLabel" : "စီစစ်ပြီး စစ်ထုတ်ပါ။", 
 "clearFilterDataGridFilteringLabel" : "Filter ကိုရှင်းလင်းပါ။", 
-"fromDataGridFilteringLabel" : "ထံမှ"
+"fromDataGridFilteringLabel" : "ထံမှ",
+"selectADateDataGridFilteringLabel": "ရက်စွဲကိုရွေးပါ"
 }

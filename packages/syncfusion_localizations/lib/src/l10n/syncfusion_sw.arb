@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Chagua Zote", 
 "sortAndFilterDataGridFilteringLabel" : "Panga na Chuja", 
 "clearFilterDataGridFilteringLabel" : "Futa Kichujio", 
-"fromDataGridFilteringLabel" : "Kutoka"
+"fromDataGridFilteringLabel" : "Kutoka",
+"selectADateDataGridFilteringLabel": "Chagua tarehe"
 }

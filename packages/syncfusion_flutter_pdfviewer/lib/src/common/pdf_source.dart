@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -36,32 +37,38 @@ abstract class PDFSource {
 ///
 /// See also:
 ///  * [SfPdfViewer.network], which provides a convenient way to display a PDF from a URL.
+@immutable
 class URLPDFSource extends PDFSource {
   /// Creates a [URLPDFSource] that fetches a PDF document from the specified URL.
   ///
   /// The [url] parameter must not be null or empty.
   /// The [headers] parameter can be used to add custom HTTP headers to the request.
   URLPDFSource(String url, {Map<String, String>? headers})
-    : assert(url.isNotEmpty) {
-    _url = url;
-    _headers = headers;
-  }
+    : assert(url.isNotEmpty),
+      _url = url,
+      _headers = headers;
 
   /// The URL from which the PDF will be fetched.
-  late String _url;
+  final String _url;
 
   /// The document headers
-  Map<String, String>? _headers;
-
-  /// The document bytes
-  Uint8List? _documentBytes;
+  final Map<String, String>? _headers;
 
   /// Retrieves the bytes of the PDF document from the network.
   @override
   Future<Uint8List> getBytes(BuildContext context) async {
-    _documentBytes ??= await http.readBytes(Uri.parse(_url), headers: _headers);
-    return Future<Uint8List>.value(_documentBytes);
+    return http.readBytes(Uri.parse(_url), headers: _headers);
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is URLPDFSource &&
+        _url == other._url &&
+        mapEquals(_headers, other._headers);
+  }
+
+  @override
+  int get hashCode => Object.hash(_url, _headers);
 }
 
 /// Decodes the given [Uint8List] buffer as a PDF document.
@@ -70,13 +77,12 @@ class URLPDFSource extends PDFSource {
 ///
 /// See also:
 ///  * [SfPdfViewer.memory], which provides a convenient way to display a PDF using a [Uint8List].
+@immutable
 class BytePDFSource extends PDFSource {
   /// Creates a [BytePDFSource] that decodes the specified [Uint8List] as a PDF document.
-  BytePDFSource(Uint8List bytes) {
-    _pdfBytes = bytes;
-  }
+  const BytePDFSource(this._pdfBytes);
 
-  late Uint8List _pdfBytes;
+  final Uint8List _pdfBytes;
 
   /// Retrieves the bytes of the PDF document from memory.
   @override
@@ -92,33 +98,39 @@ class BytePDFSource extends PDFSource {
 ///
 /// See also:
 ///  * [SfPdfViewer.asset], which provides a convenient way to display a PDF viewer widget using an asset.
+@immutable
 class AssetPDFSource extends PDFSource {
   /// Creates an [AssetPDFSource] that fetches the PDF document from the specified asset.
   ///
   /// The [assetPath] parameter must not be null or empty.
   /// The [bundle] parameter is optional. If not provided, the default asset bundle will be used.
   AssetPDFSource(String assetPath, {AssetBundle? bundle})
-    : assert(assetPath.isNotEmpty) {
-    _pdfPath = assetPath;
-    _bundle = bundle;
-  }
+    : assert(assetPath.isNotEmpty),
+      _pdfPath = assetPath,
+      _bundle = bundle;
 
-  late String _pdfPath;
-  AssetBundle? _bundle;
-  Uint8List? _documentBytes;
+  final String _pdfPath;
+  final AssetBundle? _bundle;
 
   /// Retrieves the bytes of the PDF document from the asset.
   @override
   Future<Uint8List> getBytes(BuildContext context) async {
-    if (_documentBytes == null) {
-      final ByteData bytes =
-          await ((_bundle != null)
-              ? _bundle!.load(_pdfPath)
-              : DefaultAssetBundle.of(context).load(_pdfPath));
-      _documentBytes = bytes.buffer.asUint8List();
-    }
-    return Future<Uint8List>.value(_documentBytes);
+    final ByteData bytes =
+        await ((_bundle != null)
+            ? _bundle.load(_pdfPath)
+            : DefaultAssetBundle.of(context).load(_pdfPath));
+    return bytes.buffer.asUint8List();
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AssetPDFSource &&
+        _pdfPath == other._pdfPath &&
+        _bundle == other._bundle;
+  }
+
+  @override
+  int get hashCode => Object.hash(_pdfPath, _bundle);
 }
 
 /// Decodes a [File] object as a PDF document.
@@ -128,21 +140,24 @@ class AssetPDFSource extends PDFSource {
 /// See also:
 ///
 /// *	[SfPdfViewer.file], which provides a convenient way to display a PDF using a file.
+@immutable
 class FilePDFSource extends PDFSource {
   /// Creates a [FilePDFSource] that decodes the specified [File] as a PDF document.
-  FilePDFSource(File file) {
-    _file = file;
-  }
+  const FilePDFSource(this._file);
 
-  late File _file;
-
-  /// The document bytes
-  Uint8List? _documentBytes;
+  final File _file;
 
   /// Retrieves the bytes of the PDF document from the file.
   @override
   Future<Uint8List> getBytes(BuildContext context) async {
-    _documentBytes ??= await _file.readAsBytes();
-    return Future<Uint8List>.value(_documentBytes);
+    return _file.readAsBytes();
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FilePDFSource && _file.path == other._file.path;
+  }
+
+  @override
+  int get hashCode => _file.path.hashCode;
 }

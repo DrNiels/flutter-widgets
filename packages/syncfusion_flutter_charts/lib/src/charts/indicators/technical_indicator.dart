@@ -579,18 +579,18 @@ abstract class IndicatorWidget extends LeafRenderObjectWidget {
 
   final TickerProvider vsync;
   final bool isTransposed;
-  final TechnicalIndicator indicator;
+  final TechnicalIndicator<dynamic, dynamic> indicator;
   final int index;
   final ChartLegendTapCallback? onLegendTapped;
   final ChartLegendRenderCallback? onLegendItemRender;
 
   @protected
   @factory
-  IndicatorRenderer createRenderer();
+  IndicatorRenderer<dynamic, dynamic> createRenderer();
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final IndicatorRenderer renderer = createRenderer();
+    final IndicatorRenderer<dynamic, dynamic> renderer = createRenderer();
     return renderer
       ..vsync = vsync
       ..isTransposed = isTransposed
@@ -618,7 +618,7 @@ abstract class IndicatorWidget extends LeafRenderObjectWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    IndicatorRenderer renderObject,
+    IndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
     renderObject

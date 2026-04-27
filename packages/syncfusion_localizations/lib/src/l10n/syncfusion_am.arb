@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "ሁሉንም ምረጥ", 
 "sortAndFilterDataGridFilteringLabel" : "ደርድር እና አጣራ", 
 "clearFilterDataGridFilteringLabel" : "ማጣሪያን አጽዳ", 
-"fromDataGridFilteringLabel" : "ከ"
+"fromDataGridFilteringLabel" : "ከ",
+"selectADateDataGridFilteringLabel": "ቀን ይምረጡ"
 }

@@ -86,6 +86,28 @@ namespace pdfviewer
     return doc;
   }
 
+  // Initialize the PDF renderer by loading a document from a file path
+  PdfDocument *LoadPdfFromFile(const gchar *file_path, const gchar *password, const gchar *doc_id)
+  {
+    if (!file_path || !doc_id)
+      return nullptr;
+
+    if (documentRepo.empty())
+    {
+      FPDF_InitLibraryWithConfig(nullptr);
+    }
+
+    PdfDocument *doc = new PdfDocument(file_path, password, doc_id);
+    if (!doc->pdfDocument())
+    {
+      delete doc;
+      return nullptr;
+    }
+
+    documentRepo[g_string_new(doc_id)] = doc;
+    return doc;
+  }
+
   // PdfDocument constructor
   PdfDocument::PdfDocument(GBytes *data, const gchar *password, const gchar *id)
       : data_(g_bytes_ref(data)), document_id_(g_strdup(id)), pdf_document_(nullptr)
@@ -93,7 +115,17 @@ namespace pdfviewer
     gsize data_size;
     const guint8 *data_bytes = static_cast<const guint8 *>(g_bytes_get_data(data, &data_size));
     pdf_document_ = FPDF_LoadMemDocument64(data_bytes, data_size, password);
+  if (!pdf_document_)
+    {
+    }
+  }
 
+  // Construct from a file path
+  PdfDocument::PdfDocument(const gchar *file_path, const gchar *password, const gchar *id)
+      : data_(nullptr), document_id_(g_strdup(id)), pdf_document_(nullptr)
+  {
+
+    pdf_document_ = FPDF_LoadDocument(file_path, password);
     if (!pdf_document_)
     {
     }

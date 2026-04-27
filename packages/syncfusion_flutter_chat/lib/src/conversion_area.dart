@@ -398,7 +398,9 @@ abstract class MessageBubbleState<T> extends State<MessageBubble<T>> {
       );
     }
 
-    return widget.isFirstInGroup ? result : buildWithAvatarGap(result)!;
+    final bool needsAvatarGap =
+        widget.avatarBuilder == null && !widget.isFirstInGroup;
+    return needsAvatarGap ? buildWithAvatarGap(result)! : result;
   }
 
   Widget buildText();

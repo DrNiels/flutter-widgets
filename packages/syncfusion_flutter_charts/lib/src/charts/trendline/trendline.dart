@@ -564,7 +564,7 @@ class RenderTrendlineStack extends RenderBox
           TrendlineRenderer,
           TrendlineParentData
         > {
-  CartesianSeriesRenderer? renderer;
+  CartesianSeriesRenderer<dynamic, dynamic>? renderer;
 
   bool get _isTooltipEnabled =>
       renderer != null &&
@@ -658,7 +658,7 @@ class RenderTrendlineStack extends RenderBox
     }
   }
 
-  void performUpdate(CartesianSeriesRenderer renderer) {
+  void performUpdate(CartesianSeriesRenderer<dynamic, dynamic> renderer) {
     this.renderer = renderer;
     TrendlineRenderer? child = firstChild;
     while (child != null) {
@@ -1053,7 +1053,7 @@ class TrendlineRenderer extends RenderBox {
   DoubleRange xRange = DoubleRange(double.infinity, double.negativeInfinity);
   DoubleRange yRange = DoubleRange(double.infinity, double.negativeInfinity);
 
-  CartesianSeriesRenderer? series;
+  CartesianSeriesRenderer<dynamic, dynamic>? series;
   final List<ChartMarker> _markers = <ChartMarker>[];
   final List<Offset> _points = <Offset>[];
   // The _points list updates with calculatedDataPoints values when the
@@ -1146,7 +1146,7 @@ class TrendlineRenderer extends RenderBox {
     return null;
   }
 
-  CartesianChartPoint _chartPoint(int pointIndex) {
+  CartesianChartPoint<dynamic> _chartPoint(int pointIndex) {
     final num xValue = trendlineXValues[pointIndex];
     return CartesianChartPoint(
       x: _xRawValue(xValue),

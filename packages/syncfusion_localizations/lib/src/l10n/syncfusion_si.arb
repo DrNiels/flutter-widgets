@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "සියල්ල තෝරන්න", 
 "sortAndFilterDataGridFilteringLabel" : "වර්ග කිරීම සහ පෙරීම", 
 "clearFilterDataGridFilteringLabel" : "පෙරහන හිස් කරන්න", 
-"fromDataGridFilteringLabel" : "සිට"
+"fromDataGridFilteringLabel" : "සිට",
+"selectADateDataGridFilteringLabel": "දිනය තෝරන්න"
 }

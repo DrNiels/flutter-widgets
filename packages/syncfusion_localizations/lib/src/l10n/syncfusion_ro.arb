@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Selectează tot", 
 "sortAndFilterDataGridFilteringLabel" : "Sortați și filtrați", 
 "clearFilterDataGridFilteringLabel" : "Șterge filtrul", 
-"fromDataGridFilteringLabel" : "Din"
+"fromDataGridFilteringLabel" : "Din",
+"selectADateDataGridFilteringLabel": "Selectați o dată"
 }

@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "ಎಲ್ಲವನ್ನು ಆರಿಸು", 
 "sortAndFilterDataGridFilteringLabel" : "ವಿಂಗಡಿಸಿ ಮತ್ತು ಫಿಲ್ಟರ್ ಮಾಡಿ", 
 "clearFilterDataGridFilteringLabel" : "ಫಿಲ್ಟರ್ ಅನ್ನು ತೆರವುಗೊಳಿಸಿ", 
-"fromDataGridFilteringLabel" : "ಇಂದ"
+"fromDataGridFilteringLabel" : "ಇಂದ",
+"selectADateDataGridFilteringLabel": "ದಿನಾಂಕವನ್ನು ಆಯ್ಕೆಮಾಡಿ"
 }

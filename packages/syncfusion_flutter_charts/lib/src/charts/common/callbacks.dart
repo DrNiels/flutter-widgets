@@ -36,7 +36,7 @@ class TooltipArgs {
   final dynamic seriesIndex;
 
   /// Get the list of data points in the series.
-  final List? dataPoints;
+  final List<dynamic>? dataPoints;
 
   /// Get the overall index value of the tooltip.
   final num? pointIndex;
@@ -429,7 +429,7 @@ class ChartPointDetails {
   final int? pointIndex;
 
   /// Get the list of data points.
-  final List? dataPoints;
+  final List<dynamic>? dataPoints;
 
   /// Get the view port index value.
   final num? viewportPointIndex;
@@ -554,7 +554,7 @@ class IndicatorRenderArgs {
   ]);
 
   /// Get the technical indicator information.
-  final TechnicalIndicator? indicator;
+  final TechnicalIndicator<dynamic, dynamic>? indicator;
 
   /// Get the indicator name.
   late String indicatorName;
@@ -575,7 +575,7 @@ class IndicatorRenderArgs {
   final String? seriesName;
 
   /// Get the current data points.
-  final List? dataPoints;
+  final List<dynamic>? dataPoints;
 }
 
 /// Holds the onMarkerRender event arguments.
@@ -701,7 +701,7 @@ class IndicatorRenderParams {
   );
 
   /// Gets the calculated indicator data points details.
-  final List<CartesianChartPoint>? calculatedDataPoints;
+  final List<CartesianChartPoint<dynamic>>? calculatedDataPoints;
 
   /// Gets the width of the signal line.
   late double signalLineWidth;
@@ -736,10 +736,10 @@ class BollingerBandIndicatorRenderParams extends IndicatorRenderParams {
   );
 
   /// Gets the calculated upper line values of the Bollinger band indicator.
-  final List<CartesianChartPoint>? upperLineValues;
+  final List<CartesianChartPoint<dynamic>>? upperLineValues;
 
   /// Gets the calculated lower line values of the Bollinger band indicator.
-  final List<CartesianChartPoint>? lowerLineValues;
+  final List<CartesianChartPoint<dynamic>>? lowerLineValues;
 }
 
 /// Holds the onRenderDetailsUpdate callback arguments.
@@ -747,7 +747,7 @@ class MomentumIndicatorRenderParams extends IndicatorRenderParams {
   /// Creating an argument constructor of MomentumIndicatorRenderParams class.
   MomentumIndicatorRenderParams(
     this.centerLineValue,
-    List<CartesianChartPoint>? calculatedDataPoints,
+    List<CartesianChartPoint<dynamic>>? calculatedDataPoints,
     String name,
     double signalLineWidth,
     Color signalLineColor,
@@ -769,7 +769,7 @@ class RocIndicatorRenderParams extends IndicatorRenderParams {
   /// Creating an argument constructor of RocIndicatorRenderParams class.
   RocIndicatorRenderParams(
     this.centerLineValue,
-    List<CartesianChartPoint>? calculatedDataPoints,
+    List<CartesianChartPoint<dynamic>>? calculatedDataPoints,
     String name,
     double signalLineWidth,
     Color signalLineColor,
@@ -791,7 +791,7 @@ class StochasticIndicatorRenderParams extends IndicatorRenderParams {
   /// Creating an argument constructor of StochasticIndicatorRenderParams class.
   StochasticIndicatorRenderParams(
     this.periodLineValues,
-    List<CartesianChartPoint>? calculatedDataPoints,
+    List<CartesianChartPoint<dynamic>>? calculatedDataPoints,
     String name,
     double signalLineWidth,
     Color signalLineColor,
@@ -805,7 +805,7 @@ class StochasticIndicatorRenderParams extends IndicatorRenderParams {
       );
 
   /// Gets the calculated period line values of the stochastic indicator.
-  final List<CartesianChartPoint>? periodLineValues;
+  final List<CartesianChartPoint<dynamic>>? periodLineValues;
 }
 
 /// Holds the onRenderDetailsUpdate callback arguments.
@@ -814,7 +814,7 @@ class MacdIndicatorRenderParams extends IndicatorRenderParams {
   MacdIndicatorRenderParams(
     this.macdLineValues,
     this.macdHistogramValues,
-    List<CartesianChartPoint>? calculatedDataPoints,
+    List<CartesianChartPoint<dynamic>>? calculatedDataPoints,
     String name,
     double signalLineWidth,
     Color signalLineColor,
@@ -828,10 +828,10 @@ class MacdIndicatorRenderParams extends IndicatorRenderParams {
       );
 
   /// Gets the calculated Macd line values of the Macd indicator.
-  final List<CartesianChartPoint>? macdLineValues;
+  final List<CartesianChartPoint<dynamic>>? macdLineValues;
 
   /// Gets the calculated histogram values of the Macd indicator.
-  final List<CartesianChartPoint>? macdHistogramValues;
+  final List<CartesianChartPoint<dynamic>>? macdHistogramValues;
 }
 
 /// Holds the TechnicalIndicatorRenderDetails values
@@ -908,7 +908,7 @@ class TrackballDetails {
   ]);
 
   /// It specifies the Cartesian chart point.
-  final CartesianChartPoint? point;
+  final CartesianChartPoint<dynamic>? point;
 
   /// It specifies the Cartesian series.
   final dynamic series;
@@ -962,7 +962,7 @@ class TrackballGroupingModeInfo {
   );
 
   /// Specifies the cartesian chart points.
-  final List<CartesianChartPoint> points;
+  final List<CartesianChartPoint<dynamic>> points;
 
   /// Specifies the current point indices.
   final List<int> currentPointIndices;

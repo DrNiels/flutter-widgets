@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Hamısını seç", 
 "sortAndFilterDataGridFilteringLabel" : "Çeşidləyin və Filtr edin", 
 "clearFilterDataGridFilteringLabel" : "Filtri təmizləyin", 
-"fromDataGridFilteringLabel" : "From"
+"fromDataGridFilteringLabel" : "From",
+"selectADateDataGridFilteringLabel": "Tarixi seçin"
 }

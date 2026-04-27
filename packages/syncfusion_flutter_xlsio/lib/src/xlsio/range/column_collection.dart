@@ -43,7 +43,7 @@ class ColumnCollection {
   }
 
   /// Indexer set of the class
-  operator []=(int index, Column? value) {
+  void operator []=(int index, Column? value) {
     if (_iCount < index) {
       _updateSize(index);
     }

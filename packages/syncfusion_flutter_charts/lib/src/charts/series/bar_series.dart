@@ -459,6 +459,7 @@ class BarSegment<T, D> extends ChartSegment with BarSeriesTrackerMixin {
     }
 
     points.clear();
+    bottom = series.bottom;
     final PointToPixelCallback transformX = series.pointToPixelX;
     final PointToPixelCallback transformY = series.pointToPixelY;
     final num left = x + series.sbsInfo.minimum;

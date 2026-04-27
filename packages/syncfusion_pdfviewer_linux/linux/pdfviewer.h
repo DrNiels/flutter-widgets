@@ -7,6 +7,8 @@ namespace pdfviewer {
   public:
     // Constructor initializes the document with data, password and its ID
     PdfDocument(GBytes* data, const gchar *password, const gchar *id);
+    // Constructor initializes the document from a file path
+    PdfDocument(const gchar *file_path, const gchar *password, const gchar *id);
     ~PdfDocument();
 
     // Accessor for document ID
@@ -22,6 +24,8 @@ namespace pdfviewer {
   };
 
   PdfDocument* InitializePdfRenderer(GBytes* data, const gchar *password, const gchar *doc_id);
+  // Initialize renderer by loading a PDF file from disk
+  PdfDocument* LoadPdfFromFile(const gchar *file_path, const gchar *password, const gchar *doc_id);
   PdfDocument* GetPdfDocument(const gchar *doc_id);
   gboolean ClosePdfDocument(const gchar *doc_id);
 

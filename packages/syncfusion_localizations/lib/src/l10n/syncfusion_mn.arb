@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Бүгдийг сонгох", 
 "sortAndFilterDataGridFilteringLabel" : "Ангилах, шүүх", 
 "clearFilterDataGridFilteringLabel" : "Шүүлтүүрийг арилгах", 
-"fromDataGridFilteringLabel" : "-аас"
+"fromDataGridFilteringLabel" : "-аас",
+"selectADateDataGridFilteringLabel": "Огноо сонгоно уу"
 }

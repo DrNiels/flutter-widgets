@@ -1243,7 +1243,7 @@ class DataMatrixRenderer extends SymbologyRenderer {
         int bIndex = blockErrorWords;
 
         for (int i = block + (step * blockDataWords); i < total; i += step) {
-          correctionCodeWordArray[i] = blockByte[--bIndex]!;
+          correctionCodeWordArray[i] = blockByte[--bIndex];
         }
 
         if (bIndex != 0) {
@@ -1492,7 +1492,7 @@ class DataMatrixRenderer extends SymbologyRenderer {
     }
 
     if (showValue) {
-      final Offset textOffset = Offset(offset.dx, yPosition.toDouble());
+      final Offset textOffset = Offset(offset.dx, yPosition);
       drawText(
         canvas,
         textOffset,

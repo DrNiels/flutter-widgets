@@ -273,15 +273,15 @@ class BollingerIndicatorWidget extends IndicatorWidget {
 
   // Create the BollingerIndicatorRenderer renderer.
   @override
-  BollingerIndicatorRenderer createRenderer() {
+  BollingerIndicatorRenderer<dynamic, dynamic> createRenderer() {
     return BollingerIndicatorRenderer();
   }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final BollingerIndicatorRenderer renderer =
+    final BollingerIndicatorRenderer<dynamic, dynamic> renderer =
         super.createRenderObject(context) as BollingerIndicatorRenderer;
-    final BollingerBandIndicator bollinger =
+    final BollingerBandIndicator<dynamic, dynamic> bollinger =
         indicator as BollingerBandIndicator;
 
     renderer
@@ -299,10 +299,10 @@ class BollingerIndicatorWidget extends IndicatorWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    BollingerIndicatorRenderer renderObject,
+    BollingerIndicatorRenderer<dynamic, dynamic> renderObject,
   ) {
     super.updateRenderObject(context, renderObject);
-    final BollingerBandIndicator bollinger =
+    final BollingerBandIndicator<dynamic, dynamic> bollinger =
         indicator as BollingerBandIndicator;
 
     renderObject

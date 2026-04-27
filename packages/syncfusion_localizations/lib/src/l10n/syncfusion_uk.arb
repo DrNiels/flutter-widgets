@@ -108,5 +108,6 @@
 "selectAllDataGridFilteringLabel" : "Вибрати все", 
 "sortAndFilterDataGridFilteringLabel" : "Сортування та фільтр", 
 "clearFilterDataGridFilteringLabel" : "Очистити фільтр", 
-"fromDataGridFilteringLabel" : "Від"
+"fromDataGridFilteringLabel" : "Від",
+"selectADateDataGridFilteringLabel": "Виберіть дату"
 }

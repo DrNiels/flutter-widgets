@@ -98,7 +98,7 @@ class UPCARenderer extends SymbologyRenderer {
       ratio = symbology!.module!.toDouble();
     } else {
       //Calculates the bar length based on number of individual bar codes
-      final int singleModule = (width ~/ barTotalLength).toInt();
+      final int singleModule = width ~/ barTotalLength;
       ratio = singleModule.toDouble();
       final double leftPadding = (width - (barTotalLength * ratio)) / 2;
       left += leftPadding;
