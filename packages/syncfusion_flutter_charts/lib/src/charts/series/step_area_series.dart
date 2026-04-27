@@ -162,7 +162,7 @@ class StepAreaSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
       markNeedsLayout();
     }
   }
-
+  
   num? get bottom => _bottom;
   num? _bottom;
 
@@ -186,8 +186,7 @@ class StepAreaSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
   @override
   void setData(int index, ChartSegment segment) {
     super.setData(index, segment);
-    final num bottom =
-        this.bottom ?? xAxis!.crossesAt ?? max(yAxis!.visibleRange!.minimum, 0);
+    final num bottom = this.bottom ?? xAxis!.crossesAt ?? max(yAxis!.visibleRange!.minimum, 0);
     segment as StepAreaSegment<T, D>
       ..series = this
       .._xValues = xValues
@@ -207,7 +206,7 @@ class StepAreaSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
     updateSegmentColor(stepAreaSegment, borderColor, borderWidth);
     updateSegmentGradient(
       stepAreaSegment,
-      gradientBounds: stepAreaSegment.getFillPathBounds(),
+      gradientBounds: stepAreaSegment._fillPath.getBounds(),
       gradient: gradient,
       borderGradient: borderGradient,
     );
@@ -241,7 +240,7 @@ class StepAreaSegment<T, D> extends ChartSegment {
   late List<num> _yValues;
   late num _bottom;
 
-  final List<Path> _fillPaths = <Path>[];
+  final Path _fillPath = Path();
   Path _strokePath = Path();
 
   final List<int> _drawIndexes = <int>[];
@@ -249,14 +248,6 @@ class StepAreaSegment<T, D> extends ChartSegment {
   final List<Offset> _lowPoints = <Offset>[];
   final List<Offset> _oldHighPoints = <Offset>[];
   final List<Offset> _oldLowPoints = <Offset>[];
-
-  Rect getFillPathBounds() {
-    Rect? bounds;
-    for (final Path path in _fillPaths) {
-      bounds = bounds?.expandToInclude(path.getBounds()) ?? path.getBounds();
-    }
-    return bounds ?? Rect.zero;
-  }
 
   @override
   void copyOldSegmentValues(
@@ -343,19 +334,14 @@ class StepAreaSegment<T, D> extends ChartSegment {
     _highPoints.clear();
     _lowPoints.clear();
 
-    _fillPaths.clear();
+    _fillPath.reset();
     _strokePath.reset();
     if (_xValues.isEmpty || _yValues.isEmpty) {
       return;
     }
 
     _calculatePoints(_xValues, _yValues);
-    _createFillPath(
-      _fillPaths,
-      _highPoints,
-      _lowPoints,
-      maxPointsPerPath: 20000,
-    );
+    _createFillPath(_fillPath, _highPoints, _lowPoints);
   }
 
   void _calculatePoints(List<num> xValues, List<num> yValues) {
@@ -390,7 +376,7 @@ class StepAreaSegment<T, D> extends ChartSegment {
   }
 
   void _computeAreaPath() {
-    _fillPaths.clear();
+    _fillPath.reset();
     _strokePath.reset();
 
     if (_highPoints.isEmpty) {
@@ -401,22 +387,11 @@ class StepAreaSegment<T, D> extends ChartSegment {
       _highPoints,
     );
     final List<Offset> lerpLowPoints = _lerpPoints(_oldLowPoints, _lowPoints);
-    _createFillPath(
-      _fillPaths,
-      lerpHighPoints,
-      lerpLowPoints,
-      maxPointsPerPath: 20000,
-    );
+    _createFillPath(_fillPath, lerpHighPoints, lerpLowPoints);
 
     switch (series.borderDrawMode) {
       case BorderDrawMode.all:
-        _strokePath =
-            _createFillPath(
-              [],
-              lerpHighPoints,
-              lerpLowPoints,
-            ).firstOrNull ??
-            Path();
+        _strokePath = _fillPath;
         break;
       case BorderDrawMode.top:
         _createTopStrokePath(_strokePath, lerpHighPoints);
@@ -459,65 +434,53 @@ class StepAreaSegment<T, D> extends ChartSegment {
     return lerpPoints;
   }
 
-  // FIXME: Update to list is a stop gap solution until the original issue is fixed,
-  // see here: https://github.com/syncfusion/flutter-widgets/issues/2462
-  List<Path> _createFillPath(
-    List<Path> source,
+  Path _createFillPath(
+    Path source,
     List<Offset> highPoints,
-    List<Offset> lowPoints, {
-    int? maxPointsPerPath,
-  }) {
-    final int segmentLength = maxPointsPerPath ?? highPoints.length;
-    for (int start = 0; start < highPoints.length; start += segmentLength - 1) {
-      Path? path;
-      final int length = min(segmentLength, highPoints.length - start);
-      final int lastIndex = length - 1;
-      for (int i = 0; i < length; i++) {
-        final Offset highPoint = highPoints[start + i];
-        final Offset lowPoint = lowPoints[start + i];
-        if (i == 0) {
-          if (lowPoint.isNaN) {
-            _createFillPath(
-              source,
-              highPoints.sublist(start + i + 1, start + length),
-              lowPoints.sublist(start + i + 1, start + length),
-              maxPointsPerPath: maxPointsPerPath,
-            );
-            break;
-          } else {
-            path = Path();
-            path.moveTo(lowPoint.dx, lowPoint.dy);
-            path.lineTo(highPoint.dx, highPoint.dy);
-          }
+    List<Offset> lowPoints,
+  ) {
+    Path? path;
+    final int length = highPoints.length;
+    final int lastIndex = length - 1;
+    for (int i = 0; i < length; i++) {
+      final Offset highPoint = highPoints[i];
+      final Offset lowPoint = lowPoints[i];
+      if (i == 0) {
+        if (lowPoint.isNaN) {
+          _createFillPath(
+            source,
+            highPoints.sublist(i + 1),
+            lowPoints.sublist(i + 1),
+          );
+          break;
         } else {
-          if (highPoint.isNaN) {
-            for (int j = i - 1; j >= 0; j--) {
-              final Offset lowPoint = lowPoints[start + j];
-              path!.lineTo(lowPoint.dx, lowPoint.dy);
-            }
-            _createFillPath(
-              source,
-              highPoints.sublist(start + i, start + length),
-              lowPoints.sublist(start + i, start + length),
-              maxPointsPerPath: maxPointsPerPath,
-            );
-            break;
-          } else {
-            path!.lineTo(highPoint.dx, highPoints[start + i - 1].dy);
-            path.lineTo(highPoint.dx, highPoint.dy);
-            if (i == lastIndex) {
-              for (int j = i; j >= 0; j--) {
-                final Offset lowPoint = lowPoints[start + j];
-                path.lineTo(lowPoint.dx, lowPoint.dy);
-              }
+          path = Path();
+          path.moveTo(lowPoint.dx, lowPoint.dy);
+          path.lineTo(highPoint.dx, highPoint.dy);
+        }
+      } else {
+        if (highPoint.isNaN) {
+          for (int j = i - 1; j >= 0; j--) {
+            final Offset lowPoint = lowPoints[j];
+            path!.lineTo(lowPoint.dx, lowPoint.dy);
+          }
+          _createFillPath(source, highPoints.sublist(i), lowPoints.sublist(i));
+          break;
+        } else {
+          path!.lineTo(highPoint.dx, highPoints[i - 1].dy);
+          path.lineTo(highPoint.dx, highPoint.dy);
+          if (i == lastIndex) {
+            for (int j = i; j >= 0; j--) {
+              final Offset lowPoint = lowPoints[j];
+              path.lineTo(lowPoint.dx, lowPoint.dy);
             }
           }
         }
       }
+    }
 
-      if (path != null) {
-        source.add(path);
-      }
+    if (path != null) {
+      source.addPath(path, Offset.zero);
     }
     return source;
   }
@@ -730,9 +693,7 @@ class StepAreaSegment<T, D> extends ChartSegment {
 
     Paint paint = getFillPaint();
     if (paint.color != Colors.transparent) {
-      for (final path in _fillPaths) {
-        canvas.drawPath(path, paint);
-      }
+      canvas.drawPath(_fillPath, paint);
     }
 
     paint = getStrokePaint();
@@ -743,7 +704,7 @@ class StepAreaSegment<T, D> extends ChartSegment {
 
   @override
   void dispose() {
-    _fillPaths.clear();
+    _fillPath.reset();
     _strokePath.reset();
 
     points.clear();
