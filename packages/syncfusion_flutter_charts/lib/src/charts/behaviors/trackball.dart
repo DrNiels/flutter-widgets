@@ -25,6 +25,18 @@ import '../utils/enum.dart';
 import '../utils/helper.dart';
 import '../utils/typedef.dart';
 
+/// Defines the behaviour when the trackball tooltip content overflows the
+/// chart bounds.
+enum TrackballOverflowBehaviour {
+  /// Hides the tooltip when its content exceeds the chart bounds.
+  /// This is the default behaviour.
+  hide,
+
+  /// Truncates the tooltip text with an ellipsis (...) so the tooltip remains
+  /// visible within the chart bounds.
+  ellipsis,
+}
+
 /// Customizes the trackball.
 ///
 /// Trackball feature displays the tooltip for the data points that are closer
@@ -51,6 +63,7 @@ class TrackballBehavior extends ChartBehavior {
     this.shouldAlwaysShow = false,
     this.builder,
     this.hideDelay = 0,
+    this.overflowBehaviour = TrackballOverflowBehaviour.hide,
   }) {
     _fetchImage();
   }
@@ -362,6 +375,15 @@ class TrackballBehavior extends ChartBehavior {
   /// ```
   final ChartTrackballBuilder? builder;
 
+  /// Defines the behaviour when the tooltip content overflows the chart bounds.
+  ///
+  /// Use [TrackballOverflowBehaviour.hide] to hide the tooltip (default), or
+  /// [TrackballOverflowBehaviour.ellipsis] to truncate the text with '...'
+  /// so the tooltip stays visible.
+  ///
+  /// Defaults to [TrackballOverflowBehaviour.hide].
+  final TrackballOverflowBehaviour overflowBehaviour;
+
   /// Hold trackball target position.
   Offset? _position;
   Offset? _dividerStartOffset;
@@ -405,7 +427,8 @@ class TrackballBehavior extends ChartBehavior {
         other.lineWidth == lineWidth &&
         other.shouldAlwaysShow == shouldAlwaysShow &&
         other.builder == builder &&
-        other.hideDelay == hideDelay;
+        other.hideDelay == hideDelay &&
+        other.overflowBehaviour == overflowBehaviour;
   }
 
   @override
@@ -424,6 +447,7 @@ class TrackballBehavior extends ChartBehavior {
       shouldAlwaysShow,
       builder,
       hideDelay,
+      overflowBehaviour,
     ];
     return Object.hashAll(values);
   }
@@ -1719,6 +1743,63 @@ class TrackballBehavior extends ChartBehavior {
     return _TooltipPositions(tooltipTop, tooltipBottom);
   }
 
+    // Binary search for the longest prefix that fits within [maxLabelWidth].
+    String _truncate( {
+      required String text,
+      required TextStyle style,
+      required double maxLabelWidth,
+      String additionalText = '',
+      String ellipsis = '...',
+    }) {
+      if (measureText(text + additionalText, style).width <= maxLabelWidth)
+        return text;
+      int lo = 0;
+      int hi = text.length;
+      while (lo < hi) {
+        final int mid = (lo + hi + 1) ~/ 2;
+        if (measureText(text.substring(0, mid) + ellipsis + additionalText, style).width <=
+            maxLabelWidth) {
+          lo = mid;
+        } else {
+          hi = mid - 1;
+        }
+      }
+      return (lo == 0 ? '' : text.substring(0, lo)) + ellipsis;
+    }
+
+  // Truncates each label in chartPointInfo so that none exceeds [maxLabelWidth].
+  // Called only when overflowBehaviour == TrackballOverflowBehaviour.ellipsis.
+  void _truncateLabelsForEllipsis(TextStyle labelStyle, double maxLabelWidth) {
+    if (maxLabelWidth <= 0)
+      return;
+    final TextStyle boldStyle = _createLabelStyle(FontWeight.bold, labelStyle);
+
+    // Truncate header.
+    final String? header = chartPointInfo[0].header;
+    if (header != null) {
+      chartPointInfo[0].header = _truncate(text: header, style: boldStyle, maxLabelWidth: maxLabelWidth);
+    }
+
+    // Truncate each series label.
+    for (int i = 0; i < chartPointInfo.length; i++) {
+      final String? label = chartPointInfo[i].label;
+      if (label != null) {
+        final List<String> labelParts = label.split(': ');
+        int longestIndex = 0;
+        for (int j = 1; j < labelParts.length; j++) {
+          if (labelParts[j].length > labelParts[longestIndex].length) {
+            longestIndex = j;
+          }
+        }
+        final String longestPart = labelParts[longestIndex];
+        labelParts[longestIndex] = '';
+        final String truncatedPart = _truncate(text: longestPart, style: labelStyle, maxLabelWidth: maxLabelWidth, additionalText: labelParts.join(': '));
+        labelParts[longestIndex] = truncatedPart;
+        chartPointInfo[i].label = labelParts.join(': ');
+      }
+    }
+  }
+
   void _applyGroupAllPointDisplayMode(
     TextStyle labelStyle,
     bool markerIsVisible,
@@ -1730,9 +1811,27 @@ class TrackballBehavior extends ChartBehavior {
     final double xPosition = pointInfo.xPosition!;
     final double yPosition = pointInfo.yPosition!;
     final dynamic series = pointInfo.series;
-    final Size totalLabelSize = _labelSizeForGroupAllPoints(labelStyle);
-    final double height = totalLabelSize.height;
+    Size totalLabelSize = _labelSizeForGroupAllPoints(labelStyle);
+    double height = totalLabelSize.height;
     double width = totalLabelSize.width;
+
+    // When ellipsis is enabled and the tooltip would exceed the plot area,
+    // truncate labels and recalculate the size.
+    if (overflowBehaviour == TrackballOverflowBehaviour.ellipsis) {
+      final double tooltipExtraWidth =
+          tooltipSettings.canShowMarker
+              ? trackballTooltipMarkerSize + trackballTooltipPadding
+              : trackballTooltipMarkerSize;
+      final double maxLabelWidth =
+          _plotAreaBounds.width - tooltipExtraWidth - defaultTooltipWidth - 1;
+      if (width > maxLabelWidth) {
+        _truncateLabelsForEllipsis(labelStyle, maxLabelWidth);
+        totalLabelSize = _labelSizeForGroupAllPoints(labelStyle);
+        height = totalLabelSize.height;
+        width = totalLabelSize.width;
+      }
+    }
+
     if (width < defaultTooltipWidth) {
       width = defaultTooltipWidth;
       borderRadius = borderRadius > 5 ? 5 : borderRadius;

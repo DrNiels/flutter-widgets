@@ -42,7 +42,7 @@ export './src/charts/axis/numeric_axis.dart' hide RenderNumericAxis;
 export './src/charts/axis/plot_band.dart';
 export './src/charts/behaviors/crosshair.dart';
 export './src/charts/behaviors/trackball.dart'
-    show TrackballBehavior, TrackballMarkerSettings;
+    show TrackballBehavior, TrackballMarkerSettings, TrackballOverflowBehaviour;
 export './src/charts/behaviors/zooming.dart';
 export './src/charts/cartesian_chart.dart';
 export './src/charts/circular_chart.dart';
